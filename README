@@ -2,6 +2,13 @@
 Trend Sonar
 ===========
 
+   Trend Sonar is an aggregated time-based counter. It allows multiple
+   disparate systems to collectively tally information, share basic thresholds,
+   query the tally of a specific value, or query if a specific value has
+   reached a threshold. To tally information, a client sends Trend Sonar
+   a message requesting the daemon to increment the counter for a piece of
+   data identified by a numeric service ID, numeric field ID, and a unique
+   hash of the value to be counted.
 
 
 Contents

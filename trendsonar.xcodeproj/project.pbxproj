@@ -1,0 +1,196 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		A00AC2BA191F506F002684D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00AC2B1191F506F002684D6 /* bindletools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A0EE9F2318DFE15600CF8788;
+			remoteInfo = "bindle-ios";
+		};
+		A00AC2BC191F506F002684D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00AC2B1191F506F002684D6 /* bindletools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A0EE9F1B18DFE10F00CF8788;
+			remoteInfo = "bindle-osx";
+		};
+		A00AC2BE191F506F002684D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00AC2B1191F506F002684D6 /* bindletools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A06092F718DF8FC000434E5C;
+			remoteInfo = fdtest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A00AC286191F4D36002684D6 /* acinclude.m4 */ = {isa = PBXFileReference; explicitFileType = text.script; path = acinclude.m4; sourceTree = "<group>"; };
+		A00AC287191F4D36002684D6 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
+		A00AC288191F4D36002684D6 /* autogen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
+		A00AC298191F4D36002684D6 /* git-tar-name.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "git-tar-name.txt"; sourceTree = "<group>"; };
+		A00AC29E191F4D36002684D6 /* ChangeLog */ = {isa = PBXFileReference; indentWidth = 8; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; tabWidth = 8; usesTabs = 1; };
+		A00AC29F191F4D36002684D6 /* configure.ac */ = {isa = PBXFileReference; explicitFileType = text.script; path = configure.ac; sourceTree = "<group>"; };
+		A00AC2A0191F4D36002684D6 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		A00AC2AD191F4D36002684D6 /* Makefile.am */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; indentWidth = 8; path = Makefile.am; sourceTree = "<group>"; tabWidth = 8; usesTabs = 1; };
+		A00AC2AE191F4D36002684D6 /* NEWS */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS; sourceTree = "<group>"; };
+		A00AC2AF191F4D36002684D6 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		A00AC2B1191F506F002684D6 /* bindletools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = bindletools.xcodeproj; path = bindletools/bindletools.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		A00AC289191F4D36002684D6 /* build */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = build;
+			sourceTree = "<group>";
+		};
+		A00AC293191F4D36002684D6 /* build-aux */ = {
+			isa = PBXGroup;
+			children = (
+				A00AC298191F4D36002684D6 /* git-tar-name.txt */,
+			);
+			path = "build-aux";
+			sourceTree = "<group>";
+		};
+		A00AC2A1191F4D36002684D6 /* include */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		A00AC2A6191F4D36002684D6 /* m4 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = m4;
+			sourceTree = "<group>";
+		};
+		A00AC2B0191F504E002684D6 /* contrib */ = {
+			isa = PBXGroup;
+			children = (
+				A00AC2B1191F506F002684D6 /* bindletools.xcodeproj */,
+			);
+			path = contrib;
+			sourceTree = "<group>";
+		};
+		A00AC2B2191F506F002684D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A00AC2BB191F506F002684D6 /* libbindle-ios.a */,
+				A00AC2BD191F506F002684D6 /* libbindle-osx.a */,
+				A00AC2BF191F506F002684D6 /* fdtest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A0B6A3F3191F4408000636B2 = {
+			isa = PBXGroup;
+			children = (
+				A00AC286191F4D36002684D6 /* acinclude.m4 */,
+				A00AC287191F4D36002684D6 /* AUTHORS */,
+				A00AC288191F4D36002684D6 /* autogen.sh */,
+				A00AC29E191F4D36002684D6 /* ChangeLog */,
+				A00AC29F191F4D36002684D6 /* configure.ac */,
+				A00AC2A0191F4D36002684D6 /* COPYING */,
+				A00AC2AD191F4D36002684D6 /* Makefile.am */,
+				A00AC2AE191F4D36002684D6 /* NEWS */,
+				A00AC2AF191F4D36002684D6 /* README */,
+				A00AC289191F4D36002684D6 /* build */,
+				A00AC293191F4D36002684D6 /* build-aux */,
+				A00AC2B0191F504E002684D6 /* contrib */,
+				A00AC2A1191F4D36002684D6 /* include */,
+				A00AC2A6191F4D36002684D6 /* m4 */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		A0B6A3F4191F4408000636B2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = A0B6A3F7191F4408000636B2 /* Build configuration list for PBXProject "trendsonar" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A0B6A3F3191F4408000636B2;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A00AC2B2191F506F002684D6 /* Products */;
+					ProjectRef = A00AC2B1191F506F002684D6 /* bindletools.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A00AC2BB191F506F002684D6 /* libbindle-ios.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libbindle-ios.a";
+			remoteRef = A00AC2BA191F506F002684D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A00AC2BD191F506F002684D6 /* libbindle-osx.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libbindle-osx.a";
+			remoteRef = A00AC2BC191F506F002684D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A00AC2BF191F506F002684D6 /* fdtest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fdtest;
+			remoteRef = A00AC2BE191F506F002684D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin XCBuildConfiguration section */
+		A0B6A3F8191F4408000636B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		A0B6A3F9191F4408000636B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A0B6A3F7191F4408000636B2 /* Build configuration list for PBXProject "trendsonar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0B6A3F8191F4408000636B2 /* Debug */,
+				A0B6A3F9191F4408000636B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A0B6A3F4191F4408000636B2 /* Project object */;
+}
