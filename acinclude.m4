@@ -45,21 +45,21 @@ AC_DEFUN([AC_TRENDSONAR_COMPONENTS],[dnl
    enableval=""
    AC_ARG_ENABLE(
       client,
-      [AS_HELP_STRING([--enable-client], [enable client [default=yes]])],
+      [AS_HELP_STRING([--disable-client], [disable client [default=yes]])],
       [ ECLIENT=$enableval ],
       [ ECLIENT=$enableval ]
    )
    enableval=""
    AC_ARG_ENABLE(
       daemon,
-      [AS_HELP_STRING([--enable-daemon], [enable collector daemon [default=yes]])],
+      [AS_HELP_STRING([--disable-daemon], [disable collector daemon [default=yes]])],
       [ EDAEMON=$enableval ],
       [ EDAEMON=$enableval ]
    )
    enableval=""
    AC_ARG_ENABLE(
       library,
-      [AS_HELP_STRING([--enable-library], [enable client library [default=yes]])],
+      [AS_HELP_STRING([--disable-library], [disable client library [default=yes]])],
       [ ELIBRARY=$enableval ],
       [ ELIBRARY=$enableval ]
    )
