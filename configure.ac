@@ -100,6 +100,18 @@ LT_INIT(dlopen disable-fast-install win32-dll)
 # initiates bindle tools macros
 AC_BINDLE(contrib/bindletools)
 
+# Type checks
+AC_TYPE_INT8_T
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_INT64_T
+AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
+AC_TYPE_UINT8_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
+
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS
 AC_TRENDSONAR_COMPONENTS

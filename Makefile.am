@@ -51,7 +51,7 @@ AM_CFLAGS				= -O2 $(CFLAGS_WARNINGS)
 AM_CXXFLAGS				= -O2 @AM_CXXFLAGS@
 AM_OBJCFLAGS				= -O2 @AM_OBJCFLAGS@
 AM_CPPFLAGS				= -O2 -UPMARK -DHAVE_CONFIG_H=1 \
-					  -I$(top_builddir)/include
+					  -I$(top_builddir)/include \
 					  -I$(top_srcdir)/include \
 					  -DSYSCONFDIR="\"$(sysconfdir)\""
 ACLOCAL_AMFLAGS				= -I m4 -W all -W error
@@ -80,7 +80,7 @@ BUILT_SOURCES				=
 TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				=
+EXTRA_DIST				= lib/libtrendsonar/libtrendsonar.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -93,6 +93,44 @@ CLEANFILES				= \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
+
+
+# macros for lib/libtrendsonar.la
+lib_libtrendsonar_la_DEPENDENCIES	= Makefile lib/libtrendsonar/libtrendsonar.sym
+lib_libtrendsonar_la_LDFLAGS		= -rpath'$(libdir)'\
+					  -version-info $(LIB_VERSION_INFO) \
+					  $(AM_LDFLAGS) \
+					  -export-symbols $(srcdir)/lib/libtrendsonar/libtrendsonar.sym
+lib_libtrendsonar_la_SOURCES		= \
+					  lib/libtrendsonar/libtrendsonar.h \
+					  lib/libtrendsonar/version.c
+if ENABLE_LIBRARY
+include_HEADERS				+= include/trendsonar.h
+lib_LTLIBRARIES				+= lib/libtrendsonar.la
+else
+noinst_HEADERS				+= include/trendsonar.h
+noinst_LTLIBRARIES			+= lib/libtrendsonar.la
+endif
+
+
+# macros for src/trendsonar/trendsonar
+src_trendsonar_trendsonar_DEPENDENCIES	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_trendsonar_trendsonar_LDADD		= lib/libtrendsonar.la
+src_trendsonar_trendsonar_SOURCES	= $(noinst_HEADERS) \
+					  src/trendsonar/main.c
+if ENABLE_CLIENT
+bin_PROGRAMS				+= src/trendsonar/trendsonar
+endif
+
+
+# macros for src/trendsonard/trendsonard
+src_trendsonard_trendsonard_DEPENDENCIE	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_trendsonard_trendsonard_LDADD	= lib/libtrendsonar.la
+src_trendsonard_trendsonard_SOURCES	= $(noinst_HEADERS) \
+					  src/trendsonard/main.c
+if ENABLE_DAEMON
+bin_PROGRAMS				+= src/trendsonard/trendsonard
+endif
 
 
 # Makefile includes
