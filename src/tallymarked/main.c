@@ -1,5 +1,5 @@
 /*
- *  Trend Sonar
+ *  Tally Mark Daemon - An aggregated time-based counter for disparate systems
  *  Copyright (c) 2014, Bindle Binaries
  *  All rights reserved.
  *
@@ -41,7 +41,7 @@
 //  Headers  //
 //           //
 ///////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Headers
 #endif
 
@@ -51,7 +51,7 @@
 #   include "git-package-version.h"
 #endif
 
-#include <trendsonar.h>
+#include <tallymark.h>
 
 #include <stdio.h>
 #include <assert.h>
@@ -64,12 +64,12 @@
 //  Definitions  //
 //               //
 ///////////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Definitions
 #endif
 
 #ifndef PROGRAM_NAME
-#define PROGRAM_NAME "trendsonar"
+#define PROGRAM_NAME "tallymark"
 #endif
 #ifndef PACKAGE_BUGREPORT
 #define PACKAGE_BUGREPORT "syzdek@bindlebinaries.com"
@@ -90,7 +90,7 @@
 //  Prototypes  //
 //              //
 //////////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Prototypes
 #endif
 
@@ -104,7 +104,7 @@ void my_version(void);
 //  Functions  //
 //             //
 /////////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Functions
 #endif
 
@@ -112,7 +112,6 @@ int main(int argc, char * argv[])
 {
    int              c;
    int              opt_index;
-   const char     * prog_name;
 
    static char   short_opt[] = "hV";
    static struct option long_opt[] =
@@ -121,11 +120,6 @@ int main(int argc, char * argv[])
       { "version",       no_argument, 0, 'V'},
       { NULL,            0,           0, 0  }
    };
-
-   if ((prog_name = rindex(argv[0], '/')) != NULL)
-      prog_name = &prog_name[1];
-   else
-      prog_name = argv[0];
 
    while((c = getopt_long(argc, argv, short_opt, long_opt, &opt_index)) != -1)
    {
@@ -173,10 +167,10 @@ void my_usage(void)
 void my_version(void)
 {
    printf(( "%s (%s) %s\n"
-            "libtrendsonar (%s) %s\n"
+            "libtallymark (%s) %s\n"
             "%s\n"),
             PROGRAM_NAME, PACKAGE_NAME, PACKAGE_VERSION,
-            PACKAGE_NAME, trendsonar_pkg_version(NULL, NULL, NULL, NULL),
+            PACKAGE_NAME, tallymark_pkg_version(NULL, NULL, NULL, NULL),
             PACKAGE_COPYRIGHT
    );
    return;

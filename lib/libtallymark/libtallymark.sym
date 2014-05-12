@@ -1,5 +1,5 @@
 #
-#   Trend Sonar
+#   Tally Mark Daemon - An aggregated time-based counter for disparate systems
 #   Copyright (c) 2014, Bindle Binaries
 #   All rights reserved.
 #
@@ -34,10 +34,10 @@
 #
 #   @BINDLE_BINARIES_BSD_LICENSE_END@
 #
-#   lib/libtrendsonar/libtrendsonar.sym - exported symbols
+#   lib/libtallymark/libtallymark.sym - exported symbols
 #
-# lib/libtrendsonar/version.c
-trendsonar_lib_version
-trendsonar_pkg_version
+# lib/libtallymark/version.c
+tallymark_lib_version
+tallymark_pkg_version
 #
 # end of symbol export file

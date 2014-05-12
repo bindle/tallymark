@@ -1,5 +1,5 @@
 #
-#   Trend Sonar
+#   Tally Mark Daemon - An aggregated time-based counter for disparate systems
 #   Copyright (c) 2014, Bindle Binaries
 #   All rights reserved.
 #
@@ -80,7 +80,7 @@ BUILT_SOURCES				=
 TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				= lib/libtrendsonar/libtrendsonar.sym
+EXTRA_DIST				= lib/libtallymark/libtallymark.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -95,41 +95,41 @@ CLEANFILES				= \
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
 
 
-# macros for lib/libtrendsonar.la
-lib_libtrendsonar_la_DEPENDENCIES	= Makefile lib/libtrendsonar/libtrendsonar.sym
-lib_libtrendsonar_la_LDFLAGS		= -rpath'$(libdir)'\
+# macros for lib/libtallymark.la
+lib_libtallymark_la_DEPENDENCIES	= Makefile lib/libtallymark/libtallymark.sym
+lib_libtallymark_la_LDFLAGS		= -rpath'$(libdir)'\
 					  -version-info $(LIB_VERSION_INFO) \
 					  $(AM_LDFLAGS) \
-					  -export-symbols $(srcdir)/lib/libtrendsonar/libtrendsonar.sym
-lib_libtrendsonar_la_SOURCES		= \
-					  lib/libtrendsonar/libtrendsonar.h \
-					  lib/libtrendsonar/version.c
+					  -export-symbols $(srcdir)/lib/libtallymark/libtallymark.sym
+lib_libtallymark_la_SOURCES		= \
+					  lib/libtallymark/libtallymark.h \
+					  lib/libtallymark/version.c
 if ENABLE_LIBRARY
-include_HEADERS				+= include/trendsonar.h
-lib_LTLIBRARIES				+= lib/libtrendsonar.la
+include_HEADERS				+= include/tallymark.h
+lib_LTLIBRARIES				+= lib/libtallymark.la
 else
-noinst_HEADERS				+= include/trendsonar.h
-noinst_LTLIBRARIES			+= lib/libtrendsonar.la
+noinst_HEADERS				+= include/tallymark.h
+noinst_LTLIBRARIES			+= lib/libtallymark.la
 endif
 
 
-# macros for src/trendsonar/trendsonar
-src_trendsonar_trendsonar_DEPENDENCIES	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-src_trendsonar_trendsonar_LDADD		= lib/libtrendsonar.la
-src_trendsonar_trendsonar_SOURCES	= $(noinst_HEADERS) \
-					  src/trendsonar/main.c
+# macros for src/tallymarker
+bin_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+bin_tallymarker_LDADD			= lib/libtallymark.la
+bin_tallymarker_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarker/main.c
 if ENABLE_CLIENT
-bin_PROGRAMS				+= src/trendsonar/trendsonar
+bin_PROGRAMS				+= bin/tallymarker
 endif
 
 
-# macros for src/trendsonard/trendsonard
-src_trendsonard_trendsonard_DEPENDENCIE	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-src_trendsonard_trendsonard_LDADD	= lib/libtrendsonar.la
-src_trendsonard_trendsonard_SOURCES	= $(noinst_HEADERS) \
-					  src/trendsonard/main.c
+# macros for src/tallymarked
+bin_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+bin_tallymarked_LDADD			= lib/libtallymark.la
+bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarked/main.c
 if ENABLE_DAEMON
-bin_PROGRAMS				+= src/trendsonard/trendsonard
+bin_PROGRAMS				+= bin/tallymarked
 endif
 
 

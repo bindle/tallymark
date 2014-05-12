@@ -1,5 +1,5 @@
 #
-#   Trend Sonar
+#   Tally Mark Daemon - An aggregated time-based counter for disparate systems
 #   Copyright (c) 2014, Bindle Binaries
 #   All rights reserved.
 #
@@ -38,9 +38,9 @@
 #
 
 
-# AC_TRENDSONAR_COMPONENTS()
+# AC_TALLYMARK_COMPONENTS()
 # -----------------------------------
-AC_DEFUN([AC_TRENDSONAR_COMPONENTS],[dnl
+AC_DEFUN([AC_TALLYMARK_COMPONENTS],[dnl
 
    enableval=""
    AC_ARG_ENABLE(

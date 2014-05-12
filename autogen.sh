@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#   Trend Sonar
+#   Tally Mark Daemon - An aggregated time-based counter for disparate systems
 #   Copyright (c) 2014, Bindle Binaries
 #   All rights reserved.
 #

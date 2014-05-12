@@ -1,5 +1,5 @@
 /*
- *  Trend Sonar
+ *  Tally Mark Daemon - An aggregated time-based counter for disparate systems
  *  Copyright (c) 2014, Bindle Binaries
  *  All rights reserved.
  *
@@ -41,11 +41,11 @@
 //  Headers  //
 //           //
 ///////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Headers
 #endif
 
-#include "libtrendsonar.h"
+#include "libtallymark.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -56,7 +56,7 @@
 //  Definitions  //
 //               //
 ///////////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Definitions
 #endif
 
@@ -96,11 +96,11 @@
 //  Functions  //
 //             //
 /////////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Functions
 #endif
 
-const char * trendsonar_lib_version(uint32_t * pcur, uint32_t * prev, uint32_t * page)
+const char * tallymark_lib_version(uint32_t * pcur, uint32_t * prev, uint32_t * page)
 {
    if (pcur != NULL)
       *pcur = LIB_VERSION_CURRENT;
@@ -112,7 +112,7 @@ const char * trendsonar_lib_version(uint32_t * pcur, uint32_t * prev, uint32_t *
 }
 
 
-const char * trendsonar_pkg_version(uint32_t * pmaj, uint32_t * pmin,
+const char * tallymark_pkg_version(uint32_t * pmaj, uint32_t * pmin,
    uint32_t * ppat, const char ** pbuild)
 {
    if (pmaj != NULL)

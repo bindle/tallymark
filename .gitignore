@@ -12,8 +12,8 @@
 /Makefile.in
 /build/
 /libtool
-/trendsonar-*.tar.*
-/trendsonar-*.zip
+/tallymark-*.tar.*
+/tallymark-*.zip
 a.out
 aclocal.m4
 autom4te.cache

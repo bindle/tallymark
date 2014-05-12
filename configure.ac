@@ -1,5 +1,5 @@
 #
-#   Trend Sonar
+#   Tally Mark Daemon - An aggregated time-based counter for disparate systems
 #   Copyright (c) 2014, Bindle Binaries
 #   All rights reserved.
 #
@@ -41,7 +41,7 @@ AC_PREREQ([2.65])
 
 AC_COPYRIGHT([Copyright (c) 2014, Bindle Binaries])
 AC_REVISION(0.0)
-AC_INIT([Trend Sonar],[0.0],[syzdek@bindlebinaries.com],[trendsonar])
+AC_INIT([Tally Mark Daemon],[0.0],[syzdek@bindlebinaries.com],[tallymark])
 
 AC_SUBST([RELEASE_MONTH],["May 2014"])
 
@@ -114,7 +114,7 @@ AC_TYPE_UINT64_T
 
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS
-AC_TRENDSONAR_COMPONENTS
+AC_TALLYMARK_COMPONENTS
 
 # enables getopt_long if header and functions were found
 AC_CHECK_HEADERS([getopt.h], [AC_DEFINE_UNQUOTED(USE_GETOPT_LONG, 1, [Use GNU getopt_long])])
@@ -128,7 +128,7 @@ AC_OUTPUT
 
 # Show local config
 AC_MSG_NOTICE([ ])
-AC_MSG_NOTICE([   Trend Sonar $GIT_PACKAGE_VERSION ($GIT_PACKAGE_BUILD)])
+AC_MSG_NOTICE([   Tally Mark Daemon $GIT_PACKAGE_VERSION ($GIT_PACKAGE_BUILD)])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Features:])
 AC_MSG_NOTICE([      Collector Daemon:         ${ENABLE_DAEMON}])

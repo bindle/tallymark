@@ -1,0 +1,743 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		A07106E2192166CF00CC7F5F /* tallymark: Git Version */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A07106E5192166CF00CC7F5F /* Build configuration list for PBXAggregateTarget "tallymark: Git Version" */;
+			buildPhases = (
+				A07106E6192168DB00CC7F5F /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "tallymark: Git Version";
+			productName = "Tallymark: Version";
+		};
+		A0CF1B28192169D700E5C668 /* tallymark: all */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A0CF1B29192169D700E5C668 /* Build configuration list for PBXAggregateTarget "tallymark: all" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A0CF1B2D192169E700E5C668 /* PBXTargetDependency */,
+				A0CF1B2F192169E700E5C668 /* PBXTargetDependency */,
+			);
+			name = "tallymark: all";
+			productName = "tallymark: all";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		A0CF1B24192169A500E5C668 /* tallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FCD192166330081CD19 /* tallymark.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A0CF1B25192169A500E5C668 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FD2192166330081CD19 /* version.c */; };
+		A0CF1B26192169B100E5C668 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE0192166330081CD19 /* main.c */; };
+		A0CF1B27192169C300E5C668 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE2192166330081CD19 /* main.c */; };
+		A0CF1B3019216A4000E5C668 /* libtallymark.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AC5F8C1921657C0081CD19 /* libtallymark.a */; };
+		A0CF1B3119216A4500E5C668 /* libtallymark.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AC5F8C1921657C0081CD19 /* libtallymark.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A0AC5FE5192166A20081CD19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A070F765192165040091D372 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0AC5F8B1921657C0081CD19;
+			remoteInfo = tallymark;
+		};
+		A0AC5FE7192166A70081CD19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A070F765192165040091D372 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0AC5F8B1921657C0081CD19;
+			remoteInfo = tallymark;
+		};
+		A0CF1B2C192169E700E5C668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A070F765192165040091D372 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0AC5F94192165900081CD19;
+			remoteInfo = tallymarker;
+		};
+		A0CF1B2E192169E700E5C668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A070F765192165040091D372 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A0AC5FA11921659D0081CD19;
+			remoteInfo = tallymarked;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A0AC5F93192165900081CD19 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		A0AC5FA01921659D0081CD19 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0AC5FB5192166330081CD19 /* acinclude.m4 */ = {isa = PBXFileReference; explicitFileType = text.script; path = acinclude.m4; sourceTree = "<group>"; };
+		A0AC5FB6192166330081CD19 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
+		A0AC5FB7192166330081CD19 /* autogen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
+		A0AC5FBE192166330081CD19 /* git-tar-name.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "git-tar-name.txt"; sourceTree = "<group>"; };
+		A0AC5FC4192166330081CD19 /* ChangeLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
+		A0AC5FC5192166330081CD19 /* configure.ac */ = {isa = PBXFileReference; explicitFileType = text.script; path = configure.ac; sourceTree = "<group>"; };
+		A0AC5FC6192166330081CD19 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		A0AC5FCD192166330081CD19 /* tallymark.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tallymark.h; sourceTree = "<group>"; };
+		A0AC5FD0192166330081CD19 /* libtallymark.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libtallymark.h; sourceTree = "<group>"; };
+		A0AC5FD1192166330081CD19 /* libtallymark.sym */ = {isa = PBXFileReference; lastKnownFileType = text; path = libtallymark.sym; sourceTree = "<group>"; };
+		A0AC5FD2192166330081CD19 /* version.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = version.c; sourceTree = "<group>"; };
+		A0AC5FD3192166330081CD19 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		A0AC5FDB192166330081CD19 /* Makefile.am */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; indentWidth = 8; path = Makefile.am; sourceTree = "<group>"; tabWidth = 8; usesTabs = 1; };
+		A0AC5FDC192166330081CD19 /* NEWS */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS; sourceTree = "<group>"; };
+		A0AC5FDD192166330081CD19 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		A0AC5FE0192166330081CD19 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		A0AC5FE2192166330081CD19 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A0AC5F891921657C0081CD19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A0AC5F92192165900081CD19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CF1B3019216A4000E5C668 /* libtallymark.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A0AC5F9F1921659D0081CD19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CF1B3119216A4500E5C668 /* libtallymark.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A070F764192165040091D372 = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FB5192166330081CD19 /* acinclude.m4 */,
+				A0AC5FB6192166330081CD19 /* AUTHORS */,
+				A0AC5FB7192166330081CD19 /* autogen.sh */,
+				A0AC5FC4192166330081CD19 /* ChangeLog */,
+				A0AC5FC5192166330081CD19 /* configure.ac */,
+				A0AC5FC6192166330081CD19 /* COPYING */,
+				A0AC5FDB192166330081CD19 /* Makefile.am */,
+				A0AC5FDC192166330081CD19 /* NEWS */,
+				A0AC5FDD192166330081CD19 /* README */,
+				A0AC5FB8192166330081CD19 /* build-aux */,
+				A0AC5FC7192166330081CD19 /* docs */,
+				A0AC5FC8192166330081CD19 /* include */,
+				A0AC5FCE192166330081CD19 /* lib */,
+				A0AC5FD4192166330081CD19 /* m4 */,
+				A0AC5FDE192166330081CD19 /* src */,
+				A0AC5F8D1921657C0081CD19 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A0AC5F8D1921657C0081CD19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5F8C1921657C0081CD19 /* libtallymark.a */,
+				A0AC5F95192165900081CD19 /* tallymarker */,
+				A0AC5FA21921659D0081CD19 /* tallymarked */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A0AC5FB8192166330081CD19 /* build-aux */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FBE192166330081CD19 /* git-tar-name.txt */,
+			);
+			path = "build-aux";
+			sourceTree = "<group>";
+		};
+		A0AC5FC7192166330081CD19 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
+		A0AC5FC8192166330081CD19 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FCD192166330081CD19 /* tallymark.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		A0AC5FCE192166330081CD19 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FCF192166330081CD19 /* libtallymark */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		A0AC5FCF192166330081CD19 /* libtallymark */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FD0192166330081CD19 /* libtallymark.h */,
+				A0AC5FD1192166330081CD19 /* libtallymark.sym */,
+				A0AC5FD2192166330081CD19 /* version.c */,
+				A0AC5FD3192166330081CD19 /* version.h */,
+			);
+			path = libtallymark;
+			sourceTree = "<group>";
+		};
+		A0AC5FD4192166330081CD19 /* m4 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = m4;
+			sourceTree = "<group>";
+		};
+		A0AC5FDE192166330081CD19 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FDF192166330081CD19 /* tallymarked */,
+				A0AC5FE1192166330081CD19 /* tallymarker */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		A0AC5FDF192166330081CD19 /* tallymarked */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FE0192166330081CD19 /* main.c */,
+			);
+			path = tallymarked;
+			sourceTree = "<group>";
+		};
+		A0AC5FE1192166330081CD19 /* tallymarker */ = {
+			isa = PBXGroup;
+			children = (
+				A0AC5FE2192166330081CD19 /* main.c */,
+			);
+			path = tallymarker;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		A0AC5F8A1921657C0081CD19 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CF1B24192169A500E5C668 /* tallymark.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		A0AC5F8B1921657C0081CD19 /* tallymark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0AC5F901921657C0081CD19 /* Build configuration list for PBXNativeTarget "tallymark" */;
+			buildPhases = (
+				A0AC5F881921657C0081CD19 /* Sources */,
+				A0AC5F891921657C0081CD19 /* Frameworks */,
+				A0AC5F8A1921657C0081CD19 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tallymark;
+			productName = tallymark;
+			productReference = A0AC5F8C1921657C0081CD19 /* libtallymark.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A0AC5F94192165900081CD19 /* tallymarker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0AC5F9B192165900081CD19 /* Build configuration list for PBXNativeTarget "tallymarker" */;
+			buildPhases = (
+				A0AC5F91192165900081CD19 /* Sources */,
+				A0AC5F92192165900081CD19 /* Frameworks */,
+				A0AC5F93192165900081CD19 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A0AC5FE6192166A20081CD19 /* PBXTargetDependency */,
+			);
+			name = tallymarker;
+			productName = tallymarker;
+			productReference = A0AC5F95192165900081CD19 /* tallymarker */;
+			productType = "com.apple.product-type.tool";
+		};
+		A0AC5FA11921659D0081CD19 /* tallymarked */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0AC5FA81921659D0081CD19 /* Build configuration list for PBXNativeTarget "tallymarked" */;
+			buildPhases = (
+				A0AC5F9E1921659D0081CD19 /* Sources */,
+				A0AC5F9F1921659D0081CD19 /* Frameworks */,
+				A0AC5FA01921659D0081CD19 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A0AC5FE8192166A70081CD19 /* PBXTargetDependency */,
+			);
+			name = tallymarked;
+			productName = tallymarked;
+			productReference = A0AC5FA21921659D0081CD19 /* tallymarked */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A070F765192165040091D372 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = A070F768192165040091D372 /* Build configuration list for PBXProject "tallymark" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A070F764192165040091D372;
+			productRefGroup = A0AC5F8D1921657C0081CD19 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A0AC5F8B1921657C0081CD19 /* tallymark */,
+				A0AC5F94192165900081CD19 /* tallymarker */,
+				A0AC5FA11921659D0081CD19 /* tallymarked */,
+				A07106E2192166CF00CC7F5F /* tallymark: Git Version */,
+				A0CF1B28192169D700E5C668 /* tallymark: all */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A07106E6192168DB00CC7F5F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "contrib/bindletools/build-aux/git-package-version.sh ${PROJECT_DIR} ${PROJECT_DIR}/include";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A0AC5F881921657C0081CD19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CF1B25192169A500E5C668 /* version.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A0AC5F91192165900081CD19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CF1B27192169C300E5C668 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A0AC5F9E1921659D0081CD19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CF1B26192169B100E5C668 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A0AC5FE6192166A20081CD19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A0AC5F8B1921657C0081CD19 /* tallymark */;
+			targetProxy = A0AC5FE5192166A20081CD19 /* PBXContainerItemProxy */;
+		};
+		A0AC5FE8192166A70081CD19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A0AC5F8B1921657C0081CD19 /* tallymark */;
+			targetProxy = A0AC5FE7192166A70081CD19 /* PBXContainerItemProxy */;
+		};
+		A0CF1B2D192169E700E5C668 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A0AC5F94192165900081CD19 /* tallymarker */;
+			targetProxy = A0CF1B2C192169E700E5C668 /* PBXContainerItemProxy */;
+		};
+		A0CF1B2F192169E700E5C668 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A0AC5FA11921659D0081CD19 /* tallymarked */;
+			targetProxy = A0CF1B2E192169E700E5C668 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A070F769192165040091D372 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					include,
+				);
+			};
+			name = Debug;
+		};
+		A070F76A192165040091D372 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					include,
+				);
+			};
+			name = Release;
+		};
+		A07106E3192166CF00CC7F5F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A07106E4192166CF00CC7F5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A0AC5F8E1921657C0081CD19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A0AC5F8F1921657C0081CD19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A0AC5F9C192165900081CD19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A0AC5F9D192165900081CD19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A0AC5FA91921659D0081CD19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A0AC5FAA1921659D0081CD19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A0CF1B2A192169D700E5C668 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A0CF1B2B192169D700E5C668 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A070F768192165040091D372 /* Build configuration list for PBXProject "tallymark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A070F769192165040091D372 /* Debug */,
+				A070F76A192165040091D372 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A07106E5192166CF00CC7F5F /* Build configuration list for PBXAggregateTarget "tallymark: Git Version" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A07106E3192166CF00CC7F5F /* Debug */,
+				A07106E4192166CF00CC7F5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A0AC5F901921657C0081CD19 /* Build configuration list for PBXNativeTarget "tallymark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0AC5F8E1921657C0081CD19 /* Debug */,
+				A0AC5F8F1921657C0081CD19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A0AC5F9B192165900081CD19 /* Build configuration list for PBXNativeTarget "tallymarker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0AC5F9C192165900081CD19 /* Debug */,
+				A0AC5F9D192165900081CD19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A0AC5FA81921659D0081CD19 /* Build configuration list for PBXNativeTarget "tallymarked" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0AC5FA91921659D0081CD19 /* Debug */,
+				A0AC5FAA1921659D0081CD19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A0CF1B29192169D700E5C668 /* Build configuration list for PBXAggregateTarget "tallymark: all" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A0CF1B2A192169D700E5C668 /* Debug */,
+				A0CF1B2B192169D700E5C668 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A070F765192165040091D372 /* Project object */;
+}

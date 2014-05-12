@@ -1,5 +1,5 @@
 /*
- *  Trend Sonar
+ *  Tally Mark Daemon - An aggregated time-based counter for disparate systems
  *  Copyright (c) 2014, Bindle Binaries
  *  All rights reserved.
  *
@@ -35,11 +35,11 @@
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
 /**
- *   @file trendsonar.h
- *   Trend Sonar private API
+ *   @file tallymark.h
+ *   Tally Mark Daemon private API
  */
-#ifndef __LIBTRENDSONAR_H
-#define __LIBTRENDSONAR_H 1
+#ifndef __LIBTALLYMARK_H
+#define __LIBTALLYMARK_H 1
 
 
 ///////////////
@@ -47,7 +47,7 @@
 //  Headers  //
 //           //
 ///////////////
-#ifdef __TRENDSONAR_PMARK
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Headers
 #endif
 
@@ -57,7 +57,7 @@
 #   include "git-package-version.h"
 #endif
 
-#include <trendsonar.h>
+#include <tallymark.h>
 
 
 #endif /* end of header */
