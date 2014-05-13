@@ -69,7 +69,7 @@
 #endif
 
 #ifndef PROGRAM_NAME
-#define PROGRAM_NAME "tallymark"
+#define PROGRAM_NAME "tallymarked"
 #endif
 #ifndef PACKAGE_BUGREPORT
 #define PACKAGE_BUGREPORT "syzdek@bindlebinaries.com"
