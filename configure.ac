@@ -114,6 +114,7 @@ AC_TYPE_UINT64_T
 
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS
+AC_BINDLE_FD_POLLER(poll)
 AC_TALLYMARK_COMPONENTS
 
 # enables getopt_long if header and functions were found
@@ -134,6 +135,9 @@ AC_MSG_NOTICE([   Features:])
 AC_MSG_NOTICE([      Collector Daemon:         ${ENABLE_DAEMON}])
 AC_MSG_NOTICE([      CLI Client:               ${ENABLE_CLIENT}])
 AC_MSG_NOTICE([      Client Library:           ${ENABLE_LIBRARY}])
+AC_MSG_NOTICE([ ])
+AC_MSG_NOTICE([   Options:])
+AC_MSG_NOTICE([      Socket Poller:            ${BINDLE_FD_POLLER}])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Please send suggestions to:   $PACKAGE_BUGREPORT])
 AC_MSG_NOTICE([ ])
