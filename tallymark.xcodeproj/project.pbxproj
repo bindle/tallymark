@@ -39,6 +39,8 @@
 		A0CF1B27192169C300E5C668 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE2192166330081CD19 /* main.c */; };
 		A0CF1B3019216A4000E5C668 /* libtallymark.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AC5F8C1921657C0081CD19 /* libtallymark.a */; };
 		A0CF1B3119216A4500E5C668 /* libtallymark.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AC5F8C1921657C0081CD19 /* libtallymark.a */; };
+		A0CF1B461921DEEA00E5C668 /* libbindle-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0CF1B3F1921DEB200E5C668 /* libbindle-osx.a */; };
+		A0CF1B471921DEF000E5C668 /* libbindle-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0CF1B3F1921DEB200E5C668 /* libbindle-osx.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,41 @@
 			proxyType = 1;
 			remoteGlobalIDString = A0AC5FA11921659D0081CD19;
 			remoteInfo = tallymarked;
+		};
+		A0CF1B3C1921DEB200E5C668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A0EE9F2318DFE15600CF8788;
+			remoteInfo = "bindle-ios";
+		};
+		A0CF1B3E1921DEB200E5C668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A0EE9F1B18DFE10F00CF8788;
+			remoteInfo = "bindle-osx";
+		};
+		A0CF1B401921DEB200E5C668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A06092F718DF8FC000434E5C;
+			remoteInfo = fdtest;
+		};
+		A0CF1B421921DED500E5C668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A0EE9F1A18DFE10F00CF8788;
+			remoteInfo = "bindle-osx";
+		};
+		A0CF1B441921DEDE00E5C668 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A0EE9F1A18DFE10F00CF8788;
+			remoteInfo = "bindle-osx";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -114,6 +151,7 @@
 		A0AC5FDD192166330081CD19 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		A0AC5FE0192166330081CD19 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		A0AC5FE2192166330081CD19 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = bindletools.xcodeproj; path = contrib/bindletools/bindletools.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0CF1B471921DEF000E5C668 /* libbindle-osx.a in Frameworks */,
 				A0CF1B3019216A4000E5C668 /* libtallymark.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0CF1B461921DEEA00E5C668 /* libbindle-osx.a in Frameworks */,
 				A0CF1B3119216A4500E5C668 /* libtallymark.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,6 +196,7 @@
 				A0AC5FDC192166330081CD19 /* NEWS */,
 				A0AC5FDD192166330081CD19 /* README */,
 				A0AC5FB8192166330081CD19 /* build-aux */,
+				A0CF1B321921DE9F00E5C668 /* contrib */,
 				A0AC5FC7192166330081CD19 /* docs */,
 				A0AC5FC8192166330081CD19 /* include */,
 				A0AC5FCE192166330081CD19 /* lib */,
@@ -249,6 +290,24 @@
 			path = tallymarker;
 			sourceTree = "<group>";
 		};
+		A0CF1B321921DE9F00E5C668 /* contrib */ = {
+			isa = PBXGroup;
+			children = (
+				A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */,
+			);
+			name = contrib;
+			sourceTree = "<group>";
+		};
+		A0CF1B341921DEB200E5C668 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A0CF1B3D1921DEB200E5C668 /* libbindle-ios.a */,
+				A0CF1B3F1921DEB200E5C668 /* libbindle-osx.a */,
+				A0CF1B411921DEB200E5C668 /* fdtest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -291,6 +350,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A0CF1B451921DEDE00E5C668 /* PBXTargetDependency */,
 				A0AC5FE6192166A20081CD19 /* PBXTargetDependency */,
 			);
 			name = tallymarker;
@@ -309,6 +369,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A0CF1B431921DED500E5C668 /* PBXTargetDependency */,
 				A0AC5FE8192166A70081CD19 /* PBXTargetDependency */,
 			);
 			name = tallymarked;
@@ -334,6 +395,12 @@
 			mainGroup = A070F764192165040091D372;
 			productRefGroup = A0AC5F8D1921657C0081CD19 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A0CF1B341921DEB200E5C668 /* Products */;
+					ProjectRef = A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A0AC5F8B1921657C0081CD19 /* tallymark */,
@@ -344,6 +411,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A0CF1B3D1921DEB200E5C668 /* libbindle-ios.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libbindle-ios.a";
+			remoteRef = A0CF1B3C1921DEB200E5C668 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A0CF1B3F1921DEB200E5C668 /* libbindle-osx.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libbindle-osx.a";
+			remoteRef = A0CF1B3E1921DEB200E5C668 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A0CF1B411921DEB200E5C668 /* fdtest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fdtest;
+			remoteRef = A0CF1B401921DEB200E5C668 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		A07106E6192168DB00CC7F5F /* ShellScript */ = {
@@ -410,6 +501,16 @@
 			target = A0AC5FA11921659D0081CD19 /* tallymarked */;
 			targetProxy = A0CF1B2E192169E700E5C668 /* PBXContainerItemProxy */;
 		};
+		A0CF1B431921DED500E5C668 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "bindle-osx";
+			targetProxy = A0CF1B421921DED500E5C668 /* PBXContainerItemProxy */;
+		};
+		A0CF1B451921DEDE00E5C668 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "bindle-osx";
+			targetProxy = A0CF1B441921DEDE00E5C668 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -420,6 +521,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					include,
+					contrib/bindletools/include,
 				);
 			};
 			name = Debug;
@@ -431,6 +533,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					include,
+					contrib/bindletools/include,
 				);
 			};
 			name = Release;
