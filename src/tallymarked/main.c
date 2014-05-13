@@ -156,6 +156,10 @@ void my_usage(void)
 {
    printf("Usage: %s [OPTIONS]\n", PROGRAM_NAME);
    printf("Options:\n");
+   printf("  -4                        listen on IPv4 addresses only\n");
+   printf("  -6                        listen on IPv6 addresses only\n");
+   printf("  -l address                listen on address (default: any\n");
+   printf("  -p port                   listen on port\n");
    printf("  -h, --help                print this help and exit\n");
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");

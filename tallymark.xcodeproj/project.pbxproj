@@ -152,6 +152,8 @@
 		A0AC5FE0192166330081CD19 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		A0AC5FE2192166330081CD19 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = bindletools.xcodeproj; path = contrib/bindletools/bindletools.xcodeproj; sourceTree = "<group>"; };
+		A0CF1B4E1921EF1F00E5C668 /* tallymarked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymarked.h; sourceTree = "<group>"; };
+		A0CF1B4F1921EFB200E5C668 /* tallymarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymarker.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +279,7 @@
 		A0AC5FDF192166330081CD19 /* tallymarked */ = {
 			isa = PBXGroup;
 			children = (
+				A0CF1B4E1921EF1F00E5C668 /* tallymarked.h */,
 				A0AC5FE0192166330081CD19 /* main.c */,
 			);
 			path = tallymarked;
@@ -285,6 +288,7 @@
 		A0AC5FE1192166330081CD19 /* tallymarker */ = {
 			isa = PBXGroup;
 			children = (
+				A0CF1B4F1921EFB200E5C668 /* tallymarker.h */,
 				A0AC5FE2192166330081CD19 /* main.c */,
 			);
 			path = tallymarker;

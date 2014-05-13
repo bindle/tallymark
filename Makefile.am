@@ -117,6 +117,7 @@ endif
 bin_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 bin_tallymarker_LDADD			= lib/libtallymark.la
 bin_tallymarker_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarker/tallymarker.h \
 					  src/tallymarker/main.c
 if ENABLE_CLIENT
 bin_PROGRAMS				+= bin/tallymarker
@@ -127,6 +128,7 @@ endif
 bin_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 bin_tallymarked_LDADD			= lib/libtallymark.la
 bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarked/tallymarked.h \
 					  src/tallymarked/main.c
 if ENABLE_DAEMON
 bin_PROGRAMS				+= bin/tallymarked

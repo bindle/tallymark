@@ -156,7 +156,9 @@ void my_usage(void)
 {
    printf("Usage: %s [OPTIONS]\n", PROGRAM_NAME);
    printf("Options:\n");
+   printf("  -H host                   tallymarked host\n");
    printf("  -h, --help                print this help and exit\n");
+   printf("  -p port                   tallymarked port\n");
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");
    printf("\n");
