@@ -104,7 +104,7 @@ lib_libtallymark_la_LDFLAGS		= -rpath'$(libdir)'\
 lib_libtallymark_la_SOURCES		= \
 					  lib/libtallymark/libtallymark.h \
 					  lib/libtallymark/version.c
-if ENABLE_LIBRARY
+if ENABLE_LIBTALLYMARK
 include_HEADERS				+= include/tallymark.h
 lib_LTLIBRARIES				+= lib/libtallymark.la
 else
@@ -119,7 +119,7 @@ bin_tallymarker_LDADD			= lib/libtallymark.la
 bin_tallymarker_SOURCES			= $(noinst_HEADERS) \
 					  src/tallymarker/tallymarker.h \
 					  src/tallymarker/main.c
-if ENABLE_CLIENT
+if ENABLE_TALLYMARKER
 bin_PROGRAMS				+= bin/tallymarker
 endif
 
@@ -130,7 +130,7 @@ bin_tallymarked_LDADD			= lib/libtallymark.la
 bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
 					  src/tallymarked/tallymarked.h \
 					  src/tallymarked/main.c
-if ENABLE_DAEMON
+if ENABLE_TALLYMARKED
 bin_PROGRAMS				+= bin/tallymarked
 endif
 

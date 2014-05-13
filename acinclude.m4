@@ -44,42 +44,42 @@ AC_DEFUN([AC_TALLYMARK_COMPONENTS],[dnl
 
    enableval=""
    AC_ARG_ENABLE(
-      client,
-      [AS_HELP_STRING([--disable-client], [disable client [default=yes]])],
-      [ ECLIENT=$enableval ],
-      [ ECLIENT=$enableval ]
+      libtallymark,
+      [AS_HELP_STRING([--disable-libtallymark], [disable client library])],
+      [ ELIBTALLYMARK=$enableval ],
+      [ ELIBTALLYMARK=$enableval ]
    )
    enableval=""
    AC_ARG_ENABLE(
-      daemon,
-      [AS_HELP_STRING([--disable-daemon], [disable collector daemon [default=yes]])],
-      [ EDAEMON=$enableval ],
-      [ EDAEMON=$enableval ]
+      tallymarked,
+      [AS_HELP_STRING([--disable-tallymarked], [disable collector daemon])],
+      [ ETALLYMARKED=$enableval ],
+      [ ETALLYMARKED=$enableval ]
    )
    enableval=""
    AC_ARG_ENABLE(
-      library,
-      [AS_HELP_STRING([--disable-library], [disable client library [default=yes]])],
-      [ ELIBRARY=$enableval ],
-      [ ELIBRARY=$enableval ]
+      tallymarker,
+      [AS_HELP_STRING([--disable-tallymarker], [disable client utility])],
+      [ ETALLYMARKER=$enableval ],
+      [ ETALLYMARKER=$enableval ]
    )
 
-   ENABLE_CLIENT=yes
-   if test "x${ECLIENT}" = "xno";then
-      ENABLE_CLIENT=no
+   ENABLE_LIBTALLYMARK=yes
+   if test "x${ELIBTALLYMARK}" = "xno";then
+      ENABLE_LIBTALLYMARK=no
    fi
-   ENABLE_DAEMON=yes
-   if test "x${EDAEMON}" = "xno";then
-      ENABLE_DAEMON=no
+   ENABLE_TALLYMARKED=yes
+   if test "x${ETALLYMARKED}" = "xno";then
+      ENABLE_TALLYMARKED=no
    fi
-   ENABLE_LIBRARY=yes
-   if test "x${ELIBRARY}" = "xno";then
-      ENABLE_LIBRARY=no
+   ENABLE_TALLYMARKER=yes
+   if test "x${ETALLYMARKER}" = "xno";then
+      ENABLE_TALLYMARKER=no
    fi
 
-   AM_CONDITIONAL([ENABLE_CLIENT],  [test "${ENABLE_CLIENT}" == "yes"])
-   AM_CONDITIONAL([ENABLE_DAEMON],  [test "${ENABLE_DAEMON}" == "yes"])
-   AM_CONDITIONAL([ENABLE_LIBRARY], [test "${ENABLE_LIBRARY}" == "yes"])
+   AM_CONDITIONAL([ENABLE_LIBTALLYMARK], [test "${ENABLE_LIBTALLYMARK}" == "yes"])
+   AM_CONDITIONAL([ENABLE_TALLYMARKED],  [test "${ENABLE_TALLYMARKED}"  == "yes"])
+   AM_CONDITIONAL([ENABLE_TALLYMARKER],  [test "${ENABLE_TALLYMARKER}"  == "yes"])
 ])dnl
 
 
