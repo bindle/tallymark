@@ -133,16 +133,6 @@ _TALLYMARK_F void tallymark_destroy(tallymark * tmd);
 #endif
 
 /// @ingroup network
-/// Polls the set of selected file desriptors for changes in state.
-///
-/// @param[in]  tmd     Tally mark state data.
-/// @param[in]  timeout time out limit in seconds.
-/// @return Returns the full version information has a dot delimited string.
-/// @see tallymark_add_fd, tallymark_del_fd
-_TALLYMARK_F int tallymark_poll(tallymark * tmd, int timeout);
-
-
-/// @ingroup network
 /// Adds a file descriptor to the set of file descriptors to be polled.
 ///
 /// @param[in]  tmd     Tally mark state data.
@@ -160,6 +150,18 @@ _TALLYMARK_F int tallymark_add_fd(tallymark * tmd, int fd);
 /// @return  Returns 0 on success and the value of errno if an error is encountered.
 /// @see tallymark_poll, tallymark_add_fd
 _TALLYMARK_F int tallymark_del_fd(tallymark * tmd, int fd);
+
+
+/// @ingroup network
+/// Polls the set of selected file desriptors for changes in state.
+///
+/// @param[in]  tmd     Tally mark state data.
+/// @param[in]  timeout time out limit in seconds.
+/// @param[out] msg     parsed received message
+/// @return Returns the full version information has a dot delimited string.
+/// @see tallymark_add_fd, tallymark_del_fd
+_TALLYMARK_F int tallymark_poll(tallymark * tmd, int timeout,
+   tallymarkmsg * msg);
 
 
 /**
