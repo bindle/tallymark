@@ -50,6 +50,7 @@
 		A0CF1B681922DC0F00E5C668 /* libtallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FD0192166330081CD19 /* libtallymark.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		A0CF1B6B1923151900E5C668 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B691923151900E5C668 /* thread.c */; };
 		A0CF1B6C1923151900E5C668 /* thread.h in Headers */ = {isa = PBXBuildFile; fileRef = A0CF1B6A1923151900E5C668 /* thread.h */; };
+		A0CF1B7119241E8400E5C668 /* tallymark_cdefs.h in Headers */ = {isa = PBXBuildFile; fileRef = A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +174,7 @@
 		A0CF1B6A1923151900E5C668 /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
 		A0CF1B6E1923535700E5C668 /* protocol.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = protocol.txt; sourceTree = "<group>"; };
 		A0CF1B6F1923535700E5C668 /* record.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = record.txt; sourceTree = "<group>"; };
+		A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_cdefs.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 		A0AC5FC8192166330081CD19 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */,
 				A0AC5FCD192166330081CD19 /* tallymark.h */,
 			);
 			path = include;
@@ -351,6 +354,7 @@
 				A0CF1B6C1923151900E5C668 /* thread.h in Headers */,
 				A0CF1B681922DC0F00E5C668 /* libtallymark.h in Headers */,
 				A0CF1B24192169A500E5C668 /* tallymark.h in Headers */,
+				A0CF1B7119241E8400E5C668 /* tallymark_cdefs.h in Headers */,
 				A0CF1B671922DC0500E5C668 /* version.h in Headers */,
 				A0CF1B5E1922D1C800E5C668 /* fdpoller.h in Headers */,
 				A0CF1B661922DBD100E5C668 /* memory.h in Headers */,

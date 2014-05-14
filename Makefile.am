@@ -115,9 +115,11 @@ lib_libtallymark_la_SOURCES		+= lib/libtallymark/fdpoller-poll.c
 endif
 if ENABLE_LIBTALLYMARK
 include_HEADERS				+= include/tallymark.h
+include_HEADERS				+= include/tallymark_cdefs.h
 lib_LTLIBRARIES				+= lib/libtallymark.la
 else
 noinst_HEADERS				+= include/tallymark.h
+noinst_HEADERS				+= include/tallymark_cdefs.h
 noinst_LTLIBRARIES			+= lib/libtallymark.la
 endif
 
