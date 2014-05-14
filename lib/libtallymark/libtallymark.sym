@@ -36,6 +36,9 @@
 #
 #   lib/libtallymark/libtallymark.sym - exported symbols
 #
+# lib/libtallymark/network-*.c
+tallymark_net_poll
+#
 # lib/libtallymark/version.c
 tallymark_lib_version
 tallymark_pkg_version

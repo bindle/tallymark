@@ -34,7 +34,7 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-
+#include "version.h"
 
 ///////////////
 //           //
@@ -49,46 +49,6 @@
 
 #include <stdio.h>
 #include <assert.h>
-
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Definitions
-#endif
-
-#ifndef GIT_PACKAGE_MAJOR
-#   define GIT_PACKAGE_MAJOR 0
-#endif
-#ifndef GIT_PACKAGE_MINOR
-#   define GIT_PACKAGE_MINOR 0
-#endif
-#ifndef GIT_PACKAGE_PATCH
-#   define GIT_PACKAGE_PATCH 0
-#endif
-#ifndef GIT_PACKAGE_BUILD
-#   define GIT_PACKAGE_BUILD ""
-#endif
-
-
-#ifndef LIB_VERSION_CURRENT
-#define LIB_VERSION_CURRENT  0
-#endif
-#ifndef LIB_VERSION_REVISION
-#define LIB_VERSION_REVISION 0xffffffff
-#endif
-#ifndef LIB_VERSION_AGE
-#define LIB_VERSION_AGE      0xffffffff
-#endif
-#ifndef LIB_VERSION_INFO
-#define LIB_VERSION_INFO NULL
-#endif
-#ifndef LIB_RELEASE_INFO
-#define LIB_RELEASE_INFO NULL
-#endif
 
 
 /////////////////

@@ -1,0 +1,75 @@
+
+*** THESE ARE JUST NOTES AND IDEAS ***
+
+const RES_RESPONSE        // Indicates the message is a response
+const RES_EOR             // End of response
+const RES_INVALID         // invalid command/hash/service/field/etc
+const RES_PERM            // permission denied
+
+const OP_SYNC             // request is from another server
+const OP_CAPABILITIES     // send list of capabilities
+
+const OP_THRESHOLD_QUERY  // request threshold level reached
+const OP_THRESHOLD_SET    // mark specified threshold as reached
+const OP_THRESHOLD_UNSET  // unset specified threshold
+const OP_THRESHOLD_DEF    // request threshold definition
+
+const OP_TALLY_INCREMENT  // requests the counter be incremented
+const OP_TALLY_COUNT      // requests current tally count
+const OP_TALLY_AVERAGE    // requests current tally average
+const OP_TALLY_HISTORY    // requests full tally history
+const OP_TALLY_RESET      // resets tally and thresholds
+
+const OP_HASH_LIST        // Send list of hashes
+const OP_HASH_TEXT        // Send text value of tallied data
+const OP_HASH_ID          // send hash value (only useful with OP_HASH_LIST)
+const OP_SERVICE_LIST     // send list of services
+const OP_SERVICE_NAME     // send service name
+const OP_SERVICE_ID       // send service ID (only useful with OP_SERVICE_LIST)
+const OP_FIELD_LIST       // send list of fields
+const OP_FIELD_NAME       // send field name
+const OP_FIELD_ID         // send field ID (only useful with OP_FIELD_LIST)
+
+struct
+{
+   uint8_t     version_current;
+   uint8_t     version_age;
+   uint8_t     header_len;
+   uint8_t     message_len;
+   uint8_t     response_ops;
+   uint32_t    request_ops;
+   uint16_t    service_id;
+   uint16_t    field_id;
+   uint8_t     hash_id[20];
+}
+
+      0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    PROTOCUR                   |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    PROTOAGE                   |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    LENGTH1                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    LENGTH2                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |QR|IN|TH|SU|AV|  |  |  |  |  |  |  |  |  |  |  |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    SERVICE                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                     FIELD                     |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    NSCOUNT                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    ARCOUNT                    |
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+
+   PROTOCUR - Protocol Current Version
+   PROTOAGE - Protocol Age (number of previous compatible versions)
+   QR       - Query (0) or Response (1) 
+   IN       - Increment field
+   TH       - Report Threshold reached
+   SU       - Report Sum of tally
+   AV       - Report Average of Tally

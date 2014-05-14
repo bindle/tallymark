@@ -34,13 +34,7 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-/**
- *   @file tallymark.h
- *   Tally Mark Daemon private API
- */
-#ifndef __LIBTALLYMARK_H
-#define __LIBTALLYMARK_H 1
-
+#include "memory.h"
 
 ///////////////
 //           //
@@ -51,41 +45,92 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
+#include "libtallymark.h"
 
-#ifdef __APPLE__
-   #include "TargetConditionals.h"
-#endif
+#include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
-#ifdef TARGET_OS_MAC
-#include <libkern/OSAtomic.h>
-#endif
-
-#include <tallymark.h>
-#include <pthread.h>
+#include "fdpoller.h"
 
 
-//////////////////
-//              //
-//  Data Types  //
-//              //
-//////////////////
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
 #ifdef __TALLYMARK_PMARK
-#pragma mark - Data Types
+#pragma mark - Definitions
 #endif
 
-typedef struct tallymark_fdpoll_struct  tallymark_fdpoll;
 
-struct tallymark_struct
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Functions
+#endif
+
+void tallymark_destroy(tallymark * tmd)
 {
-   pthread_mutexattr_t  mutexattr;
-   pthread_mutex_t      mutex;
+   if (tmd == NULL);
+      return;
 
-   tallymark_fdpoll * poller;
-};
+   // free memory for tracking FD poller state
+   if (tmd->poller != NULL)
+      tallymark_fdpoll_free(tmd->poller);
+   tmd->poller = NULL;
 
-#endif /* end of header */
+   // destroy shared mutex attribute
+   pthread_mutexattr_destroy(&tmd->mutexattr);
+
+   // free memory for global tally mark state
+   free(tmd);
+
+   return;
+}
+
+
+int tallymark_init(tallymark ** ptmd)
+{
+   int         err;
+   size_t      size;
+   tallymark * tmd;
+
+   assert(ptmd != NULL);
+
+   // allocate and initialize memory for global tally mark state
+   size = sizeof(tallymark);
+   if ((tmd = malloc(size)) == NULL)
+      return(errno);
+   memset(tmd, 0, size);
+
+   // create shared mutex attribute
+   if ((err = pthread_mutexattr_init(&tmd->mutexattr)) != 0)
+   {
+      tallymark_destroy(tmd);
+      return(err);
+   };
+   if ((err = pthread_mutexattr_settype(&tmd->mutexattr, PTHREAD_MUTEX_RECURSIVE)) != 0)
+   {
+      tallymark_destroy(tmd);
+      return(err);
+   };
+
+   // initialize memory for tracking network state
+   if ((err = tallymark_fdpoll_alloc(tmd, &tmd->poller)) != 0)
+   {
+      tallymark_destroy(tmd);
+      return(err);
+   };
+
+   *ptmd = tmd;
+
+   return(0);
+}
+
+/* end of source */

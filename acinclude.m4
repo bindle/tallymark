@@ -83,4 +83,62 @@ AC_DEFUN([AC_TALLYMARK_COMPONENTS],[dnl
 ])dnl
 
 
+# AC_TALLYMARK_THREAD_LOCKS
+# ______________________________________________________________________________
+AC_DEFUN([AC_TALLYMARK_THREAD_LOCKS],[dnl
+
+   # prerequists
+   AC_REQUIRE([AC_PROG_CC])
+   AX_PTHREAD([],[USE_PTHREAD_MUTEX="no"])
+
+   USE_PTHREAD_MUTEX="yes"
+   AX_PTHREAD([],[USE_PTHREAD_MUTEX="no"])
+   AC_CHECK_HEADERS([pthread.h],                  [], [USE_PTHREAD_MUTEX="no"])
+   AC_CHECK_TYPE([pthread_mutex_t],               [], [USE_PTHREAD_MUTEX="no"], [#include <pthread.h>])
+   AC_SEARCH_LIBS([pthread_mutex_destroy],   [c], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_init],      [c], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_lock],      [c], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_trylock],   [c], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_unlock],    [c], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_timedlock], [c], [AC_DEFINE_UNQUOTED(USE_PTHREAD_MUTEX_TIMEDLOCK, 1, [Use pthread_mutex_timedlock])], [])
+   if test "x${USE_PTHREAD_MUTEX}" == "xno";then
+      AC_MSG_ERROR([Missing pthread mutex support required by ${PACKAGE_NAME}.])
+   fi
+   AC_DEFINE_UNQUOTED(USE_PTHREAD_MUTEX, 1, [Use pthread_mutex_t])
+
+   if test "x${TALLYMARK_SPINLOCK_TYPE}" == "x";then
+      USE_PTHREAD_SPINLOCK="yes"
+      AC_CHECK_TYPE([pthread_spinlock_t],               [], [USE_PTHREAD_SPINLOCK="no"], [#include <pthread.h>])
+      AC_SEARCH_LIBS([pthread_spin_destroy],       [c], [], [USE_PTHREAD_SPINLOCK="no"])
+      AC_SEARCH_LIBS([pthread_spin_init],          [c], [], [USE_PTHREAD_SPINLOCK="no"])
+      AC_SEARCH_LIBS([pthread_spin_lock],          [c], [], [USE_PTHREAD_SPINLOCK="no"])
+      AC_SEARCH_LIBS([pthread_spin_trylock],       [c], [], [USE_PTHREAD_SPINLOCK="no"])
+      AC_SEARCH_LIBS([pthread_spin_unlock],        [c], [], [USE_PTHREAD_SPINLOCK="no"])
+      if test "x${USE_PTHREAD_SPINLOCK}" == "xyes";then
+         TALLYMARK_SPINLOCK_TYPE=pthread_spinlock_t
+         AC_DEFINE_UNQUOTED(USE_PTHREAD_SPINLOCK, 1, [Use pthread_spinlock_t])
+      fi
+   fi
+
+   if test "x${TALLYMARK_SPINLOCK_TYPE}" == "x";then
+      USE_OSSPINLOCK="yes"
+      AC_CHECK_HEADERS([libkern/OSAtomic.h],            [], [USE_OSSPINLOCK="no"])
+      AC_CHECK_TYPE([OSSpinLock],                       [], [USE_OSSPINLOCK="no"], [#include <libkern/OSAtomic.h>])
+      AC_SEARCH_LIBS([OSSpinLockLock],             [c], [], [USE_OSSPINLOCK="no"])
+      AC_SEARCH_LIBS([OSSpinLockTry],              [c], [], [USE_OSSPINLOCK="no"])
+      AC_SEARCH_LIBS([OSSpinLockUnlock],           [c], [], [USE_OSSPINLOCK="no"])
+      if test "x${USE_OSSPINLOCK}" == "xyes";then
+         TALLYMARK_SPINLOCK_TYPE=OSSpinLock
+         AC_DEFINE_UNQUOTED(USE_OSSPINLOCK, 1, [Use OSSpinLock])
+      fi
+   fi
+
+   if test "x${TALLYMARK_SPINLOCK_TYPE}" == "x";then
+      TALLYMARK_SPINLOCK_TYPE=pthread_mutex_t
+   fi
+   CARRDM_LOCK_TYPE=pthread_mutex_t
+
+])dnl
+
+
 # end of m4 file

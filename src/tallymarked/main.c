@@ -45,18 +45,16 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
-
-#include <tallymark.h>
+#include "tallymarked.h"
 
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
 #include <getopt.h>
+#include <stdlib.h>
+#include <stdlib.h>
+
+#include "memory.h"
 
 
 ///////////////////
@@ -112,13 +110,20 @@ int main(int argc, char * argv[])
 {
    int              c;
    int              opt_index;
+   tallymarked_cnf * cnf;
 
-   static char   short_opt[] = "hV";
+   static char   short_opt[] = "46hl:p:V";
    static struct option long_opt[] =
    {
       { "help",          no_argument, 0, 'h'},
       { "version",       no_argument, 0, 'V'},
       { NULL,            0,           0, 0  }
+   };
+
+   if ((cnf = tallymarked_alloc()) == NULL)
+   {
+      fprintf(stderr, "%s: out of virtual memory\n", PROGRAM_NAME);
+      return(1);
    };
 
    while((c = getopt_long(argc, argv, short_opt, long_opt, &opt_index)) != -1)
@@ -129,24 +134,54 @@ int main(int argc, char * argv[])
          case 0:	/* long options toggles */
          break;
 
+         case '4':
+         cnf->opts |= TALLYMARKED_IPV4;
+         cnf->opts &= ~TALLYMARKED_IPV6;
+         break;
+
+         case '6':
+         cnf->opts |= TALLYMARKED_IPV6;
+         cnf->opts &= ~TALLYMARKED_IPV4;
+         break;
+
          case 'h':
          my_usage();
+         tallymarked_free(cnf);
          return(0);
+
+         case 'l':
+         if (cnf->address != NULL)
+            free(cnf->address);
+         if ((cnf->address = strdup(optarg)) == NULL)
+         {
+            perror("strdup()");
+            return(1);
+         };
+         break;
+
+         case 'p':
+         cnf->port = (uint32_t)strtol(optarg, NULL, 10);
+         break;
 
          case 'V':
          my_version();
+         tallymarked_free(cnf);
          return(0);
 
          case '?':
          fprintf(stderr, "Try `%s --help' for more information.\n", argv[0]);
+         tallymarked_free(cnf);
          return(1);
 
          default:
          fprintf(stderr, "%s: unrecognized option `--%c'\n", argv[0], c);
          fprintf(stderr, "Try `%s --help' for more information.\n", argv[0]);
+         tallymarked_free(cnf);
          return(1);
       };
    };
+
+   tallymarked_free(cnf);
 
    return(0);
 }

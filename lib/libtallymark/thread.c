@@ -34,13 +34,7 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-/**
- *   @file tallymark.h
- *   Tally Mark Daemon private API
- */
-#ifndef __LIBTALLYMARK_H
-#define __LIBTALLYMARK_H 1
-
+#include "thread.h"
 
 ///////////////
 //           //
@@ -51,41 +45,56 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
+#include "libtallymark.h"
 
-#ifdef __APPLE__
-   #include "TargetConditionals.h"
-#endif
-
-#ifdef TARGET_OS_MAC
-#include <libkern/OSAtomic.h>
-#endif
-
-#include <tallymark.h>
+#include <stdio.h>
+#include <assert.h>
 #include <pthread.h>
 
 
-//////////////////
-//              //
-//  Data Types  //
-//              //
-//////////////////
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
 #ifdef __TALLYMARK_PMARK
-#pragma mark - Data Types
+#pragma mark - Functions
 #endif
 
-typedef struct tallymark_fdpoll_struct  tallymark_fdpoll;
-
-struct tallymark_struct
+int tallymark_mutex_timedlock(pthread_mutex_t * restrict mutex,
+   const struct timespec * restrict abs_timeout)
 {
-   pthread_mutexattr_t  mutexattr;
-   pthread_mutex_t      mutex;
+   int             result;
+   int             expired;
+   struct timespec ts;
 
-   tallymark_fdpoll * poller;
-};
+   result = pthread_mutex_trylock(mutex);
 
-#endif /* end of header */
+   ts.tv_sec  = abs_timeout->tv_sec;
+   ts.tv_nsec = abs_timeout->tv_nsec;
+   expired    = 0;
+   result     = EBUSY;
+
+   while ((result == EBUSY) && (expired == 0))
+   {
+      if ((result = pthread_mutex_trylock(mutex)) == EBUSY)
+      {
+         if (ts.tv_nsec < 1000000)
+         {
+            if (abs_timeout->tv_sec == 0)
+               return(result);
+            ts.tv_sec--;
+            ts.tv_nsec += 1000000000;
+         };
+         ts.tv_nsec -= 1000000;
+
+         // 1 second ==         1,000 millisecond (msec)
+         // 1 second ==     1,000,000 microsecond (usec)
+         // 1 second == 1,000,000,000 nanosecond  (nsec)
+         usleep(1000);
+      };
+   };
+   return(result);
+}
+
+/* end of source */

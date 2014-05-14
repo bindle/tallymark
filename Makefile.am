@@ -103,7 +103,16 @@ lib_libtallymark_la_LDFLAGS		= -rpath'$(libdir)'\
 					  -export-symbols $(srcdir)/lib/libtallymark/libtallymark.sym
 lib_libtallymark_la_SOURCES		= \
 					  lib/libtallymark/libtallymark.h \
-					  lib/libtallymark/version.c
+					  lib/libtallymark/fdpoller.h \
+					  lib/libtallymark/memory.c \
+					  lib/libtallymark/memory.h \
+					  lib/libtallymark/thread.c \
+					  lib/libtallymark/thread.h \
+					  lib/libtallymark/version.c \
+					  lib/libtallymark/version.h
+if USE_POLL
+lib_libtallymark_la_SOURCES		+= lib/libtallymark/fdpoller-poll.c
+endif
 if ENABLE_LIBTALLYMARK
 include_HEADERS				+= include/tallymark.h
 lib_LTLIBRARIES				+= lib/libtallymark.la
@@ -129,7 +138,9 @@ bin_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefil
 bin_tallymarked_LDADD			= lib/libtallymark.la
 bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
 					  src/tallymarked/tallymarked.h \
-					  src/tallymarked/main.c
+					  src/tallymarked/main.c \
+					  src/tallymarked/memory.c \
+					  src/tallymarked/memory.h
 if ENABLE_TALLYMARKED
 bin_PROGRAMS				+= bin/tallymarked
 endif

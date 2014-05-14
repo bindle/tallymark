@@ -34,10 +34,6 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-/**
- *   @file tallymark.h
- *   Tally Mark Daemon public API
- */
 #ifndef __SRC_TALLYMARKED_TALLYMARKED_H
 #define __SRC_TALLYMARKED_TALLYMARKED_H 1
 
@@ -59,5 +55,41 @@
 
 #include <tallymark.h>
 
+#include <sys/socket.h>
+
+
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Definitions
+#endif
+
+#define TALLYMARKED_IPV4   0x01
+#define TALLYMARKED_IPV6   0x02
+
+
+//////////////////
+//              //
+//  Data Types  //
+//              //
+//////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Data Types
+#endif
+
+typedef struct tallymarked_config_struct  tallymarked_cnf;
+
+
+struct tallymarked_config_struct
+{
+   char                    * address;
+   uint32_t                  port;
+   struct sockaddr_storage   addr;
+   int                       s[2];
+   uint32_t                  opts;
+};
 
 #endif /* end of header */

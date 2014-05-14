@@ -1,0 +1,36 @@
+
+*** THESE ARE JUST NOTES AND IDEAS ***
+
+typedef struct tallymark_data_struct  tallymark_data;
+typedef union  tallymark_type_union   tallymark_type;
+typedef struct tallymark_count_struct tallymark_count;
+
+struct tallymark_count_struct
+{
+   time_t     count_time;
+   uint64_t   count_value;
+};
+
+
+union tallymark_type_union
+{
+   struct
+   {
+      uint32_t    type_service;
+      uint32_t    type_field;
+   } details;
+   uint64_t       type_id;
+};
+
+
+struct tallymark_data_struct
+{
+   pthread_spinlock_t   data_lock;
+   }                    data_type;
+   uint64_t             data_type;
+   uint8_t              data_id[20];
+   time_t               data_unsuspend;
+   char               * data_string;
+   sonar_count        * data_counters;
+};
+

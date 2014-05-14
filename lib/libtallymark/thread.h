@@ -34,13 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-/**
- *   @file tallymark.h
- *   Tally Mark Daemon private API
- */
-#ifndef __LIBTALLYMARK_H
-#define __LIBTALLYMARK_H 1
-
+#ifndef __LIBTALLYMARK_THREAD_H
+#define __LIBTALLYMARK_THREAD_H 1
 
 ///////////////
 //           //
@@ -51,41 +46,24 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
+#include "libtallymark.h"
 
-#ifdef __APPLE__
-   #include "TargetConditionals.h"
-#endif
-
-#ifdef TARGET_OS_MAC
-#include <libkern/OSAtomic.h>
-#endif
-
-#include <tallymark.h>
+#include <time.h>
+#include <unistd.h>
 #include <pthread.h>
+#include <errno.h>
 
 
 //////////////////
 //              //
-//  Data Types  //
+//  Prototypes  //
 //              //
 //////////////////
 #ifdef __TALLYMARK_PMARK
-#pragma mark - Data Types
+#pragma mark - Prototypes
 #endif
 
-typedef struct tallymark_fdpoll_struct  tallymark_fdpoll;
-
-struct tallymark_struct
-{
-   pthread_mutexattr_t  mutexattr;
-   pthread_mutex_t      mutex;
-
-   tallymark_fdpoll * poller;
-};
+_TALLYMARK_F int tallymark_mutex_timedlock(pthread_mutex_t * restrict mutex,
+       const struct timespec * restrict abs_timeout);
 
 #endif /* end of header */
