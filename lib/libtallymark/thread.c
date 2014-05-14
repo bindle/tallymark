@@ -62,40 +62,47 @@
 #pragma mark - Functions
 #endif
 
-int tallymark_mutex_timedlock(pthread_mutex_t * restrict mutex,
+#ifndef USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK
+// replica of pthread_mutex_timedlock() for systems missing this function
+int pthread_mutex_timedlock(pthread_mutex_t * restrict mutex,
    const struct timespec * restrict abs_timeout)
 {
    int             result;
-   struct timespec ts;
+   struct timeval  end;
+   struct timeval  cur;
 
-   result     = pthread_mutex_trylock(mutex);
-   ts.tv_sec  = abs_timeout->tv_sec;
-   ts.tv_nsec = abs_timeout->tv_nsec;
+   // try an immediate lock per IEEE Std 1003.1, 2004 Edition
+   if ((result = pthread_mutex_trylock(mutex)) != EBUSY)
+      return(result);
 
-   // the following timeout logic assumes that trying the lock and
-   // incrementing the time counters consumes exactly zero time. Of cuorse
-   // this is flawed, but it should provide a good approximation of the
-   // timeout.
+   // calculate expiration time
+   // 1 second ==     1,000,000 microsecond (usec)
+   // 1 second == 1,000,000,000 nanosecond  (nsec)
+   gettimeofday(&end, NULL);
+   end.tv_sec  += abs_timeout->tv_sec;
+   end.tv_usec += abs_timeout->tv_nsec / 1000;
+   if (end.tv_usec >= 1000000)
+   {
+      end.tv_sec++;
+      end.tv_usec -= 1000000;
+   };
+
+   // loop until locked or expired, pausing between each interation.
    while (result == EBUSY)
    {
       if ((result = pthread_mutex_trylock(mutex)) == EBUSY)
       {
-         // 1 second ==         1,000 millisecond
-         // 1 second ==     1,000,000 microsecond (usec)
-         // 1 second == 1,000,000,000 nanosecond  (nsec)
-         if (ts.tv_nsec < 10000)
-         {
-            if (abs_timeout->tv_sec == 0)
-               return(ETIMEDOUT);
-            ts.tv_sec--;
-            ts.tv_nsec += 1000000000;
-         };
-         ts.tv_nsec -= 10000;
-         usleep(10);
+         gettimeofday(&cur, NULL);
+         if ((cur.tv_sec == end.tv_sec) && (cur.tv_usec > end.tv_usec))
+            return(ETIMEDOUT);
+         if (cur.tv_sec > end.tv_sec)
+            return(ETIMEDOUT);
+         usleep(1); // sleep length was arbitrarily chosen
       };
    };
 
    return(result);
 }
+#endif
 
 /* end of source */

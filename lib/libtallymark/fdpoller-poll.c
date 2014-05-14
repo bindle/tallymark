@@ -165,7 +165,7 @@ int tallymark_poll(tallymark * tmd, int timeout)
    abs_timeout.tv_nsec = timeout;
    abs_timeout.tv_sec  = 0;
 
-   if ((err = tallymark_mutex_timedlock(&tmd->poller->mutex, &abs_timeout)) != 0)
+   if ((err = pthread_mutex_timedlock(&tmd->poller->mutex, &abs_timeout)) != 0)
       return(err);
 
    plr   = tmd->poller;

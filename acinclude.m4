@@ -100,7 +100,7 @@ AC_DEFUN([AC_TALLYMARK_THREAD_LOCKS],[dnl
    AC_SEARCH_LIBS([pthread_mutex_lock],      [c], [], [USE_PTHREAD_MUTEX="no"])
    AC_SEARCH_LIBS([pthread_mutex_trylock],   [c], [], [USE_PTHREAD_MUTEX="no"])
    AC_SEARCH_LIBS([pthread_mutex_unlock],    [c], [], [USE_PTHREAD_MUTEX="no"])
-   AC_SEARCH_LIBS([pthread_mutex_timedlock], [c], [AC_DEFINE_UNQUOTED(USE_PTHREAD_MUTEX_TIMEDLOCK, 1, [Use pthread_mutex_timedlock])], [])
+   AC_SEARCH_LIBS([pthread_mutex_timedlock], [c], [], [AC_DEFINE_UNQUOTED(USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK, 1, [Use pthread_mutex_timedlock])], [])
    if test "x${USE_PTHREAD_MUTEX}" == "xno";then
       AC_MSG_ERROR([Missing pthread mutex support required by ${PACKAGE_NAME}.])
    fi
