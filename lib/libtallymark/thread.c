@@ -50,6 +50,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <pthread.h>
+#include <sys/time.h>
 
 
 /////////////////
@@ -65,35 +66,35 @@ int tallymark_mutex_timedlock(pthread_mutex_t * restrict mutex,
    const struct timespec * restrict abs_timeout)
 {
    int             result;
-   int             expired;
    struct timespec ts;
 
-   result = pthread_mutex_trylock(mutex);
-
+   result     = pthread_mutex_trylock(mutex);
    ts.tv_sec  = abs_timeout->tv_sec;
    ts.tv_nsec = abs_timeout->tv_nsec;
-   expired    = 0;
-   result     = EBUSY;
 
-   while ((result == EBUSY) && (expired == 0))
+   // the following timeout logic assumes that trying the lock and
+   // incrementing the time counters consumes exactly zero time. Of cuorse
+   // this is flawed, but it should provide a good approximation of the
+   // timeout.
+   while (result == EBUSY)
    {
       if ((result = pthread_mutex_trylock(mutex)) == EBUSY)
       {
-         if (ts.tv_nsec < 1000000)
+         // 1 second ==         1,000 millisecond
+         // 1 second ==     1,000,000 microsecond (usec)
+         // 1 second == 1,000,000,000 nanosecond  (nsec)
+         if (ts.tv_nsec < 10000)
          {
             if (abs_timeout->tv_sec == 0)
-               return(result);
+               return(ETIMEDOUT);
             ts.tv_sec--;
             ts.tv_nsec += 1000000000;
          };
-         ts.tv_nsec -= 1000000;
-
-         // 1 second ==         1,000 millisecond (msec)
-         // 1 second ==     1,000,000 microsecond (usec)
-         // 1 second == 1,000,000,000 nanosecond  (nsec)
-         usleep(1000);
+         ts.tv_nsec -= 10000;
+         usleep(10);
       };
    };
+
    return(result);
 }
 
