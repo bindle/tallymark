@@ -239,7 +239,7 @@ int tallymark_msg_prepare(tallymark_msg * msg, uint32_t request_id,
 
 
 int tallymark_msg_read(tallymark_msg * msg, int s,
-   struct sockaddr * restrict address, socklen_t * restrict address_len)
+   struct sockaddr * address, socklen_t * address_len)
 {
    ssize_t         len;
    uint32_t        msg_len;
@@ -331,7 +331,7 @@ int tallymark_msg_read(tallymark_msg * msg, int s,
 
 
 int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
-   struct sockaddr * restrict address, socklen_t * restrict address_len)
+   struct sockaddr * address, socklen_t * address_len)
 {
    int err;
 

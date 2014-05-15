@@ -176,8 +176,8 @@ _TALLYMARK_F int tallymark_del_fd(tallymark * tmd, int fd);
 /// @return Returns the full version information has a dot delimited string.
 /// @see tallymark_add_fd, tallymark_del_fd
 _TALLYMARK_F int tallymark_poll(tallymark * tmd, int timeout,
-   tallymark_msg * msg, struct sockaddr * restrict address,
-   socklen_t * restrict address_len);
+   tallymark_msg * msg, struct sockaddr * address,
+   socklen_t * address_len);
 
 /**
  *  @defgroup message Protocol Message Functions
@@ -198,7 +198,7 @@ _TALLYMARK_F int tallymark_msg_prepare(tallymark_msg * msg,
 _TALLYMARK_F int tallymark_msg_recv(int s, tallymark_msg * msg);
 
 _TALLYMARK_F int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
-   struct sockaddr * restrict address, socklen_t * restrict address_len);
+   struct sockaddr * address, socklen_t * address_len);
 
 _TALLYMARK_F int tallymark_msg_reset(tallymark_msg * msg);
 

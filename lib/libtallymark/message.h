@@ -125,8 +125,9 @@ struct libtallymark_message_struct
 #pragma mark - Prototypes
 #endif
 
+_TALLYMARK_F int tallymark_msg_assert_header(void);
 _TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_read(tallymark_msg * msg, int s,
-   struct sockaddr * restrict address, socklen_t * restrict address_len);
+   struct sockaddr * address, socklen_t * address_len);
 
 #endif /* end of header */

@@ -154,7 +154,7 @@ int tallymark_del_fd(tallymark * tmd, int fd)
 
 
 int tallymark_poll(tallymark * tmd, int timeout, tallymark_msg * msg,
-   struct sockaddr * restrict address, socklen_t * restrict address_len)
+   struct sockaddr * address, socklen_t * address_len)
 {
    int                  err;
    int                  rc;
