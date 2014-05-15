@@ -94,7 +94,10 @@ char * tallymark_strerror(int errnum)
 int tallymark_strerror_r(int errnum, char * strerrbuf, size_t buflen)
 {
    if (errnum >= 0)
-      return(strerror_r(errnum, strerrbuf, buflen));
+   {
+      strerror_r(errnum, strerrbuf, buflen);
+      return(0);
+   };
 
    return(0);
 }
