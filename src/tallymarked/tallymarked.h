@@ -67,8 +67,8 @@
 #pragma mark - Definitions
 #endif
 
-#define TALLYMARKED_IPV4   0x01
-#define TALLYMARKED_IPV6   0x02
+#define TALLYMARKED_IPV4   0x01UL
+#define TALLYMARKED_IPV6   0x02UL
 
 
 //////////////////

@@ -34,13 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-/**
- *   @file tallymark.h
- *   Tally Mark Daemon private API
- */
-#ifndef __LIBTALLYMARK_H
-#define __LIBTALLYMARK_H 1
-
+#ifndef __LIBTALLYMARK_MESSAGE_H
+#define __LIBTALLYMARK_MESSAGE_H 1
 
 ///////////////
 //           //
@@ -51,23 +46,7 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
-
-#ifdef __APPLE__
-#  include "TargetConditionals.h"
-#  define USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK 1
-#endif
-
-#ifdef TARGET_OS_MAC
-#include <libkern/OSAtomic.h>
-#endif
-
-#include <tallymark.h>
-#include <pthread.h>
+#include "libtallymark.h"
 
 
 //////////////////
@@ -79,14 +58,75 @@
 #pragma mark - Data Types
 #endif
 
-typedef struct libtallymark_fdpoll_struct  tallymark_fdpoll;
+typedef struct libtallymark_header_struct   tallymark_hdr;
+typedef struct libtallymark_body_struct     tallymark_bdy;
+typedef union  libtallymark_buffer_union    tallymark_buff;
 
-struct libtallymark_struct
+
+struct libtallymark_header_struct
 {
-   pthread_mutexattr_t  mutexattr;
-   pthread_mutex_t      mutex;
+   uint32_t    magic;            // offset 0 - 3
 
-   tallymark_fdpoll   * poller;
+   uint8_t     version_current;  // offset 4
+   uint8_t     version_age;      // offset 5
+   uint8_t     header_len;       // offset 6
+   uint8_t     body_len;         // offset 7
+
+   uint8_t     reserved[3];      // offset 8 - 10
+   uint8_t     response_codes;   // offset 11
+
+   uint32_t    request_id;       // offset 12 - 15
+   uint32_t    request_codes;    // offset 16 - 19
+   uint32_t    service_id;       // offset 20 - 23
+   uint32_t    field_id;         // offset 24 - 27
+
+   uint8_t     hash_id[20];      // offset 28 - 47
 };
+
+
+union libtallymark_buffer_union
+{
+   void     * ptr;
+   uint8_t  * u8;
+   uint32_t * u32;
+   uint64_t * u64;
+   char     * string;
+};
+
+
+struct libtallymark_body_struct
+{
+   uint32_t    capabilities;     // TALLYMARK_FLD_SYS_CAPABILITIES
+   char      * version;          // TALLYMARK_FLD_SYS_VERSION
+   char      * package_name;     // TALLYMARK_FLD_SYS_VERSION
+};
+
+
+struct libtallymark_message_struct
+{
+   tallymark                * tally;
+   tallymark_hdr              header;
+   tallymark_bdy              body;
+   tallymark_buff             buff;
+   uint32_t                   status;
+   int                        error;
+   int                        s;
+   size_t                     msg_len;
+   size_t                     buff_size;
+};
+
+
+//////////////////
+//              //
+//  Prototypes  //
+//              //
+//////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Prototypes
+#endif
+
+_TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
+_TALLYMARK_F int tallymark_msg_read(tallymark_msg * msg, int s,
+   struct sockaddr * restrict address, socklen_t * restrict address_len);
 
 #endif /* end of header */

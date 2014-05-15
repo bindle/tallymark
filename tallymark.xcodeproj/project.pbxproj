@@ -51,6 +51,8 @@
 		A0CF1B6B1923151900E5C668 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B691923151900E5C668 /* thread.c */; };
 		A0CF1B6C1923151900E5C668 /* thread.h in Headers */ = {isa = PBXBuildFile; fileRef = A0CF1B6A1923151900E5C668 /* thread.h */; };
 		A0CF1B7119241E8400E5C668 /* tallymark_cdefs.h in Headers */ = {isa = PBXBuildFile; fileRef = A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A0CF1B761924425900E5C668 /* message.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B741924425900E5C668 /* message.c */; };
+		A0CF1B771924425900E5C668 /* message.h in Headers */ = {isa = PBXBuildFile; fileRef = A0CF1B751924425900E5C668 /* message.h */; };
 		A0CF1B7A1924616600E5C668 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B781924616600E5C668 /* error.c */; };
 		A0CF1B7B1924616600E5C668 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = A0CF1B791924616600E5C668 /* error.h */; };
 /* End PBXBuildFile section */
@@ -184,6 +186,8 @@
 		A0CF1B6E1923535700E5C668 /* protocol.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = protocol.txt; sourceTree = "<group>"; };
 		A0CF1B6F1923535700E5C668 /* record.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = record.txt; sourceTree = "<group>"; };
 		A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_cdefs.h; sourceTree = "<group>"; };
+		A0CF1B741924425900E5C668 /* message.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = message.c; sourceTree = "<group>"; };
+		A0CF1B751924425900E5C668 /* message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = message.h; sourceTree = "<group>"; };
 		A0CF1B781924616600E5C668 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
 		A0CF1B791924616600E5C668 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -295,6 +299,8 @@
 				A0CF1B5B1922D1C800E5C668 /* fdpoller.h */,
 				A0CF1B631922DBD100E5C668 /* memory.c */,
 				A0CF1B641922DBD100E5C668 /* memory.h */,
+				A0CF1B741924425900E5C668 /* message.c */,
+				A0CF1B751924425900E5C668 /* message.h */,
 				A0CF1B691923151900E5C668 /* thread.c */,
 				A0CF1B6A1923151900E5C668 /* thread.h */,
 				A0AC5FD2192166330081CD19 /* version.c */,
@@ -369,6 +375,7 @@
 				A0CF1B681922DC0F00E5C668 /* libtallymark.h in Headers */,
 				A0CF1B24192169A500E5C668 /* tallymark.h in Headers */,
 				A0CF1B7119241E8400E5C668 /* tallymark_cdefs.h in Headers */,
+				A0CF1B771924425900E5C668 /* message.h in Headers */,
 				A0CF1B671922DC0500E5C668 /* version.h in Headers */,
 				A0CF1B5E1922D1C800E5C668 /* fdpoller.h in Headers */,
 				A0CF1B661922DBD100E5C668 /* memory.h in Headers */,
@@ -516,6 +523,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0CF1B7A1924616600E5C668 /* error.c in Sources */,
+				A0CF1B761924425900E5C668 /* message.c in Sources */,
 				A0CF1B25192169A500E5C668 /* version.c in Sources */,
 				A0CF1B6B1923151900E5C668 /* thread.c in Sources */,
 				A0CF1B651922DBD100E5C668 /* memory.c in Sources */,

@@ -55,7 +55,9 @@
 #include <errno.h>
 #include <unistd.h>
 #include <time.h>
+#include <sys/time.h>
 
+#include "message.h"
 #include "thread.h"
 
 
@@ -78,7 +80,7 @@
 #pragma mark - Data Types
 #endif
 
-struct tallymark_fdpoll_struct
+struct libtallymark_fdpoll_struct
 {
    int               mutex_init;
    pthread_mutex_t   mutex;
@@ -151,7 +153,8 @@ int tallymark_del_fd(tallymark * tmd, int fd)
 }
 
 
-int tallymark_poll(tallymark * tmd, int timeout)
+int tallymark_poll(tallymark * tmd, int timeout, tallymark_msg * msg,
+   struct sockaddr * restrict address, socklen_t * restrict address_len)
 {
    int                  err;
    int                  rc;
@@ -161,16 +164,35 @@ int tallymark_poll(tallymark * tmd, int timeout)
    nfds_t               changed;
    nfds_t               pos;
    struct timespec      abs_timeout;
+   struct timeval       start;
 
-   abs_timeout.tv_nsec = timeout;
-   abs_timeout.tv_sec  = 0;
+   assert(tmd != NULL);
+   assert(msg != NULL);
 
-   if ((err = pthread_mutex_timedlock(&tmd->poller->mutex, &abs_timeout)) != 0)
-      return(err);
 
    plr   = tmd->poller;
    fds   = tmd->poller->fds;
    nfds  = tmd->poller->nfds;
+
+   // reset/clear message memory to avoid confusion
+   tallymark_msg_reset(msg);
+
+   // used to calulate time used to acquire mutex lock
+   gettimeofday(&start, NULL);
+
+   // acquire mutex lock
+   if (timeout == 0)
+   {
+      if ((err = pthread_mutex_lock(&tmd->poller->mutex)) != 0)
+         return(err);
+   }
+   else
+   {
+      abs_timeout.tv_nsec = timeout;
+      abs_timeout.tv_sec  = 0;
+      if ((err = pthread_mutex_timedlock(&tmd->poller->mutex, &abs_timeout)) != 0)
+         return(err);
+   };
 
    // return cleanly if no file descriptors are set to be polled
    if (plr->nfds < 1)
@@ -203,7 +225,19 @@ int tallymark_poll(tallymark * tmd, int timeout)
          changed = pos;
    plr->last_polled = changed;
 
+   // read message into buffer
+   if ((err = tallymark_msg_read(msg, fds[changed].fd, address, address_len)) != 0)
+   {
+      err = errno;
+      pthread_mutex_unlock(&tmd->poller->mutex);
+      return(err);
+   };
+
    pthread_mutex_unlock(&tmd->poller->mutex);
+
+   // parses message
+   if ((err = tallymark_msg_parse(msg)) != 0)
+      return(err);
 
    return(0);
 }

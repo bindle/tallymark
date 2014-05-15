@@ -68,25 +68,8 @@
 #pragma mark - Data Types
 #endif
 
-typedef struct tallymark_struct          tallymark;
-typedef struct tallymark_message_struct  tallymarkmsg;
-
-
-struct tallymark_message_struct
-{
-   uint32_t    magic;
-   uint8_t     version_current;
-   uint8_t     version_age;
-   uint8_t     header_len;
-   uint8_t     response_ops;
-   uint32_t    request_ops;
-   uint32_t    service_id;
-   uint32_t    field_id;
-   uint8_t     hash_id[20];
-   uint32_t    message_len;
-   uint8_t     body[128];
-};
-
+typedef struct libtallymark_struct         tallymark;
+typedef struct libtallymark_message_struct tallymark_msg;
 
 
 //////////////////
@@ -193,8 +176,36 @@ _TALLYMARK_F int tallymark_del_fd(tallymark * tmd, int fd);
 /// @return Returns the full version information has a dot delimited string.
 /// @see tallymark_add_fd, tallymark_del_fd
 _TALLYMARK_F int tallymark_poll(tallymark * tmd, int timeout,
-   tallymarkmsg * msg);
+   tallymark_msg * msg, struct sockaddr * restrict address,
+   socklen_t * restrict address_len);
 
+/**
+ *  @defgroup message Protocol Message Functions
+ *  @brief Functions for parsing protocol messages.
+ */
+#ifdef __TALLYMARK_PMARK
+#pragma mark Protocol Message Prototypes
+#endif
+
+_TALLYMARK_F void tallymark_msg_destroy(tallymark_msg * msg);
+
+_TALLYMARK_F int tallymark_msg_init(tallymark * tally, tallymark_msg ** pmsg);
+
+_TALLYMARK_F int tallymark_msg_prepare(tallymark_msg * msg,
+   uint32_t request_id, uint32_t service_id, uint32_t field_id,
+   const uint8_t * hash_id, size_t hash_len);
+
+_TALLYMARK_F int tallymark_msg_recv(int s, tallymark_msg * msg);
+
+_TALLYMARK_F int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
+   struct sockaddr * restrict address, socklen_t * restrict address_len);
+
+_TALLYMARK_F int tallymark_msg_reset(tallymark_msg * msg);
+
+_TALLYMARK_F ssize_t tallymark_msg_send(int s, tallymark_msg * msg);
+
+_TALLYMARK_F ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
+   const struct sockaddr * dest_addr, socklen_t dest_len);
 
 /**
  *  @defgroup version Version Functions
