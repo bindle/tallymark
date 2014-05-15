@@ -958,6 +958,7 @@
 				A0CF1B2B192169D700E5C668 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
