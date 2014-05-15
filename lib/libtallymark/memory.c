@@ -77,7 +77,7 @@
 
 void tallymark_destroy(tallymark * tmd)
 {
-   if (tmd == NULL);
+   if (tmd == NULL)
       return;
 
    // free memory for tracking FD poller state
