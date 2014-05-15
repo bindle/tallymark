@@ -123,6 +123,38 @@ _TALLYMARK_F int tallymark_init(tallymark ** ptmd);
 /// @see tallymark_init
 _TALLYMARK_F void tallymark_destroy(tallymark * tmd);
 
+/**
+ *  @defgroup error Error Functions
+ *  @brief Functions for reporting errors.
+ */
+#ifdef __TALLYMARK_PMARK
+#pragma mark Error Prototypes
+#endif
+
+/// @ingroup error
+/// Prints current error string to STDERR.
+///
+/// @param[in]  s  String prefix for error string
+/// @see tallymark_strerror, tallymark_strerror_r
+_TALLYMARK_F void tallymark_perror(const char * s);
+
+/// @ingroup error
+/// Returns a pointer to the corresponding message string.
+///
+/// @param[in]  errnum  Error number.
+/// @return Returns error string.
+/// @see tallymark_perror, tallymark_strerror_r
+_TALLYMARK_F char * tallymark_strerror(int errnum);
+
+/// @ingroup error
+/// Returns a pointer to the corresponding message string.
+///
+/// @param[in]  errnum  Error number.
+/// @return Returns 0 if success, otherwise returns error code.
+/// @see tallymark_perror, tallymark_strerror
+_TALLYMARK_F int tallymark_strerror_r(int errnum, char * strerrbuf,
+   size_t buflen);
+
 
 /**
  *  @defgroup network Network Functions

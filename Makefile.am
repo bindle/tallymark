@@ -104,6 +104,8 @@ lib_libtallymark_la_LDFLAGS		= -rpath'$(libdir)'\
 lib_libtallymark_la_SOURCES		= \
 					  lib/libtallymark/libtallymark.h \
 					  lib/libtallymark/fdpoller.h \
+					  lib/libtallymark/error.c \
+					  lib/libtallymark/error.h \
 					  lib/libtallymark/memory.c \
 					  lib/libtallymark/memory.h \
 					  lib/libtallymark/thread.c \

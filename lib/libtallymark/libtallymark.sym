@@ -36,6 +36,11 @@
 #
 #   lib/libtallymark/libtallymark.sym - exported symbols
 #
+# lib/libtallymark/error.c
+tallymark_perror
+tallymark_strerror
+tallymark_strerror_r
+#
 # lib/libtallymark/network-*.c
 tallymark_net_poll
 #
