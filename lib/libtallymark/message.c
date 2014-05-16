@@ -79,6 +79,7 @@
 
 int tallymark_msg_alloc(tallymark * tally, tallymark_msg ** pmsg)
 {
+   int             err;
    tallymark_msg * msg;
 
    assert(tally         != NULL);
@@ -91,7 +92,15 @@ int tallymark_msg_alloc(tallymark * tally, tallymark_msg ** pmsg)
 
    msg->tally = tally;
 
-   return(tallymark_msg_reset(msg));
+   if ((err = tallymark_msg_reset(msg)) != 0)
+   {
+      tallymark_msg_free(msg);
+      return(err);
+   };
+
+   *pmsg = msg;
+
+   return(0);
 }
 
 
