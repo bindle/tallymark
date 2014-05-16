@@ -113,8 +113,8 @@ struct libtallymark_header_struct
                                  // | size | u8 | u32 | u64 |
                                  // +------+----+-----+-----+
    uint32_t    magic;            // |   4  |  0 |   0 |   0 |
-   uint8_t     version_current;  // |   1  |  4 |   1 |     |
-   uint8_t     version_age;      // |   1  |  5 |     |     |
+   int8_t      version_current;  // |   1  |  4 |   1 |     |
+   int8_t      version_age;      // |   1  |  5 |     |     |
    uint8_t     header_len;       // |   1  |  6 |     |     |
    uint8_t     body_len;         // |   1  |  7 |     |     |
    uint8_t     reserved[3];      // |   3  |  8 |   2 |   1 |

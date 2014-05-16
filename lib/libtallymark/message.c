@@ -222,9 +222,9 @@ int tallymark_msg_parse(tallymark_msg * msg)
       return(msg->error = EBADMSG);
    };
 
-   // If current version number is greater than 127, assume the protocol
+   // If current version number is negative, assume the protocol
    // version switched to a data type larger than 8 bits.
-   if (hdr->version_current > 127)
+   if (hdr->version_current < 0)
    {
       msg->status = TALLYMARK_MSG_BAD;
       return(msg->error = EBADMSG);
