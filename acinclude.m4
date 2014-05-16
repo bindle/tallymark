@@ -93,14 +93,14 @@ AC_DEFUN([AC_TALLYMARK_THREAD_LOCKS],[dnl
 
    USE_PTHREAD_MUTEX="yes"
    AX_PTHREAD([],[USE_PTHREAD_MUTEX="no"])
-   #AC_CHECK_HEADERS([pthread.h],                  [], [USE_PTHREAD_MUTEX="no"])
-   #AC_CHECK_TYPE([pthread_mutex_t],               [], [USE_PTHREAD_MUTEX="no"], [#include <pthread.h>])
-   #AC_SEARCH_LIBS([pthread_mutex_destroy],   [c], [], [USE_PTHREAD_MUTEX="no"])
-   #AC_SEARCH_LIBS([pthread_mutex_init],      [c], [], [USE_PTHREAD_MUTEX="no"])
-   #AC_SEARCH_LIBS([pthread_mutex_lock],      [c], [], [USE_PTHREAD_MUTEX="no"])
-   #AC_SEARCH_LIBS([pthread_mutex_trylock],   [c], [], [USE_PTHREAD_MUTEX="no"])
-   #AC_SEARCH_LIBS([pthread_mutex_unlock],    [c], [], [USE_PTHREAD_MUTEX="no"])
-   AC_SEARCH_LIBS([pthread_mutex_timedlock], [c], [], [AC_DEFINE_UNQUOTED(USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK, 1, [Use pthread_mutex_timedlock])], [])
+   AC_CHECK_HEADERS([pthread.h],                        [], [USE_PTHREAD_MUTEX="no"])
+   AC_CHECK_TYPE([pthread_mutex_t],                     [], [USE_PTHREAD_MUTEX="no"], [#include <pthread.h>])
+   AC_SEARCH_LIBS([pthread_mutex_destroy],   [pthread], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_init],      [pthread], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_lock],      [pthread], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_trylock],   [pthread], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_unlock],    [pthread], [], [USE_PTHREAD_MUTEX="no"])
+   AC_SEARCH_LIBS([pthread_mutex_timedlock], [pthread], [], [AC_DEFINE_UNQUOTED(USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK, 1, [Use pthread_mutex_timedlock])], [])
    if test "x${USE_PTHREAD_MUTEX}" == "xno";then
       AC_MSG_ERROR([Missing pthread mutex support required by ${PACKAGE_NAME}.])
    fi
