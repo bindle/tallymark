@@ -447,10 +447,10 @@ ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
       {
          msg->error = EINVAL;
          errno = msg->error;
-         return(msg->error = EINVAL);
+         return(-1);
       };
       if ((err = tallymark_msg_compile(msg)) != 0)
-         return(err);
+         return(-1);
    };
 
    len = sendto(s, msg->buff.u8, msg->msg_len, 0, dest_addr, dest_len);
