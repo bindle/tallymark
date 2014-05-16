@@ -64,8 +64,8 @@
 
 #ifndef USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK
 // replica of pthread_mutex_timedlock() for systems missing this function
-int pthread_mutex_timedlock(pthread_mutex_t * restrict mutex,
-   const struct timespec * restrict abs_timeout)
+int pthread_mutex_timedlock(pthread_mutex_t * mutex,
+   const struct timespec * abs_timeout)
 {
    int             result;
    struct timeval  end;

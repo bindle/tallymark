@@ -64,8 +64,8 @@
 #endif
 
 #ifdef USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK
-_TALLYMARK_F int pthread_mutex_timedlock(pthread_mutex_t * restrict mutex,
-       const struct timespec * restrict abs_timeout);
+_TALLYMARK_F int pthread_mutex_timedlock(pthread_mutex_t * mutex,
+       const struct timespec * abs_timeout);
 #endif
 
 #endif /* end of header */
