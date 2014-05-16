@@ -49,6 +49,49 @@
 #include "libtallymark.h"
 
 
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Definitions
+#endif
+
+#define TM_HDR_LENGTH                    56
+#define TM_MSG_MAX_SIZE                2048
+
+#define TM_BDY_OFF                        TM_HDR_LENGTH
+
+#define TM_HDR_OFF_MAGIC                  0
+#define TM_HDR_OFF_VERSION_CURRENT        4
+#define TM_HDR_OFF_VERSION_AGE            5
+#define TM_HDR_OFF_HEADER_LEN             6
+#define TM_HDR_OFF_BODY_LEN               7
+#define TM_HDR_OFF_RESERVED               8
+#define TM_HDR_OFF_RESPONSE_CODES        11
+#define TM_HDR_OFF_REQUEST_ID            12
+#define TM_HDR_OFF_REQUEST_CODES         16
+#define TM_HDR_OFF_SERVICE_ID            20
+#define TM_HDR_OFF_FIELD_ID              24
+#define TM_HDR_OFF_PAD0                  28
+#define TM_HDR_OFF_HASH_ID               32
+
+#define TM_HDR_LEN_MAGIC                  4
+#define TM_HDR_LEN_VERSION_CURRENT        1
+#define TM_HDR_LEN_VERSION_AGE            1
+#define TM_HDR_LEN_HEADER_LEN             1
+#define TM_HDR_LEN_BODY_LEN               1
+#define TM_HDR_LEN_RESERVED               3
+#define TM_HDR_LEN_RESPONSE_CODES         1
+#define TM_HDR_LEN_REQUEST_ID             4
+#define TM_HDR_LEN_REQUEST_CODES          4
+#define TM_HDR_LEN_SERVICE_ID             4
+#define TM_HDR_LEN_FIELD_ID               4
+#define TM_HDR_LEN_PAD0                   4
+#define TM_HDR_LEN_HASH_ID               24
+
+
 //////////////////
 //              //
 //  Data Types  //
@@ -60,59 +103,64 @@
 
 typedef struct libtallymark_header_struct   tallymark_hdr;
 typedef struct libtallymark_body_struct     tallymark_bdy;
-typedef union  libtallymark_buffer_union    tallymark_buff;
 
 
 struct libtallymark_header_struct
 {
-   uint32_t    magic;            // offset 0 - 3
-
-   uint8_t     version_current;  // offset 4
-   uint8_t     version_age;      // offset 5
-   uint8_t     header_len;       // offset 6
-   uint8_t     body_len;         // offset 7
-
-   uint8_t     reserved[3];      // offset 8 - 10
-   uint8_t     response_codes;   // offset 11
-
-   uint32_t    request_id;       // offset 12 - 15
-   uint32_t    request_codes;    // offset 16 - 19
-   uint32_t    service_id;       // offset 20 - 23
-   uint32_t    field_id;         // offset 24 - 27
-
-   uint8_t     hash_id[20];      // offset 28 - 47
-};
-
-
-union libtallymark_buffer_union
-{
-   void     * ptr;
-   uint8_t  * u8;
-   uint32_t * u32;
-   uint64_t * u64;
-   char     * string;
+                                 //        +----------------+
+                                 //        | buffer offsets |
+                                 // +------+----+-----+-----+
+                                 // | size | u8 | u32 | u64 |
+                                 // +------+----+-----+-----+
+   uint32_t    magic;            // |   4  |  0 |   0 |   0 |
+   uint8_t     version_current;  // |   1  |  4 |   1 |     |
+   uint8_t     version_age;      // |   1  |  5 |     |     |
+   uint8_t     header_len;       // |   1  |  6 |     |     |
+   uint8_t     body_len;         // |   1  |  7 |     |     |
+   uint8_t     reserved[3];      // |   3  |  8 |   2 |   1 |
+   uint8_t     response_codes;   // |   1  | 11 |     |     |
+   uint32_t    request_id;       // |   4  | 12 |   3 |     |
+   uint32_t    request_codes;    // |   4  | 16 |   4 |   2 |
+   uint32_t    service_id;       // |   4  | 20 |   5 |     |
+   uint32_t    field_id;         // |   4  | 24 |   6 |   3 |
+   uint32_t    pad0;             // |   4  | 28 |   7 |     |
+   uint8_t     hash_id[24];      // |  24  | 32 |   8 |   4 |
+                                 // |   0  | 56 |  14 |   7 |
+                                 // +------+----+-----+-----+
 };
 
 
 struct libtallymark_body_struct
 {
-   uint32_t    capabilities;     // TALLYMARK_FLD_SYS_CAPABILITIES
-   char      * version;          // TALLYMARK_FLD_SYS_VERSION
-   char      * package_name;     // TALLYMARK_FLD_SYS_VERSION
+   // TALLYMARK_FLD_SYS_CAPABILITIES
+   uint32_t    capabilities;
+
+   // TALLYMARK_FLD_SYS_VERSION
+   char      * version;
+   uint32_t    version_size;
+   char      * package_name;
+   uint32_t    package_name_size;
+
 };
 
 
 struct libtallymark_message_struct
 {
+   union
+   {
+      tallymark_hdr           hdr;
+      uint8_t                 u8[TM_MSG_MAX_SIZE];
+      uint32_t                u32[TM_MSG_MAX_SIZE/4];
+      uint64_t                u64[TM_MSG_MAX_SIZE/8];
+      char                    str[TM_MSG_MAX_SIZE];
+   } buff;
    tallymark                * tally;
    tallymark_hdr              header;
    tallymark_bdy              body;
-   tallymark_buff             buff;
    uint32_t                   status;
    int                        error;
    int                        s;
    size_t                     msg_len;
-   size_t                     buff_size;
 };
 
 
@@ -125,9 +173,10 @@ struct libtallymark_message_struct
 #pragma mark - Prototypes
 #endif
 
-_TALLYMARK_F int tallymark_msg_assert_header(void);
+_TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_read(tallymark_msg * msg, int s,
    struct sockaddr * address, socklen_t * address_len);
+_TALLYMARK_F int tallymark_msg_validate_header_definition(void);
 
 #endif /* end of header */

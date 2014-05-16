@@ -43,11 +43,10 @@ tallymark_strerror_r
 #
 # lib/libtallymark/message.c
 tallymark_msg_destroy
+tallymark_msg_create_header
 tallymark_msg_init
-tallymark_msg_recv
 tallymark_msg_recvfrom
 tallymark_msg_reset
-tallymark_msg_send
 tallymark_msg_sendto
 #
 # lib/libtallymark/network-*.c

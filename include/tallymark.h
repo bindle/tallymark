@@ -187,25 +187,22 @@ _TALLYMARK_F int tallymark_poll(tallymark * tmd, int timeout,
 #pragma mark Protocol Message Prototypes
 #endif
 
-_TALLYMARK_F void tallymark_msg_destroy(tallymark_msg * msg);
+_TALLYMARK_F int tallymark_msg_alloc(tallymark * tally, tallymark_msg ** pmsg);
 
-_TALLYMARK_F int tallymark_msg_init(tallymark * tally, tallymark_msg ** pmsg);
+_TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
+   uint32_t req_id, uint32_t srv_id, uint32_t fld_id,
+   const uint8_t * hash, size_t hash_len);
 
-_TALLYMARK_F int tallymark_msg_prepare(tallymark_msg * msg,
-   uint32_t request_id, uint32_t service_id, uint32_t field_id,
-   const uint8_t * hash_id, size_t hash_len);
-
-_TALLYMARK_F int tallymark_msg_recv(int s, tallymark_msg * msg);
+_TALLYMARK_F void tallymark_msg_free(tallymark_msg * msg);
 
 _TALLYMARK_F int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
    struct sockaddr * address, socklen_t * address_len);
 
 _TALLYMARK_F int tallymark_msg_reset(tallymark_msg * msg);
 
-_TALLYMARK_F ssize_t tallymark_msg_send(int s, tallymark_msg * msg);
-
 _TALLYMARK_F ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
    const struct sockaddr * dest_addr, socklen_t dest_len);
+
 
 /**
  *  @defgroup version Version Functions
