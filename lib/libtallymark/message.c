@@ -413,10 +413,12 @@ int tallymark_msg_reset(tallymark_msg * msg)
 
    // resets body
    msg->body.capabilities           = 0;
-   msg->body.version[0]             = '\0';
    msg->body.version_size           = 0;
-   msg->body.package_name[0]        = '\0';
    msg->body.package_name_size      = 0;
+   if (msg->body.package_name != NULL)
+      msg->body.package_name[0]     = '\0';
+   if (msg->body.version != NULL)
+      msg->body.version[0]          = '\0';
 
    return(0);
 }
