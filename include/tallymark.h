@@ -193,6 +193,8 @@ _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
    uint32_t req_id, uint32_t srv_id, uint32_t fld_id,
    const uint8_t * hash, size_t hash_len);
 
+_TALLYMARK_F int tallymark_msg_errnum(tallymark_msg * msg);
+
 _TALLYMARK_F void tallymark_msg_free(tallymark_msg * msg);
 
 _TALLYMARK_F int tallymark_msg_recvfrom(int s, tallymark_msg * msg,

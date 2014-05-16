@@ -180,6 +180,13 @@ int tallymark_msg_create_header(tallymark_msg * msg,
 }
 
 
+int tallymark_msg_errnum(tallymark_msg * msg)
+{
+   assert(msg != NULL);
+   return(msg->error);
+}
+
+
 void tallymark_msg_free(tallymark_msg * msg)
 {
    assert(msg           != NULL);
