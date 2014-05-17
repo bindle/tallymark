@@ -70,11 +70,11 @@
 #define TM_HDR_OFF_BODY_LEN               7
 #define TM_HDR_OFF_RESERVED               8
 #define TM_HDR_OFF_RESPONSE_CODES        11
-#define TM_HDR_OFF_REQUEST_ID            12
-#define TM_HDR_OFF_REQUEST_CODES         16
-#define TM_HDR_OFF_SERVICE_ID            20
-#define TM_HDR_OFF_FIELD_ID              24
-#define TM_HDR_OFF_PAD0                  28
+#define TM_HDR_OFF_REQUEST_CODES         12
+#define TM_HDR_OFF_REQUEST_SEQ           16
+#define TM_HDR_OFF_REQUEST_ID            20
+#define TM_HDR_OFF_SERVICE_ID            24
+#define TM_HDR_OFF_FIELD_ID              28
 #define TM_HDR_OFF_HASH_ID               32
 
 #define TM_HDR_LEN_MAGIC                  4
@@ -84,11 +84,11 @@
 #define TM_HDR_LEN_BODY_LEN               1
 #define TM_HDR_LEN_RESERVED               3
 #define TM_HDR_LEN_RESPONSE_CODES         1
-#define TM_HDR_LEN_REQUEST_ID             4
 #define TM_HDR_LEN_REQUEST_CODES          4
+#define TM_HDR_LEN_REQUEST_SEQ            4
+#define TM_HDR_LEN_REQUEST_ID             4
 #define TM_HDR_LEN_SERVICE_ID             4
 #define TM_HDR_LEN_FIELD_ID               4
-#define TM_HDR_LEN_PAD0                   4
 #define TM_HDR_LEN_HASH_ID               24
 
 
@@ -119,11 +119,11 @@ struct libtallymark_header_struct
    uint8_t     body_len;         // |   1  |  7 |     |     |
    uint8_t     reserved[3];      // |   3  |  8 |   2 |   1 |
    uint8_t     response_codes;   // |   1  | 11 |     |     |
-   uint32_t    request_id;       // |   4  | 12 |   3 |     |
-   uint32_t    request_codes;    // |   4  | 16 |   4 |   2 |
-   uint32_t    service_id;       // |   4  | 20 |   5 |     |
-   uint32_t    field_id;         // |   4  | 24 |   6 |   3 |
-   uint32_t    pad0;             // |   4  | 28 |   7 |     |
+   uint32_t    request_codes;    // |   4  | 12 |   3 |     |
+   uint32_t    request_seq;      // |   4  | 16 |   4 |   2 |
+   uint32_t    request_id;       // |   4  | 20 |   5 |     |
+   uint32_t    service_id;       // |   4  | 24 |   6 |   3 |
+   uint32_t    field_id;         // |   4  | 28 |   7 |     |
    uint8_t     hash_id[24];      // |  24  | 32 |   8 |   4 |
                                  // |   0  | 56 |  14 |   7 |
                                  // +------+----+-----+-----+
