@@ -271,9 +271,11 @@ int tallymark_msg_parse(tallymark_msg * msg)
    };
 
    // parses last part of header
+   hdr->param_count        = buf->param_count;
    hdr->response_codes     = buf->response_codes;
-   hdr->request_id         = ntohl(buf->request_id);
    hdr->request_codes      = ntohl(buf->request_codes);
+   hdr->request_seq        = ntohl(buf->request_seq);
+   hdr->request_id         = ntohl(buf->request_id);
    hdr->service_id         = ntohl(buf->service_id);
    hdr->field_id           = ntohl(buf->field_id);
    memcpy(hdr->hash_id, &msg->buff.u8[TM_HDR_OFF_HASH_ID], TM_HDR_LEN_HASH_ID);
