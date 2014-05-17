@@ -69,6 +69,7 @@
 #define TM_HDR_OFF_HEADER_LEN             6
 #define TM_HDR_OFF_BODY_LEN               7
 #define TM_HDR_OFF_RESERVED               8
+#define TM_HDR_OFF_PARAM_COUNT           10
 #define TM_HDR_OFF_RESPONSE_CODES        11
 #define TM_HDR_OFF_REQUEST_CODES         12
 #define TM_HDR_OFF_REQUEST_SEQ           16
@@ -82,7 +83,8 @@
 #define TM_HDR_LEN_VERSION_AGE            1
 #define TM_HDR_LEN_HEADER_LEN             1
 #define TM_HDR_LEN_BODY_LEN               1
-#define TM_HDR_LEN_RESERVED               3
+#define TM_HDR_LEN_RESERVED               2
+#define TM_HDR_LEN_PARAM_COUNT            1
 #define TM_HDR_LEN_RESPONSE_CODES         1
 #define TM_HDR_LEN_REQUEST_CODES          4
 #define TM_HDR_LEN_REQUEST_SEQ            4
@@ -117,7 +119,8 @@ struct libtallymark_header_struct
    int8_t      version_age;      // |   1  |  5 |     |     |
    uint8_t     header_len;       // |   1  |  6 |     |     |
    uint8_t     body_len;         // |   1  |  7 |     |     |
-   uint8_t     reserved[3];      // |   3  |  8 |   2 |   1 |
+   uint8_t     reserved[2];      // |   2  |  8 |   2 |   1 |
+   uint8_t     param_count;      // |   1  | 10 |     |     |
    uint8_t     response_codes;   // |   1  | 11 |     |     |
    uint32_t    request_codes;    // |   4  | 12 |   3 |     |
    uint32_t    request_seq;      // |   4  | 16 |   4 |   2 |

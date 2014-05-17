@@ -476,6 +476,7 @@ int tallymark_msg_validate_header_definition(void)
    i += (offsetof(tallymark_hdr, header_len)       != TM_HDR_OFF_HEADER_LEN);
    i += (offsetof(tallymark_hdr, body_len)         != TM_HDR_OFF_BODY_LEN);
    i += (offsetof(tallymark_hdr, reserved)         != TM_HDR_OFF_RESERVED);
+   i += (offsetof(tallymark_hdr, param_count)      != TM_HDR_OFF_PARAM_COUNT);
    i += (offsetof(tallymark_hdr, response_codes)   != TM_HDR_OFF_RESPONSE_CODES);
    i += (offsetof(tallymark_hdr, request_codes)    != TM_HDR_OFF_REQUEST_CODES);
    i += (offsetof(tallymark_hdr, request_seq)      != TM_HDR_OFF_REQUEST_SEQ);
@@ -490,6 +491,7 @@ int tallymark_msg_validate_header_definition(void)
    i += (sizeof(hdr.header_len)                    != TM_HDR_LEN_HEADER_LEN);
    i += (sizeof(hdr.body_len)                      != TM_HDR_LEN_BODY_LEN);
    i += (sizeof(hdr.reserved)                      != TM_HDR_LEN_RESERVED);
+   i += (sizeof(hdr.param_count)                   != TM_HDR_LEN_PARAM_COUNT);
    i += (sizeof(hdr.response_codes)                != TM_HDR_LEN_RESPONSE_CODES);
    i += (sizeof(hdr.request_codes)                 != TM_HDR_LEN_REQUEST_CODES);
    i += (sizeof(hdr.request_seq)                   != TM_HDR_LEN_REQUEST_SEQ);
