@@ -68,7 +68,8 @@ man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
 noinst_HEADERS				=
-noinst_PROGRAMS				=
+noinst_PROGRAMS				= src/socket-client \
+					  src/socket-server
 bin_PROGRAMS				=
 bin_SCRIPTS				=
 sbin_SCRIPTS				=
@@ -126,6 +127,16 @@ noinst_HEADERS				+= include/tallymark.h
 noinst_HEADERS				+= include/tallymark_cdefs.h
 noinst_LTLIBRARIES			+= lib/libtallymark.la
 endif
+
+
+# macros for src/client
+src_socket_client_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_socket_client_SOURCES		= $(noinst_HEADERS) src/sockets/socket-client.c
+
+
+# macros for src/socket-server
+src_socket_server_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_socket_server_SOURCES		= $(noinst_HEADERS) src/sockets/socket-server.c
 
 
 # macros for src/tallymarker
