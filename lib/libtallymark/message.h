@@ -72,11 +72,12 @@
 #define TM_HDR_OFF_PARAM_COUNT           10
 #define TM_HDR_OFF_RESPONSE_CODES        11
 #define TM_HDR_OFF_REQUEST_CODES         12
-#define TM_HDR_OFF_REQUEST_SEQ           16
-#define TM_HDR_OFF_REQUEST_ID            20
+#define TM_HDR_OFF_REQUEST_ID            16
+#define TM_HDR_OFF_SEQUENCE_ID           20
 #define TM_HDR_OFF_SERVICE_ID            24
 #define TM_HDR_OFF_FIELD_ID              28
 #define TM_HDR_OFF_HASH_ID               32
+#define TM_HDR_OFF_PARAMETERS            56
 
 #define TM_HDR_LEN_MAGIC                  4
 #define TM_HDR_LEN_VERSION_CURRENT        1
@@ -87,11 +88,12 @@
 #define TM_HDR_LEN_PARAM_COUNT            1
 #define TM_HDR_LEN_RESPONSE_CODES         1
 #define TM_HDR_LEN_REQUEST_CODES          4
-#define TM_HDR_LEN_REQUEST_SEQ            4
 #define TM_HDR_LEN_REQUEST_ID             4
+#define TM_HDR_LEN_SEQUENCE_ID            4
 #define TM_HDR_LEN_SERVICE_ID             4
 #define TM_HDR_LEN_FIELD_ID               4
 #define TM_HDR_LEN_HASH_ID               24
+#define TM_HDR_LEN_PARAMETERS          1024
 
 
 //////////////////
@@ -114,21 +116,21 @@ struct libtallymark_header_struct
                                  // +------+----+-----+-----+
                                  // | size | u8 | u32 | u64 |
                                  // +------+----+-----+-----+
-   uint32_t    magic;            // |   4  |  0 |   0 |   0 |
-   int8_t      version_current;  // |   1  |  4 |   1 |     |
-   int8_t      version_age;      // |   1  |  5 |     |     |
-   uint8_t     header_len;       // |   1  |  6 |     |     |
-   uint8_t     body_len;         // |   1  |  7 |     |     |
-   uint8_t     reserved[2];      // |   2  |  8 |   2 |   1 |
-   uint8_t     param_count;      // |   1  | 10 |     |     |
-   uint8_t     response_codes;   // |   1  | 11 |     |     |
-   uint32_t    request_codes;    // |   4  | 12 |   3 |     |
-   uint32_t    request_seq;      // |   4  | 16 |   4 |   2 |
-   uint32_t    request_id;       // |   4  | 20 |   5 |     |
-   uint32_t    service_id;       // |   4  | 24 |   6 |   3 |
-   uint32_t    field_id;         // |   4  | 28 |   7 |     |
-   uint8_t     hash_id[24];      // |  24  | 32 |   8 |   4 |
-                                 // |   0  | 56 |  14 |   7 |
+   uint32_t    magic;            // |    4 |  0 |   0 |   0 |
+   int8_t      version_current;  // |    1 |  4 |   1 |     |
+   int8_t      version_age;      // |    1 |  5 |     |     |
+   uint8_t     header_len;       // |    1 |  6 |     |     |
+   uint8_t     body_len;         // |    1 |  7 |     |     |
+   uint8_t     reserved[2];      // |    2 |  8 |   2 |   1 |
+   uint8_t     param_count;      // |    1 | 10 |     |     |
+   uint8_t     response_codes;   // |    1 | 11 |     |     |
+   uint32_t    request_codes;    // |    4 | 12 |   3 |     |
+   uint32_t    request_id;       // |    4 | 16 |   4 |   2 |
+   uint32_t    sequence_id;      // |    4 | 28 |   7 |     |
+   uint32_t    service_id;       // |    4 | 20 |   5 |     |
+   uint32_t    field_id;         // |    4 | 24 |   6 |   3 |
+   uint8_t     hash_id[24];      // |   24 | 32 |   8 |   4 |
+   //          body              // | 1024 | 56 |  14 |   7 |
                                  // +------+----+-----+-----+
 };
 

@@ -274,8 +274,8 @@ int tallymark_msg_parse(tallymark_msg * msg)
    hdr->param_count        = buf->param_count;
    hdr->response_codes     = buf->response_codes;
    hdr->request_codes      = ntohl(buf->request_codes);
-   hdr->request_seq        = ntohl(buf->request_seq);
    hdr->request_id         = ntohl(buf->request_id);
+   hdr->sequence_id        = ntohl(buf->sequence_id);
    hdr->service_id         = ntohl(buf->service_id);
    hdr->field_id           = ntohl(buf->field_id);
    memcpy(hdr->hash_id, &msg->buff.u8[TM_HDR_OFF_HASH_ID], TM_HDR_LEN_HASH_ID);
@@ -481,8 +481,8 @@ int tallymark_msg_validate_header_definition(void)
    i += (offsetof(tallymark_hdr, param_count)      != TM_HDR_OFF_PARAM_COUNT);
    i += (offsetof(tallymark_hdr, response_codes)   != TM_HDR_OFF_RESPONSE_CODES);
    i += (offsetof(tallymark_hdr, request_codes)    != TM_HDR_OFF_REQUEST_CODES);
-   i += (offsetof(tallymark_hdr, request_seq)      != TM_HDR_OFF_REQUEST_SEQ);
    i += (offsetof(tallymark_hdr, request_id)       != TM_HDR_OFF_REQUEST_ID);
+   i += (offsetof(tallymark_hdr, sequence_id)      != TM_HDR_OFF_SEQUENCE_ID);
    i += (offsetof(tallymark_hdr, service_id)       != TM_HDR_OFF_SERVICE_ID);
    i += (offsetof(tallymark_hdr, field_id)         != TM_HDR_OFF_FIELD_ID);
    i += (offsetof(tallymark_hdr, hash_id)          != TM_HDR_OFF_HASH_ID);
@@ -496,8 +496,8 @@ int tallymark_msg_validate_header_definition(void)
    i += (sizeof(hdr.param_count)                   != TM_HDR_LEN_PARAM_COUNT);
    i += (sizeof(hdr.response_codes)                != TM_HDR_LEN_RESPONSE_CODES);
    i += (sizeof(hdr.request_codes)                 != TM_HDR_LEN_REQUEST_CODES);
-   i += (sizeof(hdr.request_seq)                   != TM_HDR_LEN_REQUEST_SEQ);
    i += (sizeof(hdr.request_id)                    != TM_HDR_LEN_REQUEST_ID);
+   i += (sizeof(hdr.sequence_id)                   != TM_HDR_LEN_SEQUENCE_ID);
    i += (sizeof(hdr.service_id)                    != TM_HDR_LEN_SERVICE_ID);
    i += (sizeof(hdr.field_id)                      != TM_HDR_LEN_FIELD_ID);
    i += (sizeof(hdr.hash_id)                       != TM_HDR_LEN_HASH_ID);
