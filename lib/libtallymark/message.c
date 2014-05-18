@@ -205,6 +205,108 @@ void tallymark_msg_free(tallymark_msg * msg)
 }
 
 
+int tallymark_msg_get_header(tallymark_msg * msg, int header, void * outvalue,
+   size_t * outvalue_size)
+{
+   assert(msg              != NULL);
+   assert(outvalue         != NULL);
+   assert(outvalue_size    != NULL);
+   assert(*outvalue_size   != 0);
+
+   switch(header)
+   {
+      case TALLYMARK_HDR_MAGIC:
+      if (*outvalue_size < sizeof(msg->header.magic))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.magic;
+      *outvalue_size = sizeof(msg->header.magic);
+      return(0);
+
+      case TALLYMARK_HDR_VERSION_CURRENT:
+      if (*outvalue_size < sizeof(msg->header.version_current))
+         return(msg->error = EINVAL);
+      *((int8_t *)outvalue) = msg->header.version_current;
+      *outvalue_size = sizeof(msg->header.version_current);
+      return(0);
+
+      case TALLYMARK_HDR_VERSION_AGE:
+      if (*outvalue_size < sizeof(msg->header.version_age))
+         return(msg->error = EINVAL);
+      *((int8_t *)outvalue) = msg->header.version_age;
+      *outvalue_size = sizeof(msg->header.version_age);
+      return(0);
+
+      case TALLYMARK_HDR_HEADER_LEN:
+      if (*outvalue_size < sizeof(msg->header.header_len))
+         return(msg->error = EINVAL);
+      *((uint8_t *)outvalue) = msg->header.header_len;
+      *outvalue_size = sizeof(msg->header.header_len);
+      return(0);
+
+      case TALLYMARK_HDR_BODY_LEN:
+      if (*outvalue_size < sizeof(msg->header.body_len))
+         return(msg->error = EINVAL);
+      *((uint8_t *)outvalue) = msg->header.body_len;
+      *outvalue_size = sizeof(msg->header.body_len);
+      return(0);
+
+      case TALLYMARK_HDR_PARAM_COUNT:
+      if (*outvalue_size < sizeof(msg->header.param_count))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.param_count;
+      *outvalue_size = sizeof(msg->header.param_count);
+      return(0);
+
+      case TALLYMARK_HDR_RESPONSE_CODES:
+      if (*outvalue_size < sizeof(msg->header.response_codes))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.response_codes;
+      *outvalue_size = sizeof(msg->header.response_codes);
+      return(0);
+
+      case TALLYMARK_HDR_REQUEST_CODES:
+      if (*outvalue_size < sizeof(msg->header.response_codes))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.response_codes;
+      *outvalue_size = sizeof(msg->header.response_codes);
+      return(0);
+
+      case TALLYMARK_HDR_REQUEST_ID:
+      if (*outvalue_size < sizeof(msg->header.response_codes))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.response_codes;
+      *outvalue_size = sizeof(msg->header.response_codes);
+      return(0);
+
+      case TALLYMARK_HDR_SEQUENCE_ID:
+      if (*outvalue_size < sizeof(msg->header.sequence_id))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.sequence_id;
+      *outvalue_size = sizeof(msg->header.sequence_id);
+      return(0);
+
+      case TALLYMARK_HDR_SERVICE_ID:
+      if (*outvalue_size < sizeof(msg->header.service_id))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.service_id;
+      *outvalue_size = sizeof(msg->header.service_id);
+      return(0);
+
+      case TALLYMARK_HDR_FIELD_ID:
+      if (*outvalue_size < sizeof(msg->header.field_id))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->header.field_id;
+      *outvalue_size = sizeof(msg->header.field_id);
+      return(0);
+
+      default:
+      return(msg->error = EINVAL);
+   };
+
+   return(0);
+}
+
+
 int tallymark_msg_parse(tallymark_msg * msg)
 {
    tallymark_hdr      * hdr;

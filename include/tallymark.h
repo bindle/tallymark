@@ -206,6 +206,9 @@ _TALLYMARK_F int tallymark_msg_reset(tallymark_msg * msg);
 _TALLYMARK_F ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
    const struct sockaddr * dest_addr, socklen_t dest_len);
 
+_TALLYMARK_F int tallymark_msg_get_header(tallymark_msg * msg, int header,
+   void * outvalue, size_t * outvalue_size);
+
 
 /**
  *  @defgroup version Version Functions

@@ -46,6 +46,7 @@ tallymark_msg_alloc
 tallymark_msg_create_header
 tallymark_msg_errnum
 tallymark_msg_free
+tallymark_msg_get_header
 tallymark_msg_init
 tallymark_msg_recvfrom
 tallymark_msg_reset
