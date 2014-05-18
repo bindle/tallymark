@@ -24,6 +24,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				A00C37B41928A32800342A67 /* PBXTargetDependency */,
 				A0D4A841192673E200E05DA8 /* PBXTargetDependency */,
 				A0D4A843192673E200E05DA8 /* PBXTargetDependency */,
 				A0CF1B2D192169E700E5C668 /* PBXTargetDependency */,
@@ -37,6 +38,10 @@
 /* Begin PBXBuildFile section */
 		A00C379E19281D9900342A67 /* tallymark_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C379D19281D9900342A67 /* tallymark_defs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A00C37A019281E6300342A67 /* git-package-version.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C379F19281E6300342A67 /* git-package-version.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		A00C37AE19289E2F00342A67 /* libtallymark_util.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C37AA19289E2F00342A67 /* libtallymark_util.h */; };
+		A00C37AF19289E2F00342A67 /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = A00C37AC19289E2F00342A67 /* socket.c */; };
+		A00C37B019289E2F00342A67 /* socket.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C37AD19289E2F00342A67 /* socket.h */; };
+		A00C37B219289E8700342A67 /* tallymark_util.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C37B119289E8700342A67 /* tallymark_util.h */; };
 		A0CF1B24192169A500E5C668 /* tallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FCD192166330081CD19 /* tallymark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0CF1B25192169A500E5C668 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FD2192166330081CD19 /* version.c */; };
 		A0CF1B26192169B100E5C668 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE0192166330081CD19 /* main.c */; };
@@ -64,6 +69,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A00C37B31928A32800342A67 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A070F765192165040091D372 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A00C37A519289E1200342A67;
+			remoteInfo = tallymark_util;
+		};
 		A0AC5FE5192166A20081CD19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A070F765192165040091D372 /* Project object */;
@@ -192,6 +204,12 @@
 /* Begin PBXFileReference section */
 		A00C379D19281D9900342A67 /* tallymark_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_defs.h; sourceTree = "<group>"; };
 		A00C379F19281E6300342A67 /* git-package-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "git-package-version.h"; sourceTree = "<group>"; };
+		A00C37A619289E1200342A67 /* libtallymark_util.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark_util.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00C37AA19289E2F00342A67 /* libtallymark_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libtallymark_util.h; sourceTree = "<group>"; };
+		A00C37AB19289E2F00342A67 /* libtallymark_util.sym */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 4; path = libtallymark_util.sym; sourceTree = "<group>"; };
+		A00C37AC19289E2F00342A67 /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = socket.c; sourceTree = "<group>"; };
+		A00C37AD19289E2F00342A67 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
+		A00C37B119289E8700342A67 /* tallymark_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_util.h; sourceTree = "<group>"; };
 		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +255,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A00C37A319289E1200342A67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A0AC5F891921657C0081CD19 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -279,6 +304,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A00C37A119289DDA00342A67 /* libtallymark_util */ = {
+			isa = PBXGroup;
+			children = (
+				A00C37AA19289E2F00342A67 /* libtallymark_util.h */,
+				A00C37AB19289E2F00342A67 /* libtallymark_util.sym */,
+				A00C37AC19289E2F00342A67 /* socket.c */,
+				A00C37AD19289E2F00342A67 /* socket.h */,
+			);
+			path = libtallymark_util;
+			sourceTree = "<group>";
+		};
 		A070F764192165040091D372 = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +346,7 @@
 				A0AC5FA21921659D0081CD19 /* tallymarked */,
 				A0D4A82A192673C200E05DA8 /* udp-client */,
 				A0D4A837192673CB00E05DA8 /* udp-server */,
+				A00C37A619289E1200342A67 /* libtallymark_util.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -338,6 +375,7 @@
 				A0AC5FCD192166330081CD19 /* tallymark.h */,
 				A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */,
 				A00C379D19281D9900342A67 /* tallymark_defs.h */,
+				A00C37B119289E8700342A67 /* tallymark_util.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -346,6 +384,7 @@
 			isa = PBXGroup;
 			children = (
 				A0AC5FCF192166330081CD19 /* libtallymark */,
+				A00C37A119289DDA00342A67 /* libtallymark_util */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -438,6 +477,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		A00C37A419289E1200342A67 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00C37B219289E8700342A67 /* tallymark_util.h in Headers */,
+				A00C37AE19289E2F00342A67 /* libtallymark_util.h in Headers */,
+				A00C37B019289E2F00342A67 /* socket.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A0AC5F8A1921657C0081CD19 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -459,6 +508,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		A00C37A519289E1200342A67 /* tallymark_util */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00C37A719289E1200342A67 /* Build configuration list for PBXNativeTarget "tallymark_util" */;
+			buildPhases = (
+				A00C37A219289E1200342A67 /* Sources */,
+				A00C37A319289E1200342A67 /* Frameworks */,
+				A00C37A419289E1200342A67 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tallymark_util;
+			productName = tallymark_util;
+			productReference = A00C37A619289E1200342A67 /* libtallymark_util.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		A0AC5F8B1921657C0081CD19 /* tallymark */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A0AC5F901921657C0081CD19 /* Build configuration list for PBXNativeTarget "tallymark" */;
@@ -582,6 +648,7 @@
 				A0CF1B28192169D700E5C668 /* tallymark: all */,
 				A0D4A829192673C200E05DA8 /* udp-client */,
 				A0D4A836192673CB00E05DA8 /* udp-server */,
+				A00C37A519289E1200342A67 /* tallymark_util */,
 			);
 		};
 /* End PBXProject section */
@@ -628,6 +695,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A00C37A219289E1200342A67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00C37AF19289E2F00342A67 /* socket.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A0AC5F881921657C0081CD19 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -677,6 +752,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A00C37B41928A32800342A67 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A00C37A519289E1200342A67 /* tallymark_util */;
+			targetProxy = A00C37B31928A32800342A67 /* PBXContainerItemProxy */;
+		};
 		A0AC5FE6192166A20081CD19 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A0AC5F8B1921657C0081CD19 /* tallymark */;
@@ -725,6 +805,68 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A00C37A819289E1200342A67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A00C37A919289E1200342A67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		A070F769192165040091D372 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1162,6 +1304,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A00C37A719289E1200342A67 /* Build configuration list for PBXNativeTarget "tallymark_util" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00C37A819289E1200342A67 /* Debug */,
+				A00C37A919289E1200342A67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A070F768192165040091D372 /* Build configuration list for PBXProject "tallymark" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
