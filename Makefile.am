@@ -121,10 +121,12 @@ endif
 if ENABLE_LIBTALLYMARK
 include_HEADERS				+= include/tallymark.h
 include_HEADERS				+= include/tallymark_cdefs.h
+include_HEADERS				+= include/tallymark_defs.h
 lib_LTLIBRARIES				+= lib/libtallymark.la
 else
 noinst_HEADERS				+= include/tallymark.h
 noinst_HEADERS				+= include/tallymark_cdefs.h
+noinst_HEADERS				+= include/tallymark_defs.h
 noinst_LTLIBRARIES			+= lib/libtallymark.la
 endif
 

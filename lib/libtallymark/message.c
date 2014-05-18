@@ -311,14 +311,14 @@ int tallymark_msg_parse(tallymark_msg * msg)
       // process parameter
       switch(param_id)
       {
-         case TALLYMARK_FLD_SYS_CAPABILITIES:
+         case TALLYMARK_PARM_SYS_CAPABILITIES:
          msg->body.capabilities   = (((uint32_t)msg->buff.u8[0] & 0xff) << 24);
          msg->body.capabilities  |= (((uint32_t)msg->buff.u8[1] & 0xff) << 16);
          msg->body.capabilities  |= (((uint32_t)msg->buff.u8[2] & 0xff) <<  8);
          msg->body.capabilities  |= (((uint32_t)msg->buff.u8[3] & 0xff) <<  0);
          break;
 
-         case TALLYMARK_FLD_SYS_PKG_NAME:
+         case TALLYMARK_PARM_SYS_PKG_NAME:
          if (msg->body.package_name != NULL)
             free(msg->body.package_name);
          if ((msg->body.package_name = malloc(param_len+1)) == NULL)
@@ -327,7 +327,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
          msg->body.package_name[param_len] = '\0';
          break;
 
-         case TALLYMARK_FLD_SYS_VERSION:
+         case TALLYMARK_PARM_SYS_VERSION:
          if (msg->body.version != NULL)
             free(msg->body.version);
          if ((msg->body.version = malloc(param_len+1)) == NULL)

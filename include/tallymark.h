@@ -57,6 +57,7 @@
 #include <inttypes.h>
 
 #include <tallymark_cdefs.h>
+#include <tallymark_defs.h>
 
 
 //////////////////

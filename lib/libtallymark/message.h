@@ -58,43 +58,6 @@
 #pragma mark - Definitions
 #endif
 
-#define TM_HDR_LENGTH                    56
-#define TM_MSG_MAX_SIZE                2048
-
-#define TM_BDY_OFF                        TM_HDR_LENGTH
-
-#define TM_HDR_OFF_MAGIC                  0
-#define TM_HDR_OFF_VERSION_CURRENT        4
-#define TM_HDR_OFF_VERSION_AGE            5
-#define TM_HDR_OFF_HEADER_LEN             6
-#define TM_HDR_OFF_BODY_LEN               7
-#define TM_HDR_OFF_RESERVED               8
-#define TM_HDR_OFF_PARAM_COUNT           10
-#define TM_HDR_OFF_RESPONSE_CODES        11
-#define TM_HDR_OFF_REQUEST_CODES         12
-#define TM_HDR_OFF_REQUEST_ID            16
-#define TM_HDR_OFF_SEQUENCE_ID           20
-#define TM_HDR_OFF_SERVICE_ID            24
-#define TM_HDR_OFF_FIELD_ID              28
-#define TM_HDR_OFF_HASH_ID               32
-#define TM_HDR_OFF_PARAMETERS            56
-
-#define TM_HDR_LEN_MAGIC                  4
-#define TM_HDR_LEN_VERSION_CURRENT        1
-#define TM_HDR_LEN_VERSION_AGE            1
-#define TM_HDR_LEN_HEADER_LEN             1
-#define TM_HDR_LEN_BODY_LEN               1
-#define TM_HDR_LEN_RESERVED               2
-#define TM_HDR_LEN_PARAM_COUNT            1
-#define TM_HDR_LEN_RESPONSE_CODES         1
-#define TM_HDR_LEN_REQUEST_CODES          4
-#define TM_HDR_LEN_REQUEST_ID             4
-#define TM_HDR_LEN_SEQUENCE_ID            4
-#define TM_HDR_LEN_SERVICE_ID             4
-#define TM_HDR_LEN_FIELD_ID               4
-#define TM_HDR_LEN_HASH_ID               24
-#define TM_HDR_LEN_PARAMETERS          1024
-
 
 //////////////////
 //              //

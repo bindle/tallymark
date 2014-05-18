@@ -35,6 +35,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		A00C379E19281D9900342A67 /* tallymark_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C379D19281D9900342A67 /* tallymark_defs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A00C37A019281E6300342A67 /* git-package-version.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C379F19281E6300342A67 /* git-package-version.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		A0CF1B24192169A500E5C668 /* tallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FCD192166330081CD19 /* tallymark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0CF1B25192169A500E5C668 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FD2192166330081CD19 /* version.c */; };
 		A0CF1B26192169B100E5C668 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE0192166330081CD19 /* main.c */; };
@@ -188,6 +190,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A00C379D19281D9900342A67 /* tallymark_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_defs.h; sourceTree = "<group>"; };
+		A00C379F19281E6300342A67 /* git-package-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "git-package-version.h"; sourceTree = "<group>"; };
 		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -330,8 +334,10 @@
 		A0AC5FC8192166330081CD19 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */,
+				A00C379F19281E6300342A67 /* git-package-version.h */,
 				A0AC5FCD192166330081CD19 /* tallymark.h */,
+				A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */,
+				A00C379D19281D9900342A67 /* tallymark_defs.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -436,7 +442,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A00C379E19281D9900342A67 /* tallymark_defs.h in Headers */,
 				A0CF1B7B1924616600E5C668 /* error.h in Headers */,
+				A00C37A019281E6300342A67 /* git-package-version.h in Headers */,
 				A0CF1B6C1923151900E5C668 /* thread.h in Headers */,
 				A0CF1B681922DC0F00E5C668 /* libtallymark.h in Headers */,
 				A0CF1B24192169A500E5C668 /* tallymark.h in Headers */,
