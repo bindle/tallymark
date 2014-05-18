@@ -69,7 +69,8 @@ info_TEXINFOS				=
 noinst_LTLIBRARIES			=
 noinst_HEADERS				= include/tallymark_util.h
 noinst_PROGRAMS				= src/socket-client \
-					  src/socket-server
+					  src/socket-server \
+					  tests/msg-header-errors
 bin_PROGRAMS				=
 bin_SCRIPTS				=
 sbin_SCRIPTS				=
@@ -78,7 +79,7 @@ sbin_SCRIPTS				=
 # lists
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT	=
 BUILT_SOURCES				=
-TESTS					=
+TESTS					= tests/msg-header-errors
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= lib/libtallymark/libtallymark.sym \
@@ -179,6 +180,12 @@ bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
 if ENABLE_TALLYMARKED
 bin_PROGRAMS				+= bin/tallymarked
 endif
+
+
+# macros for tests/msg-header-errors
+tests_msg_header_errors_DEPENDENCIES	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+tests_msg_header_errors_LDADD		= lib/libtallymark.la
+tests_msg_header_errors_SOURCES		= tests/msg-header-errors.c
 
 
 # Makefile includes

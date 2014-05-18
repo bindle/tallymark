@@ -210,6 +210,7 @@
 		A00C37AC19289E2F00342A67 /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = socket.c; sourceTree = "<group>"; };
 		A00C37AD19289E2F00342A67 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
 		A00C37B119289E8700342A67 /* tallymark_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_util.h; sourceTree = "<group>"; };
+		A090DD5C1929548B00F20EBE /* msg-header-errors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "msg-header-errors.c"; sourceTree = "<group>"; };
 		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -334,8 +335,17 @@
 				A0AC5FCE192166330081CD19 /* lib */,
 				A0AC5FD4192166330081CD19 /* m4 */,
 				A0AC5FDE192166330081CD19 /* src */,
+				A090DD5B1929548B00F20EBE /* tests */,
 				A0AC5F8D1921657C0081CD19 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		A090DD5B1929548B00F20EBE /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				A090DD5C1929548B00F20EBE /* msg-header-errors.c */,
+			);
+			path = tests;
 			sourceTree = "<group>";
 		};
 		A0AC5F8D1921657C0081CD19 /* Products */ = {

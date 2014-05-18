@@ -209,6 +209,8 @@ _TALLYMARK_F ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
 _TALLYMARK_F int tallymark_msg_get_header(tallymark_msg * msg, int header,
    void * outvalue, size_t * outvalue_size);
 
+_TALLYMARK_F int tallymark_msg_header_errors(int * poffset, int * plen);
+
 
 /**
  *  @defgroup version Version Functions

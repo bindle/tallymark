@@ -65,8 +65,6 @@
 #pragma mark - Macros
 #endif
 
-#define TM_HDR_ERRORS tallymark_msg_validate_header_definition()
-
 
 /////////////////
 //             //
@@ -82,9 +80,8 @@ int tallymark_msg_alloc(tallymark * tally, tallymark_msg ** pmsg)
    int             err;
    tallymark_msg * msg;
 
-   assert(tally         != NULL);
-   assert(pmsg          != NULL);
-   assert(TM_HDR_ERRORS == 0);
+   assert(tally   != NULL);
+   assert(pmsg != NULL);
 
    if ((msg = malloc(sizeof(tallymark_msg))) == NULL)
       return(ENOMEM);
@@ -109,8 +106,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
    tallymark_hdr   * hdr;
    tallymark_hdr   * buf;
 
-   assert(msg           != NULL);
-   assert(TM_HDR_ERRORS == 0);
+   assert(msg  != NULL);
 
    hdr  = &msg->header;
    buf  = &msg->buff.hdr;
@@ -151,10 +147,9 @@ int tallymark_msg_create_header(tallymark_msg * msg,
    int               err;
    tallymark_hdr   * hdr;
 
-   assert(msg           != NULL);
-   assert(hash          != NULL);
-   assert(hash_len      >  0);
-   assert(TM_HDR_ERRORS == 0);
+   assert(msg        != NULL);
+   assert(hash       != NULL);
+   assert(hash_len   >  0);
 
    hdr  = &msg->header;
 
@@ -189,8 +184,7 @@ int tallymark_msg_errnum(tallymark_msg * msg)
 
 void tallymark_msg_free(tallymark_msg * msg)
 {
-   assert(msg           != NULL);
-   assert(TM_HDR_ERRORS == 0);
+   assert(msg  != NULL);
 
    if (msg->body.version != NULL)
       free(msg->body.version);
@@ -307,6 +301,57 @@ int tallymark_msg_get_header(tallymark_msg * msg, int header, void * outvalue,
 }
 
 
+int tallymark_msg_header_errors(int * poffset, int * plen)
+{
+   int           i;
+   int           total;
+   tallymark_hdr hdr;
+
+   total = 0;
+
+   i = 0;
+   i += (offsetof(tallymark_hdr, magic)            != TM_HDR_OFF_MAGIC);
+   i += (offsetof(tallymark_hdr, version_current)  != TM_HDR_OFF_VERSION_CURRENT);
+   i += (offsetof(tallymark_hdr, version_age)      != TM_HDR_OFF_VERSION_AGE);
+   i += (offsetof(tallymark_hdr, header_len)       != TM_HDR_OFF_HEADER_LEN);
+   i += (offsetof(tallymark_hdr, body_len)         != TM_HDR_OFF_BODY_LEN);
+   i += (offsetof(tallymark_hdr, reserved)         != TM_HDR_OFF_RESERVED);
+   i += (offsetof(tallymark_hdr, param_count)      != TM_HDR_OFF_PARAM_COUNT);
+   i += (offsetof(tallymark_hdr, response_codes)   != TM_HDR_OFF_RESPONSE_CODES);
+   i += (offsetof(tallymark_hdr, request_codes)    != TM_HDR_OFF_REQUEST_CODES);
+   i += (offsetof(tallymark_hdr, request_id)       != TM_HDR_OFF_REQUEST_ID);
+   i += (offsetof(tallymark_hdr, sequence_id)      != TM_HDR_OFF_SEQUENCE_ID);
+   i += (offsetof(tallymark_hdr, service_id)       != TM_HDR_OFF_SERVICE_ID);
+   i += (offsetof(tallymark_hdr, field_id)         != TM_HDR_OFF_FIELD_ID);
+   i += (offsetof(tallymark_hdr, hash_id)          != TM_HDR_OFF_HASH_ID);
+   if (poffset != NULL)
+      *poffset = i;
+   total += i;
+
+   i = 0;
+   i += (sizeof(tallymark_hdr)                     != TM_HDR_LENGTH);
+   i += (sizeof(hdr.magic)                         != TM_HDR_LEN_MAGIC);
+   i += (sizeof(hdr.version_current)               != TM_HDR_LEN_VERSION_CURRENT);
+   i += (sizeof(hdr.version_age)                   != TM_HDR_LEN_VERSION_AGE);
+   i += (sizeof(hdr.header_len)                    != TM_HDR_LEN_HEADER_LEN);
+   i += (sizeof(hdr.body_len)                      != TM_HDR_LEN_BODY_LEN);
+   i += (sizeof(hdr.reserved)                      != TM_HDR_LEN_RESERVED);
+   i += (sizeof(hdr.param_count)                   != TM_HDR_LEN_PARAM_COUNT);
+   i += (sizeof(hdr.response_codes)                != TM_HDR_LEN_RESPONSE_CODES);
+   i += (sizeof(hdr.request_codes)                 != TM_HDR_LEN_REQUEST_CODES);
+   i += (sizeof(hdr.request_id)                    != TM_HDR_LEN_REQUEST_ID);
+   i += (sizeof(hdr.sequence_id)                   != TM_HDR_LEN_SEQUENCE_ID);
+   i += (sizeof(hdr.service_id)                    != TM_HDR_LEN_SERVICE_ID);
+   i += (sizeof(hdr.field_id)                      != TM_HDR_LEN_FIELD_ID);
+   i += (sizeof(hdr.hash_id)                       != TM_HDR_LEN_HASH_ID);
+   if (plen != NULL)
+      *plen = i;
+   total += i;
+
+   return(total);
+}
+
+
 int tallymark_msg_parse(tallymark_msg * msg)
 {
    tallymark_hdr      * hdr;
@@ -315,8 +360,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
    uint32_t             param_len;
    uint32_t             param_id;
 
-   assert(msg           != NULL);
-   assert(TM_HDR_ERRORS == 0);
+   assert(msg  != NULL);
 
    hdr  = &msg->header;
    buf  = &msg->buff.hdr;
@@ -456,9 +500,8 @@ int tallymark_msg_read(tallymark_msg * msg, int s,
 {
    ssize_t         len;
 
-   assert(msg           != NULL);
-   assert(s             != -1);
-   assert(TM_HDR_ERRORS == 0);
+   assert(msg  != NULL);
+   assert(s    != -1);
 
    if (msg->status != TALLYMARK_MSG_RESET)
       return(msg->error = EINVAL);
@@ -487,9 +530,8 @@ int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
 {
    int err;
 
-   assert(s             != -1);
-   assert(msg           != NULL);
-   assert(TM_HDR_ERRORS == 0);
+   assert(s    != -1);
+   assert(msg  != NULL);
 
    if ((err = tallymark_msg_reset(msg)) != 0)
       return(err);
@@ -503,8 +545,7 @@ int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
 
 int tallymark_msg_reset(tallymark_msg * msg)
 {
-   assert(msg           != NULL);
-   assert(TM_HDR_ERRORS == 0);
+   assert(msg  != NULL);
 
    // saves time if message is already reset
    if (msg->status == TALLYMARK_MSG_RESET)
@@ -541,9 +582,8 @@ ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
    int     err;
    ssize_t len;
 
-   assert(s             != -1);
-   assert(msg           != NULL);
-   assert(TM_HDR_ERRORS == 0);
+   assert(s    != -1);
+   assert(msg  != NULL);
 
    if ((msg->status & TALLYMARK_MSG_COMPILED) == 0)
    {
@@ -563,50 +603,6 @@ ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
 
    return(len);
 }
-
-
-int tallymark_msg_validate_header_definition(void)
-{
-   int           i;
-   tallymark_hdr hdr;
-
-   i = 0;
-
-   i += (sizeof(tallymark_hdr)                     != TM_HDR_LENGTH);
-
-   i += (offsetof(tallymark_hdr, magic)            != TM_HDR_OFF_MAGIC);
-   i += (offsetof(tallymark_hdr, version_current)  != TM_HDR_OFF_VERSION_CURRENT);
-   i += (offsetof(tallymark_hdr, version_age)      != TM_HDR_OFF_VERSION_AGE);
-   i += (offsetof(tallymark_hdr, header_len)       != TM_HDR_OFF_HEADER_LEN);
-   i += (offsetof(tallymark_hdr, body_len)         != TM_HDR_OFF_BODY_LEN);
-   i += (offsetof(tallymark_hdr, reserved)         != TM_HDR_OFF_RESERVED);
-   i += (offsetof(tallymark_hdr, param_count)      != TM_HDR_OFF_PARAM_COUNT);
-   i += (offsetof(tallymark_hdr, response_codes)   != TM_HDR_OFF_RESPONSE_CODES);
-   i += (offsetof(tallymark_hdr, request_codes)    != TM_HDR_OFF_REQUEST_CODES);
-   i += (offsetof(tallymark_hdr, request_id)       != TM_HDR_OFF_REQUEST_ID);
-   i += (offsetof(tallymark_hdr, sequence_id)      != TM_HDR_OFF_SEQUENCE_ID);
-   i += (offsetof(tallymark_hdr, service_id)       != TM_HDR_OFF_SERVICE_ID);
-   i += (offsetof(tallymark_hdr, field_id)         != TM_HDR_OFF_FIELD_ID);
-   i += (offsetof(tallymark_hdr, hash_id)          != TM_HDR_OFF_HASH_ID);
-
-   i += (sizeof(hdr.magic)                         != TM_HDR_LEN_MAGIC);
-   i += (sizeof(hdr.version_current)               != TM_HDR_LEN_VERSION_CURRENT);
-   i += (sizeof(hdr.version_age)                   != TM_HDR_LEN_VERSION_AGE);
-   i += (sizeof(hdr.header_len)                    != TM_HDR_LEN_HEADER_LEN);
-   i += (sizeof(hdr.body_len)                      != TM_HDR_LEN_BODY_LEN);
-   i += (sizeof(hdr.reserved)                      != TM_HDR_LEN_RESERVED);
-   i += (sizeof(hdr.param_count)                   != TM_HDR_LEN_PARAM_COUNT);
-   i += (sizeof(hdr.response_codes)                != TM_HDR_LEN_RESPONSE_CODES);
-   i += (sizeof(hdr.request_codes)                 != TM_HDR_LEN_REQUEST_CODES);
-   i += (sizeof(hdr.request_id)                    != TM_HDR_LEN_REQUEST_ID);
-   i += (sizeof(hdr.sequence_id)                   != TM_HDR_LEN_SEQUENCE_ID);
-   i += (sizeof(hdr.service_id)                    != TM_HDR_LEN_SERVICE_ID);
-   i += (sizeof(hdr.field_id)                      != TM_HDR_LEN_FIELD_ID);
-   i += (sizeof(hdr.hash_id)                       != TM_HDR_LEN_HASH_ID);
-
-   return(i);
-}
-
 
 
 /* end of source */
