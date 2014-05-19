@@ -145,5 +145,9 @@ _TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_read(tallymark_msg * msg, int s,
    struct sockaddr * address, socklen_t * address_len);
+_TALLYMARK_F int tallymark_msg_set_string(tallymark_msg * msg, char ** ptr,
+   const void * invalue, size_t invalue_size);
+_TALLYMARK_F int tallymark_msg_get_string(tallymark_msg * msg,
+   const char * invalue, void * outvalue, size_t * outvalue_size);
 
 #endif /* end of header */

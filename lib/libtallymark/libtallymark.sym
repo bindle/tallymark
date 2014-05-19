@@ -47,11 +47,13 @@ tallymark_msg_create_header
 tallymark_msg_errnum
 tallymark_msg_free
 tallymark_msg_get_header
+tallymark_msg_get_param
 tallymark_msg_header_errors
 tallymark_msg_init
 tallymark_msg_recvfrom
 tallymark_msg_reset
 tallymark_msg_sendto
+tallymark_msg_set_param
 #
 # lib/libtallymark/network-*.c
 tallymark_net_poll

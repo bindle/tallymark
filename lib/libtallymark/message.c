@@ -199,6 +199,66 @@ void tallymark_msg_free(tallymark_msg * msg)
 }
 
 
+int tallymark_msg_get_string(tallymark_msg * msg, const char * invalue,
+   void * outvalue, size_t * outvalue_size)
+{
+   size_t len;
+
+   assert(msg           != NULL);
+   assert(outvalue      != NULL);
+   assert(outvalue_size != NULL);
+
+   len = strlen(invalue);
+   len = ((*outvalue_size - 1) < len) ? (*outvalue_size - 1) : len;
+
+   if (invalue == NULL)
+   {
+      ((char *)outvalue)[0] = '\0';
+      *outvalue_size = 0;
+      return(0);
+   };
+   strncpy((char *)outvalue, invalue, len);
+   ((char *)outvalue)[0] = '\0';
+   *outvalue_size = len;
+
+   return(0);
+}
+
+
+int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
+   size_t * outvalue_size)
+{
+   assert(msg              != NULL);
+   assert(outvalue         != NULL);
+   assert(outvalue_size    != NULL);
+   assert(*outvalue_size   != 0);
+
+   switch(param)
+   {
+      case TALLYMARK_PARM_SYS_CAPABILITIES:
+      if (*outvalue_size < sizeof(msg->body.capabilities))
+         return(msg->error = EINVAL);
+      *((uint32_t *)outvalue) = msg->body.capabilities;
+      *outvalue_size = sizeof(msg->body.capabilities);
+      return(0);
+
+      case TALLYMARK_PARM_SYS_VERSION:
+      return(tallymark_msg_get_string(msg, msg->body.version, outvalue, outvalue_size));
+
+      case TALLYMARK_PARM_SYS_PKG_NAME:
+      return(tallymark_msg_get_string(msg, msg->body.package_name, outvalue, outvalue_size));
+
+      case TALLYMARK_PARM_TALLY_COUNT:
+
+      case TALLYMARK_PARM_TALLY_HISTORY:
+      default:
+      return(msg->error = EINVAL);
+   };
+
+   return(0);
+}
+
+
 int tallymark_msg_get_header(tallymark_msg * msg, int header, void * outvalue,
    size_t * outvalue_size)
 {
@@ -602,6 +662,61 @@ ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
       msg->error = errno;
 
    return(len);
+}
+
+
+int tallymark_msg_set_string(tallymark_msg * msg, char ** ptr,
+   const void * invalue, size_t invalue_size)
+{
+   assert(msg              != NULL);
+   assert(ptr              != NULL);
+   assert(invalue          != NULL);
+
+   if (*ptr != NULL)
+   {
+      free(*ptr);
+      *ptr = NULL;
+   };
+   if (invalue == NULL)
+      return(0);
+
+   if ((*ptr = malloc(invalue_size+1)) == NULL)
+      return(msg->error = ENOMEM);
+   strncpy(*ptr, invalue, invalue_size);
+   (*ptr)[invalue_size] = '\0';
+
+   return(0);
+}
+
+
+int tallymark_msg_set_param(tallymark_msg * msg, int param,
+   const void * invalue, size_t invalue_size)
+{
+   assert(msg              != NULL);
+   assert(invalue          != NULL);
+
+   switch(param)
+   {
+      case TALLYMARK_PARM_SYS_CAPABILITIES:
+      if (invalue_size != sizeof(msg->body.capabilities))
+         return(msg->error = EINVAL);
+      msg->body.capabilities = *((const uint32_t *)invalue);
+      return(0);
+
+      case TALLYMARK_PARM_SYS_VERSION:
+      return(tallymark_msg_set_string(msg, &msg->body.version, invalue, invalue_size));
+
+      case TALLYMARK_PARM_SYS_PKG_NAME:
+      return(tallymark_msg_set_string(msg, &msg->body.package_name, invalue, invalue_size));
+
+      case TALLYMARK_PARM_TALLY_COUNT:
+
+      case TALLYMARK_PARM_TALLY_HISTORY:
+      default:
+      return(msg->error = EINVAL);
+   };
+
+   return(0);
 }
 
 
