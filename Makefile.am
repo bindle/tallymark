@@ -67,7 +67,7 @@ lib_LTLIBRARIES				=
 man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
-noinst_HEADERS				= include/tallymark_util.h
+noinst_HEADERS				= include/private/tallymark_util.h
 noinst_PROGRAMS				= src/socket-client \
 					  src/socket-server \
 					  tests/msg-header-errors

@@ -66,7 +66,7 @@
 #include <libkern/OSAtomic.h>
 #endif
 
-#include <tallymark_util.h>
+#include <private/tallymark_util.h>
 #include <pthread.h>
 
 

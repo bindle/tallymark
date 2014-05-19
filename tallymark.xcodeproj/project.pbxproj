@@ -348,6 +348,14 @@
 			path = tests;
 			sourceTree = "<group>";
 		};
+		A090DD5D192A7C8900F20EBE /* private */ = {
+			isa = PBXGroup;
+			children = (
+				A00C37B119289E8700342A67 /* tallymark_util.h */,
+			);
+			path = private;
+			sourceTree = "<group>";
+		};
 		A0AC5F8D1921657C0081CD19 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,11 +389,11 @@
 		A0AC5FC8192166330081CD19 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				A090DD5D192A7C8900F20EBE /* private */,
 				A00C379F19281E6300342A67 /* git-package-version.h */,
 				A0AC5FCD192166330081CD19 /* tallymark.h */,
 				A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */,
 				A00C379D19281D9900342A67 /* tallymark_defs.h */,
-				A00C37B119289E8700342A67 /* tallymark_util.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
