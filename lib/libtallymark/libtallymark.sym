@@ -46,6 +46,7 @@ tallymark_strerror_r
 #
 # lib/libtallymark/message.c
 tallymark_msg_alloc
+tallymark_msg_compile
 tallymark_msg_create_header
 tallymark_msg_errnum
 tallymark_msg_free

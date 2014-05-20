@@ -121,7 +121,6 @@ _TALLYMARK_F unsigned tallymark_msg_param_str(tallymark_msg * msg, size_t off,
 _TALLYMARK_F unsigned tallymark_msg_param_u32(tallymark_msg * msg, size_t off,
    uint32_t val);
 
-_TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_read(tallymark_msg * msg, int s,
    struct sockaddr * address, socklen_t * address_len);

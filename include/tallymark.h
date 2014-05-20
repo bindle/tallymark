@@ -283,6 +283,8 @@ _TALLYMARK_F int tallymark_poll(tallymark * tmd, int timeout,
 
 _TALLYMARK_F int tallymark_msg_alloc(tallymark_msg ** pmsg);
 
+_TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
+
 _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
    uint32_t req_id, uint32_t srv_id, uint32_t fld_id,
    const uint8_t * hash, size_t hash_len);
