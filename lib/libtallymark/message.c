@@ -480,6 +480,9 @@ int tallymark_msg_read(tallymark_msg * msg, int s,
    if (msg->status != TALLYMARK_MSG_RESET)
       return(msg->error = EINVAL);
 
+   if ((address != NULL) && (address_len != NULL))
+      bzero(address, *address_len);
+
    // read header from socket
    len = recvfrom(s, &msg->buff, TM_MSG_MAX_SIZE, 0, address, address_len);
    if (len == -1)
