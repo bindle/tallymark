@@ -475,7 +475,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
 
    // Verify the header's claimed message size matched the amount of data
    // received.
-   if (msg->msg_len != ((hdr->header_len * hdr->body_len) * 4U))
+   if (msg->msg_len != ((hdr->header_len + hdr->body_len) * 4U))
    {
       msg->status = TALLYMARK_MSG_BAD;
       return(msg->error = EBADMSG);
