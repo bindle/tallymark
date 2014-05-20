@@ -122,7 +122,6 @@ struct libtallymark_message_struct
       uint64_t                u64[TM_MSG_MAX_SIZE/8];
       char                    str[TM_MSG_MAX_SIZE];
    } buff;
-   tallymark                * tally;
    tallymark_hdr              header;
    tallymark_bdy              body;
    uint32_t                   status;

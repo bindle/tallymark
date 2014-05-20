@@ -75,19 +75,16 @@
 #pragma mark - Functions
 #endif
 
-int tallymark_msg_alloc(tallymark * tally, tallymark_msg ** pmsg)
+int tallymark_msg_alloc(tallymark_msg ** pmsg)
 {
    int             err;
    tallymark_msg * msg;
 
-   assert(tally   != NULL);
    assert(pmsg != NULL);
 
    if ((msg = malloc(sizeof(tallymark_msg))) == NULL)
       return(ENOMEM);
    memset(msg, 0, sizeof(tallymark_msg));
-
-   msg->tally = tally;
 
    if ((err = tallymark_msg_reset(msg)) != 0)
    {
@@ -134,7 +131,9 @@ int tallymark_msg_compile(tallymark_msg * msg)
    buf->field_id           = htonl(hdr->field_id);
    memcpy(buf->hash_id, hdr->hash_id, sizeof(hdr->hash_id));
 
-   msg->status |= TALLYMARK_MSG_COMPILED;
+   msg->msg_len   =  TM_HDR_LEN;
+   msg->msg_len   += hdr->body_len * 4;
+   msg->status    |= TALLYMARK_MSG_COMPILED;
 
    return(0);
 }
@@ -233,6 +232,9 @@ int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
    assert(outvalue_size    != NULL);
    assert(*outvalue_size   != 0);
 
+   if ((msg->status & TALLYMARK_MSG_PARSED) == 0)
+      return(msg->error = EINVAL);
+
    switch(param)
    {
       case TALLYMARK_PARM_SYS_CAPABILITIES:
@@ -266,6 +268,9 @@ int tallymark_msg_get_header(tallymark_msg * msg, int header, void * outvalue,
    assert(outvalue         != NULL);
    assert(outvalue_size    != NULL);
    assert(*outvalue_size   != 0);
+
+   if ((msg->status & TALLYMARK_MSG_PARSED) == 0)
+      return(msg->error = EINVAL);
 
    switch(header)
    {
@@ -314,15 +319,15 @@ int tallymark_msg_get_header(tallymark_msg * msg, int header, void * outvalue,
       case TALLYMARK_HDR_RESPONSE_CODES:
       if (*outvalue_size < sizeof(msg->header.response_codes))
          return(msg->error = EINVAL);
-      *((uint32_t *)outvalue) = msg->header.response_codes;
+      *((uint8_t *)outvalue) = msg->header.response_codes;
       *outvalue_size = sizeof(msg->header.response_codes);
       return(0);
 
       case TALLYMARK_HDR_REQUEST_CODES:
-      if (*outvalue_size < sizeof(msg->header.response_codes))
+      if (*outvalue_size < sizeof(msg->header.request_codes))
          return(msg->error = EINVAL);
-      *((uint32_t *)outvalue) = msg->header.response_codes;
-      *outvalue_size = sizeof(msg->header.response_codes);
+      *((uint32_t *)outvalue) = msg->header.request_codes;
+      *outvalue_size = sizeof(msg->header.request_codes);
       return(0);
 
       case TALLYMARK_HDR_REQUEST_ID:
@@ -621,7 +626,7 @@ int tallymark_msg_reset(tallymark_msg * msg)
    msg->header.magic               = TALLYMARK_MAGIC;
    msg->header.version_current     = TALLYMARK_PROTO_VERSION;
    msg->header.version_age         = TALLYMARK_PROTO_AGE;
-   msg->header.header_len          = TM_HDR_LENGTH;
+   msg->header.header_len          = (TM_HDR_LENGTH / 4);
 
    // resets body
    msg->body.capabilities           = 0;
@@ -689,11 +694,47 @@ int tallymark_msg_set_string(tallymark_msg * msg, char ** ptr,
 }
 
 
+int tallymark_msg_set_header(tallymark_msg * msg, int header,
+   const void * invalue, size_t invalue_size)
+{
+   assert(msg              != NULL);
+   assert(invalue          != NULL);
+
+   if ((msg->status & TALLYMARK_MSG_PARSED) == 0)
+      return(msg->error = EINVAL);
+   msg->status &= ~TALLYMARK_MSG_COMPILED;
+
+   switch(header)
+   {
+      case TALLYMARK_HDR_RESPONSE_CODES:
+      if (invalue_size != sizeof(msg->header.response_codes))
+         return(msg->error = EINVAL);
+      msg->header.response_codes = *((uint8_t *)invalue);
+      return(0);
+
+      case TALLYMARK_HDR_REQUEST_CODES:
+      if (invalue_size != sizeof(msg->header.request_codes))
+         return(msg->error = EINVAL);
+      msg->header.request_codes = *((uint32_t *)invalue);
+      return(0);
+
+      default:
+      return(msg->error = EINVAL);
+   };
+
+   return(0);
+}
+
+
 int tallymark_msg_set_param(tallymark_msg * msg, int param,
    const void * invalue, size_t invalue_size)
 {
    assert(msg              != NULL);
    assert(invalue          != NULL);
+
+   if ((msg->status & TALLYMARK_MSG_PARSED) == 0)
+      return(msg->error = EINVAL);
+   msg->status &= ~TALLYMARK_MSG_COMPILED;
 
    switch(param)
    {

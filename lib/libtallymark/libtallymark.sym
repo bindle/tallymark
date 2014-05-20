@@ -53,6 +53,7 @@ tallymark_msg_init
 tallymark_msg_recvfrom
 tallymark_msg_reset
 tallymark_msg_sendto
+tallymark_msg_set_header
 tallymark_msg_set_param
 #
 # lib/libtallymark/network-*.c

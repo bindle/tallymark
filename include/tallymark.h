@@ -225,7 +225,7 @@ _TALLYMARK_F int tallymark_poll(tallymark * tmd, int timeout,
 #pragma mark Protocol Message Prototypes
 #endif
 
-_TALLYMARK_F int tallymark_msg_alloc(tallymark * tally, tallymark_msg ** pmsg);
+_TALLYMARK_F int tallymark_msg_alloc(tallymark_msg ** pmsg);
 
 _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
    uint32_t req_id, uint32_t srv_id, uint32_t fld_id,
@@ -234,6 +234,14 @@ _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
 _TALLYMARK_F int tallymark_msg_errnum(tallymark_msg * msg);
 
 _TALLYMARK_F void tallymark_msg_free(tallymark_msg * msg);
+
+_TALLYMARK_F int tallymark_msg_get_header(tallymark_msg * msg, int header,
+   void * outvalue, size_t * outvalue_size);
+
+_TALLYMARK_F int tallymark_msg_get_param(tallymark_msg * msg, int param,
+   void * outvalue, size_t * outvalue_size);
+
+_TALLYMARK_F int tallymark_msg_header_errors(int * poffset, int * plen);
 
 _TALLYMARK_F int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
    struct sockaddr * address, socklen_t * address_len);
