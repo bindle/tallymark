@@ -115,6 +115,8 @@ lib_libtallymark_la_SOURCES		= \
 					  lib/libtallymark/message.h \
 					  lib/libtallymark/thread.c \
 					  lib/libtallymark/thread.h \
+					  lib/libtallymark/url.c \
+					  lib/libtallymark/url.h \
 					  lib/libtallymark/version.c \
 					  lib/libtallymark/version.h
 if USE_POLL

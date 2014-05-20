@@ -54,7 +54,9 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/un.h>
 #include <inttypes.h>
+#include <netinet/in.h>
 
 #include <tallymark_cdefs.h>
 #include <tallymark_defs.h>
@@ -71,6 +73,41 @@
 
 typedef struct libtallymark_struct         tallymark;
 typedef struct libtallymark_message_struct tallymark_msg;
+typedef struct libtallymark_url_desc_struct tallymark_url_desc;
+typedef union  libtallymark_sockaddr_union  tallymark_sockaddr;
+
+
+union  libtallymark_sockaddr_union
+{
+   struct sockaddr            sa;
+   struct sockaddr_in         sa_in;
+   struct sockaddr_in6        sa_in6;
+   struct sockaddr_storage    sa_storage;
+   struct sockaddr_un         sa_un;
+};
+
+
+struct libtallymark_url_desc_struct
+{
+   // URL parsing
+   char *               tud_scheme;    // URI scheme
+   char *               tud_host;      // host to contact
+   int                  tud_port;      // port on host
+   char *               tud_path;      // path to IPC Unix Domain Socket
+
+   // string presentations
+   char *               tud_straddr;
+   socklen_t            tud_straddr_len;
+   char *               tud_strurl;
+   socklen_t            tud_strurl_len;
+
+   // host resolution
+   int                  tud_family;
+   int                  tud_socktype;
+   int                  tud_protocol;
+   socklen_t            tud_addrlen;
+   tallymark_sockaddr   tud_addr;
+};
 
 
 //////////////////
@@ -206,16 +243,27 @@ _TALLYMARK_F int tallymark_msg_reset(tallymark_msg * msg);
 _TALLYMARK_F ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
    const struct sockaddr * dest_addr, socklen_t dest_len);
 
-_TALLYMARK_F int tallymark_msg_get_header(tallymark_msg * msg, int header,
-   void * outvalue, size_t * outvalue_size);
-
-_TALLYMARK_F int tallymark_msg_get_param(tallymark_msg * msg, int param,
-   void * outvalue, size_t * outvalue_size);
-
-_TALLYMARK_F int tallymark_msg_header_errors(int * poffset, int * plen);
+_TALLYMARK_F int tallymark_msg_set_header(tallymark_msg * msg, int header,
+   const void * invalue, size_t invalue_size);
 
 _TALLYMARK_F int tallymark_msg_set_param(tallymark_msg * msg, int param,
    const void * invalue, size_t invalue_size);
+
+/**
+ *  @defgroup url URL Functions
+ *  @brief Functions for parsing URLs
+ */
+#ifdef __TALLYMARK_PMARK
+#pragma mark URL Prototypes
+#endif
+
+_TALLYMARK_F void tallymark_url_free(tallymark_url_desc * tudp);
+_TALLYMARK_F int tallymark_url_initialize(void);
+_TALLYMARK_F int tallymark_is_url(const char * urlstr);
+_TALLYMARK_F int tallymark_url_parse(const char * urlstr,
+   tallymark_url_desc ** tudpp, int resolve);
+_TALLYMARK_F int tallymark_url_resolve(tallymark_url_desc * tudp);
+
 
 /**
  *  @defgroup version Version Functions
