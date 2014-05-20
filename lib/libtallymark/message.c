@@ -159,7 +159,7 @@ int tallymark_msg_create_header(tallymark_msg * msg,
    hdr->magic              = TALLYMARK_MAGIC;
    hdr->version_current    = TALLYMARK_PROTO_VERSION;
    hdr->version_age        = TALLYMARK_PROTO_AGE;
-   hdr->header_len         = TM_HDR_LENGTH;
+   hdr->header_len         = TM_HDR_LENGTH/4;
    hdr->body_len           = 0;
    hdr->request_id         = req_id;
    hdr->service_id         = srv_id;
