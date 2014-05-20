@@ -38,10 +38,6 @@
 /* Begin PBXBuildFile section */
 		A00C379E19281D9900342A67 /* tallymark_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C379D19281D9900342A67 /* tallymark_defs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A00C37A019281E6300342A67 /* git-package-version.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C379F19281E6300342A67 /* git-package-version.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		A00C37AE19289E2F00342A67 /* libtallymark_util.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C37AA19289E2F00342A67 /* libtallymark_util.h */; };
-		A00C37AF19289E2F00342A67 /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = A00C37AC19289E2F00342A67 /* socket.c */; };
-		A00C37B019289E2F00342A67 /* socket.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C37AD19289E2F00342A67 /* socket.h */; };
-		A00C37B219289E8700342A67 /* tallymark_util.h in Headers */ = {isa = PBXBuildFile; fileRef = A00C37B119289E8700342A67 /* tallymark_util.h */; };
 		A090DD60192A829F00F20EBE /* url.c in Sources */ = {isa = PBXBuildFile; fileRef = A090DD5E192A829F00F20EBE /* url.c */; };
 		A090DD61192A829F00F20EBE /* url.h in Headers */ = {isa = PBXBuildFile; fileRef = A090DD5F192A829F00F20EBE /* url.h */; };
 		A0CF1B24192169A500E5C668 /* tallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FCD192166330081CD19 /* tallymark.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -207,11 +203,6 @@
 		A00C379D19281D9900342A67 /* tallymark_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_defs.h; sourceTree = "<group>"; };
 		A00C379F19281E6300342A67 /* git-package-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "git-package-version.h"; sourceTree = "<group>"; };
 		A00C37A619289E1200342A67 /* libtallymark_util.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark_util.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A00C37AA19289E2F00342A67 /* libtallymark_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libtallymark_util.h; sourceTree = "<group>"; };
-		A00C37AB19289E2F00342A67 /* libtallymark_util.sym */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 4; path = libtallymark_util.sym; sourceTree = "<group>"; };
-		A00C37AC19289E2F00342A67 /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = socket.c; sourceTree = "<group>"; };
-		A00C37AD19289E2F00342A67 /* socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = socket.h; sourceTree = "<group>"; };
-		A00C37B119289E8700342A67 /* tallymark_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymark_util.h; sourceTree = "<group>"; };
 		A090DD5C1929548B00F20EBE /* msg-header-errors.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "msg-header-errors.c"; sourceTree = "<group>"; };
 		A090DD5E192A829F00F20EBE /* url.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = url.c; sourceTree = "<group>"; };
 		A090DD5F192A829F00F20EBE /* url.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = url.h; sourceTree = "<group>"; };
@@ -309,17 +300,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A00C37A119289DDA00342A67 /* libtallymark_util */ = {
-			isa = PBXGroup;
-			children = (
-				A00C37AA19289E2F00342A67 /* libtallymark_util.h */,
-				A00C37AB19289E2F00342A67 /* libtallymark_util.sym */,
-				A00C37AC19289E2F00342A67 /* socket.c */,
-				A00C37AD19289E2F00342A67 /* socket.h */,
-			);
-			path = libtallymark_util;
-			sourceTree = "<group>";
-		};
 		A070F764192165040091D372 = {
 			isa = PBXGroup;
 			children = (
@@ -350,14 +330,6 @@
 				A090DD5C1929548B00F20EBE /* msg-header-errors.c */,
 			);
 			path = tests;
-			sourceTree = "<group>";
-		};
-		A090DD5D192A7C8900F20EBE /* private */ = {
-			isa = PBXGroup;
-			children = (
-				A00C37B119289E8700342A67 /* tallymark_util.h */,
-			);
-			path = private;
 			sourceTree = "<group>";
 		};
 		A0AC5F8D1921657C0081CD19 /* Products */ = {
@@ -393,7 +365,6 @@
 		A0AC5FC8192166330081CD19 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				A090DD5D192A7C8900F20EBE /* private */,
 				A00C379F19281E6300342A67 /* git-package-version.h */,
 				A0AC5FCD192166330081CD19 /* tallymark.h */,
 				A0CF1B7019241E8400E5C668 /* tallymark_cdefs.h */,
@@ -406,7 +377,6 @@
 			isa = PBXGroup;
 			children = (
 				A0AC5FCF192166330081CD19 /* libtallymark */,
-				A00C37A119289DDA00342A67 /* libtallymark_util */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -505,9 +475,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A00C37B219289E8700342A67 /* tallymark_util.h in Headers */,
-				A00C37AE19289E2F00342A67 /* libtallymark_util.h in Headers */,
-				A00C37B019289E2F00342A67 /* socket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -724,7 +691,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A00C37AF19289E2F00342A67 /* socket.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

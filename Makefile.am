@@ -67,7 +67,7 @@ lib_LTLIBRARIES				=
 man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
-noinst_HEADERS				= include/private/tallymark_util.h
+noinst_HEADERS				=
 noinst_PROGRAMS				= src/socket-client \
 					  src/socket-server \
 					  tests/msg-header-errors
@@ -82,8 +82,7 @@ BUILT_SOURCES				=
 TESTS					= tests/msg-header-errors
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				= lib/libtallymark/libtallymark.sym \
-					  lib/libtallymark_util/libtallymark_util.sym
+EXTRA_DIST				= lib/libtallymark/libtallymark.sym
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -132,21 +131,6 @@ noinst_HEADERS				+= include/tallymark.h
 noinst_HEADERS				+= include/tallymark_cdefs.h
 noinst_HEADERS				+= include/tallymark_defs.h
 noinst_LTLIBRARIES			+= lib/libtallymark.la
-endif
-
-
-# macros for lib/libtallymark.la
-lib_libtallymark_util_la_DEPENDENCIES	= Makefile lib/libtallymark_util/libtallymark_util.sym
-lib_libtallymark_util_la_LDFLAGS	= -rpath'$(libdir)'\
-					  -version-info $(LIB_VERSION_INFO) \
-					  $(AM_LDFLAGS) \
-					  -export-symbols $(srcdir)/lib/libtallymark_util/libtallymark_util.sym
-lib_libtallymark_util_la_SOURCES	= \
-					  lib/libtallymark_util/libtallymark_util.h \
-					  lib/libtallymark_util/socket.c \
-					  lib/libtallymark_util/socket.h
-if ENABLE_LIBTALLYMARK_UTIL
-noinst_LTLIBRARIES			+= lib/libtallymark_util.la
 endif
 
 
