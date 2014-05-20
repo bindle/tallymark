@@ -55,6 +55,8 @@
 #include <stddef.h>
 #include <arpa/inet.h>
 
+#include "debug.h"
+
 
 //////////////
 //          //
@@ -254,10 +256,10 @@ int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
 
       case TALLYMARK_PARM_TALLY_HISTORY:
       default:
-      return(msg->error = EINVAL);
+      break;
    };
 
-   return(0);
+   return(msg->error = EINVAL);
 }
 
 
@@ -359,10 +361,10 @@ int tallymark_msg_get_header(tallymark_msg * msg, int header, void * outvalue,
       return(0);
 
       default:
-      return(msg->error = EINVAL);
+      break;
    };
 
-   return(0);
+   return(msg->error = EINVAL);
 }
 
 
@@ -719,10 +721,10 @@ int tallymark_msg_set_header(tallymark_msg * msg, int header,
       return(0);
 
       default:
-      return(msg->error = EINVAL);
+      break;
    };
 
-   return(0);
+   return(msg->error = EINVAL);
 }
 
 
@@ -754,10 +756,10 @@ int tallymark_msg_set_param(tallymark_msg * msg, int param,
 
       case TALLYMARK_PARM_TALLY_HISTORY:
       default:
-      return(msg->error = EINVAL);
+      break;
    };
 
-   return(0);
+   return(msg->error = EINVAL);
 }
 
 
