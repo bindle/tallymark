@@ -105,4 +105,12 @@ int pthread_mutex_timedlock(pthread_mutex_t * mutex,
 }
 #endif
 
+
+void tallymark_thread_noop(void)
+{
+   printf(  "This function exists solely to prevent compile errors if\n"
+            "pthread_mutex_timedlock() exists on the system.\n");
+   return;
+}
+
 /* end of source */

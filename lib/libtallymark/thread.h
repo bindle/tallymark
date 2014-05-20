@@ -68,4 +68,6 @@ _TALLYMARK_F int pthread_mutex_timedlock(pthread_mutex_t * mutex,
        const struct timespec * abs_timeout);
 #endif
 
+_TALLYMARK_F void tallymark_thread_noop(void);
+
 #endif /* end of header */
