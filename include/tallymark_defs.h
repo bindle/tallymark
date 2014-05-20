@@ -41,6 +41,9 @@
 #ifndef __TALLYMARK_DEFS_H
 #define __TALLYMARK_DEFS_H 1
 #undef  __TALLYMARK_PMARK
+#ifndef __TALLYMARK_H
+#error "do not include tallymark_defs.h directly, include tallymark.h."
+#endif
 
 
 ///////////////////
