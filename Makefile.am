@@ -60,7 +60,8 @@ DEFS					=
 
 
 # automake targets
-check_PROGRAMS				=
+check_PROGRAMS				= tests/msg-header-errors \
+					  tests/url-parse
 doc_DATA				= README COPYING ChangeLog AUTHORS
 include_HEADERS				=
 lib_LTLIBRARIES				=
@@ -69,9 +70,7 @@ info_TEXINFOS				=
 noinst_LTLIBRARIES			=
 noinst_HEADERS				=
 noinst_PROGRAMS				= src/socket-client \
-					  src/socket-server \
-					  tests/msg-header-errors \
-					  tests/url-parse
+					  src/socket-server
 bin_PROGRAMS				=
 bin_SCRIPTS				=
 sbin_SCRIPTS				=
@@ -80,8 +79,7 @@ sbin_SCRIPTS				=
 # lists
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT	=
 BUILT_SOURCES				=
-TESTS					= tests/msg-header-errors \
-					  tests/url-parse
+TESTS					= $(check_PROGRAMS)
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= lib/libtallymark/libtallymark.sym
