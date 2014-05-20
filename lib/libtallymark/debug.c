@@ -59,8 +59,8 @@
 #pragma mark - Functions
 #endif
 
-void tallymark_print_hexdump(FILE * fs, uint8_t * buff, size_t len, const char * prefix,
-   const char * fmt, ...)
+void tallymark_print_hexdump(FILE * fs, const uint8_t * buff, size_t len,
+   const char * prefix, const char * fmt, ...)
 {
    size_t x;
    size_t y;

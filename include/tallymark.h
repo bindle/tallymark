@@ -196,7 +196,7 @@ _TALLYMARK_F void tallymark_destroy(tallymark * tmd);
 #pragma mark Debug Prototypes
 #endif
 
-_TALLYMARK_F void tallymark_print_hexdump(FILE * fs, uint8_t * buff,
+_TALLYMARK_F void tallymark_print_hexdump(FILE * fs, const uint8_t * buff,
    size_t len, const char * prefix, const char * fmt, ...);
 
 
