@@ -36,6 +36,9 @@
 #
 #   lib/libtallymark/libtallymark.sym - exported symbols
 #
+# lib/libtallymark/debug.c
+tallymark_print_hexdump
+#
 # lib/libtallymark/error.c
 tallymark_perror
 tallymark_strerror

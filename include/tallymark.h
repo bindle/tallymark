@@ -52,6 +52,7 @@
 #pragma mark - Headers
 #endif
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -143,6 +144,19 @@ _TALLYMARK_F int tallymark_init(tallymark ** ptmd);
 /// @param[in]  tmd     Pointer to the tallymark state data.
 /// @see tallymark_init
 _TALLYMARK_F void tallymark_destroy(tallymark * tmd);
+
+
+/**
+ *  @defgroup debug Debug Functions
+ *  @brief Functions for debugging errors.
+ */
+#ifdef __TALLYMARK_PMARK
+#pragma mark Debug Prototypes
+#endif
+
+_TALLYMARK_F void tallymark_print_hexdump(FILE * fs, uint8_t * buff,
+   size_t len, const char * prefix, const char * fmt, ...);
+
 
 /**
  *  @defgroup error Error Functions
