@@ -50,6 +50,10 @@
 #include <string.h>
 #include <assert.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
+
+#include <tallymark.h>
 
 
 /////////////////
@@ -64,6 +68,7 @@
 
 tallymarked_cnf * tallymarked_alloc(void)
 {
+   int               err;
    tallymarked_cnf * cnf;
 
    if ((cnf = malloc(sizeof(tallymarked_cnf))) == NULL)
@@ -71,8 +76,23 @@ tallymarked_cnf * tallymarked_alloc(void)
    memset(cnf, 0, sizeof(tallymarked_cnf));
 
    cnf->opts = TALLYMARKED_IPV4 | TALLYMARKED_IPV6;
+   cnf->url  = "tally://localhost/";
    cnf->s[0] = -1;
    cnf->s[1] = -1;
+
+   // allocate messages for sending/receiving data.
+   if ((err = tallymark_msg_alloc(&cnf->req)) != 0)
+   {
+      tallymarked_free(cnf);
+      errno = err;
+      return(NULL);
+   };
+   if ((err = tallymark_msg_alloc(&cnf->res)) != 0)
+   {
+      tallymarked_free(cnf);
+      errno = err;
+      return(NULL);
+   };
 
    return(cnf);
 }
@@ -81,10 +101,6 @@ tallymarked_cnf * tallymarked_alloc(void)
 void tallymarked_free(tallymarked_cnf * cnf)
 {
    assert(cnf != NULL);
-
-   if (cnf->address != NULL)
-      free(cnf->address);
-   cnf->address = NULL;
 
    if (cnf->s[0] != -1)
       close(cnf->s[0]);

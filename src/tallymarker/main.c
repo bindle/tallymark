@@ -57,6 +57,11 @@
 #include <assert.h>
 #include <string.h>
 #include <getopt.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <fcntl.h>
+#include <arpa/inet.h>
 
 
 ///////////////////
@@ -110,10 +115,22 @@ void my_version(void);
 
 int main(int argc, char * argv[])
 {
-   int              c;
-   int              opt_index;
+   int                  c;
+   int                  opt_index;
+   const char         * tallyurl;
+   int                  s;
+   //int               opt;
+   int                  err;
+   size_t               len;
+   socklen_t            socklen;
+   tallymark_msg      * msg;
+   tallymark_url_desc * tudp;
+   tallymark_sockaddr   addr;
+   uint32_t             inval32;
+   char               * str;
+   char                 buff[1024];
 
-   static char   short_opt[] = "hV";
+   static char   short_opt[] = "H:hV";
    static struct option long_opt[] =
    {
       { "help",          no_argument, 0, 'h'},
@@ -121,12 +138,24 @@ int main(int argc, char * argv[])
       { NULL,            0,           0, 0  }
    };
 
+   if ((str = rindex(argv[0], '/')) != NULL)
+   {
+      str++;
+      argv[0] = str;
+   };
+
+   tallyurl = "tally://localhost/";
+
    while((c = getopt_long(argc, argv, short_opt, long_opt, &opt_index)) != -1)
    {
       switch(c)
       {
          case -1:	/* no more arguments */
          case 0:	/* long options toggles */
+         break;
+
+         case 'H':
+         tallyurl = optarg;
          break;
 
          case 'h':
@@ -147,6 +176,67 @@ int main(int argc, char * argv[])
          return(1);
       };
    };
+
+   if ((err = tallymark_msg_alloc(&msg)) != 0)
+   {
+      fprintf(stderr, "tallymark_msg_alloc(): %s\n",tallymark_strerror(err));
+      return(1);
+   };
+
+   // parse URL and resolve hostname
+   if ((err = tallymark_url_parse(tallyurl, &tudp, 1)) != 0)
+   {
+      fprintf(stderr, "%s: tallymark_url_parse(): %s\n", argv[0], tallymark_strerror(err));
+      return(1);
+   };
+
+   if ((s = socket(tudp->tud_family, tudp->tud_socktype, tudp->tud_protocol)) == -1)
+   {
+      perror("socket()");
+      return(1);
+   };
+
+   printf("%s: connecting to %s ...\n", argv[0], tudp->tud_strurl);
+   if ((err = connect(s, &tudp->tud_addr.sa, tudp->tud_addr.sa.sa_len)) == -1)
+   {
+      perror("connect()");
+      close(s);
+      return(1);
+   };
+
+   tallymark_msg_create_header(msg, 0x0011, 25, 1, (const uint8_t *)"0123456789", 10);
+
+   inval32 = TALLYMARK_REQ_SYS_CAPABILITIES |TALLYMARK_REQ_SYS_VERSION;
+   tallymark_msg_set_header(msg, TALLYMARK_HDR_REQUEST_CODES, &inval32, sizeof(inval32));
+
+   socklen = sizeof(addr.sa_in6.sin6_len);
+   if ((err = (int)tallymark_msg_sendto(s, msg, NULL, 0)) == -1)
+   {
+      fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(tallymark_msg_errnum(msg)));
+      return(1);
+   };
+
+printf("got here 100\n");
+   if ((err = (int)tallymark_msg_recvfrom(s, msg, NULL, 0)) == -1)
+   {
+      fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(tallymark_msg_errnum(msg)));
+      return(1);
+   };
+printf("got here 200\n");
+
+   len = sizeof(buff)-1;
+   tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_PKG_NAME, buff, &len);
+   buff[len] = '\0';
+   printf("%s", buff);
+
+   len = sizeof(buff)-1;
+   tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_VERSION, buff, &len);
+   buff[len] = '\0';
+   printf(" (%s)\n", buff);
+
+   len = sizeof(inval32);
+   tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_CAPABILITIES, &inval32, &len);
+   printf("Capabilities: %08x\n", inval32);
 
    return(0);
 }

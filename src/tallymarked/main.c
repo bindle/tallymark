@@ -53,6 +53,11 @@
 #include <getopt.h>
 #include <stdlib.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <fcntl.h>
+#include <arpa/inet.h>
 
 #include "memory.h"
 
@@ -108,9 +113,20 @@ void my_version(void);
 
 int main(int argc, char * argv[])
 {
-   int              c;
-   int              opt_index;
-   tallymarked_cnf * cnf;
+   int                  c;
+   int                  opt_index;
+   tallymarked_cnf    * cnf;
+   tallymark_url_desc * tudp;
+   tallymark_sockaddr   addr;
+   const tallymark_hdr  * req_hdr;
+   int                  s;
+   int                  opt;
+   int                  err;
+   char               * str;
+   char                 straddr[INET6_ADDRSTRLEN];
+   socklen_t            addrlen;
+   uint32_t             u32;
+   const char         * rstr;
 
    static char   short_opt[] = "46hl:p:V";
    static struct option long_opt[] =
@@ -118,6 +134,12 @@ int main(int argc, char * argv[])
       { "help",          no_argument, 0, 'h'},
       { "version",       no_argument, 0, 'V'},
       { NULL,            0,           0, 0  }
+   };
+
+   if ((str = rindex(argv[0], '/')) != NULL)
+   {
+      str++;
+      argv[0] = str;
    };
 
    if ((cnf = tallymarked_alloc()) == NULL)
@@ -150,17 +172,7 @@ int main(int argc, char * argv[])
          return(0);
 
          case 'l':
-         if (cnf->address != NULL)
-            free(cnf->address);
-         if ((cnf->address = strdup(optarg)) == NULL)
-         {
-            perror("strdup()");
-            return(1);
-         };
-         break;
-
-         case 'p':
-         cnf->port = (uint32_t)strtol(optarg, NULL, 10);
+         cnf->url = optarg;
          break;
 
          case 'V':
@@ -179,6 +191,77 @@ int main(int argc, char * argv[])
          tallymarked_free(cnf);
          return(1);
       };
+   };
+
+   // parse URL and resolve hostname
+   if ((err = tallymark_url_parse(cnf->url, &cnf->tudp, 1)) != 0)
+   {
+      fprintf(stderr, "%s: tallymark_url_parse(): %s\n", argv[0], tallymark_strerror(err));
+      tallymarked_free(cnf);
+      return(1);
+   };
+
+   // create socket
+   tudp = cnf->tudp;
+   if ((s = socket(tudp->tud_family, tudp->tud_socktype, tudp->tud_protocol)) == -1)
+   {
+      perror("socket()");
+      return(1);
+   };
+
+   //fcntl(s, F_SETFL, O_NONBLOCK);
+   opt = 1;setsockopt(s, SOL_SOCKET,   SO_REUSEADDR, (void *)&opt, sizeof(int));
+   opt = 0;setsockopt(s, IPPROTO_IPV6,  IPV6_V6ONLY, (void *)&opt, sizeof(int));
+#ifdef SO_NOSIGPIPE
+   opt = 1;setsockopt(s, SOL_SOCKET, SO_NOSIGPIPE, (void *)&opt, sizeof(int));
+#endif
+
+   if (bind(s, &tudp->tud_addr.sa, tudp->tud_addrlen))
+   {
+      perror("bind()");
+      tallymarked_free(cnf);
+      close(s);
+      return(-1);
+   };
+
+   printf("%s: listening on %s ...\n", argv[0], tudp->tud_strurl);
+
+   while(1)
+   {
+      addrlen = sizeof(addr);
+      err = tallymark_msg_recvfrom(s, cnf->req, &addr.sa, &addrlen);
+      strcpy(straddr, "unknown");
+      if (addr.sa.sa_family != 0)
+         getnameinfo(&addr.sa, addrlen, straddr, sizeof(straddr), NULL, 0, NI_NUMERICHOST);
+      if (err != 0)
+      {
+         printf("%s/%i: error: %s\n", straddr, ntohs(addr.sa_in.sin_port), tallymark_strerror(err));
+         continue;
+      };
+      tallymark_msg_get_header(cnf->req, &req_hdr);
+      printf("%s/%i: %u: received request %08x\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id, req_hdr->request_codes);
+
+      tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, sizeof(req_hdr->hash_id));
+      tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_REQUEST_CODES, &req_hdr->request_codes, sizeof(req_hdr->request_codes));
+      u32 = TALLYMARK_RES_RESPONSE|TALLYMARK_RES_EOR;
+      tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u32, sizeof(u32));
+
+      if ((TALLYMARK_REQ_SYS_CAPABILITIES & req_hdr->request_codes) != 0)
+      {
+         u32 = TALLYMARK_REQ_SYS_CAPABILITIES|TALLYMARK_REQ_SYS_VERSION;
+         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_CAPABILITIES, &u32, sizeof(u32));
+      };
+      if ((TALLYMARK_REQ_SYS_VERSION & req_hdr->request_codes) != 0)
+      {
+         rstr = PACKAGE_NAME;
+         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_PKG_NAME, &rstr, strlen(rstr));
+         rstr = PACKAGE_VERSION;
+         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_VERSION, &rstr, strlen(rstr));
+      };
+
+      printf("%s/%i: %u: sending response\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id);
+      if ((err = (int)tallymark_msg_sendto(s, cnf->res, &addr.sa, addrlen)) == -1)
+         printf("%s/%i: %u: error: %s\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
    };
 
    tallymarked_free(cnf);

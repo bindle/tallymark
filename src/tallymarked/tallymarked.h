@@ -85,11 +85,12 @@ typedef struct tallymarked_config_struct  tallymarked_cnf;
 
 struct tallymarked_config_struct
 {
-   char                    * address;
-   uint32_t                  port;
-   struct sockaddr_storage   addr;
+   const char              * url;
+   tallymark_url_desc      * tudp;
    int                       s[2];
    uint32_t                  opts;
+   tallymark_msg           * req;
+   tallymark_msg           * res;
 };
 
 #endif /* end of header */
