@@ -293,6 +293,9 @@ _TALLYMARK_F int tallymark_msg_errnum(tallymark_msg * msg);
 
 _TALLYMARK_F void tallymark_msg_free(tallymark_msg * msg);
 
+_TALLYMARK_F int tallymark_msg_get_buffer(tallymark_msg * msg,
+   const uint8_t ** pbuf, size_t * plen);
+
 _TALLYMARK_F int tallymark_msg_get_header(tallymark_msg * msg,
    const tallymark_hdr ** phdr);
 

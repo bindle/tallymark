@@ -272,6 +272,18 @@ void tallymark_msg_free(tallymark_msg * msg)
 }
 
 
+int tallymark_msg_get_buffer(tallymark_msg * msg, const uint8_t ** pbuf,
+   size_t * plen)
+{
+   assert(msg  != NULL);
+   assert(pbuf != NULL);
+   assert(plen != NULL);
+   *pbuf = msg->buff.u8;
+   *plen = sizeof(msg->buff.u8);
+   return(0);
+}
+
+
 int tallymark_msg_get_string(tallymark_msg * msg, const char * invalue,
    void * outvalue, size_t * outvalue_size)
 {

@@ -50,6 +50,7 @@ tallymark_msg_compile
 tallymark_msg_create_header
 tallymark_msg_errnum
 tallymark_msg_free
+tallymark_msg_get_buffer
 tallymark_msg_get_header
 tallymark_msg_get_param
 tallymark_msg_header_errors
