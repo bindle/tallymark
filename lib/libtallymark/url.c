@@ -145,6 +145,9 @@ int tallymark_url_parse(const char * urlstr, tallymark_url_desc ** tudpp,
    assert(urlstr != NULL);
    assert(tudpp  != NULL);
 
+   bzero(pmatch,  sizeof(pmatch));
+   bzero(str,     sizeof(str));
+
    tallymark_url_initialize();
 
    if ((err = regexec(&tallymark_url_regex, urlstr, 8, pmatch, 0)) != 0)

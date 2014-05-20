@@ -63,6 +63,40 @@ int main(void);
 
 /////////////////
 //             //
+//  Variables  //
+//             //
+/////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Variables
+#endif
+
+const char * tallymark_valid_urls[] =
+{
+   "tally://localhost",
+   "tally://localhost/",
+   "tally://localhost:2211",
+   "tally://localhost:2211/",
+   "tally://127.0.0.1",
+   "tally://127.0.0.1/",
+   "tally://127.0.0.1:2211",
+   "tally://127.0.0.1:2211/",
+   "tally://0.0.0.0",
+   "tally://0.0.0.0/",
+   "tally://0.0.0.0:2211",
+   "tally://0.0.0.0:2211/",
+   "tally://[::1]",
+   "tally://[::1]/",
+   "tally://[::1]:2211",
+   "tally://[::1]:2211/",
+   "tally://[fe80::6a5b:35ff:fe94:d491%en4]",
+   "tally://[fe80::6a5b:35ff:fe94:d491%en4]/",
+   "tally://[fe80::6a5b:35ff:fe94:d491%en4]:2211",
+   "tally://[fe80::6a5b:35ff:fe94:d491%en4]:2211/",
+   NULL
+};
+
+/////////////////
+//             //
 //  Functions  //
 //             //
 /////////////////
@@ -72,17 +106,20 @@ int main(void);
 
 int main(void)
 {
-   int total_errors;
-   int offset_errors;
-   int len_errors;
-   if ((total_errors = tallymark_msg_header_errors(&offset_errors, &len_errors)) != 0)
+   size_t               pos;
+   tallymark_url_desc * tudp;
+
+   for(pos = 0; tallymark_valid_urls[pos] != NULL; pos++)
    {
-      fprintf(stderr, "Detected errors in header definitions & struct declaration:\n");
-      fprintf(stderr, "   %5i offset errors\n", offset_errors);
-      fprintf(stderr, "   %5i length errors\n", len_errors);
-      fprintf(stderr, "   %5i total\n", total_errors);
-      return(1);
+      fprintf(stdout, "Testing:          %s\n", tallymark_valid_urls[pos]);
+      if (tallymark_url_parse(tallymark_valid_urls[pos], &tudp, 1) != 0)
+      //{
+         fprintf(stdout, "Valid URL Failed: %s\n", tallymark_valid_urls[pos]);
+      //   return(1);
+      //};
+      //tallymark_url_free(tudp);
    };
+
    return(0);
 }
 

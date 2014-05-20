@@ -70,7 +70,8 @@ noinst_LTLIBRARIES			=
 noinst_HEADERS				=
 noinst_PROGRAMS				= src/socket-client \
 					  src/socket-server \
-					  tests/msg-header-errors
+					  tests/msg-header-errors \
+					  tests/url-parse
 bin_PROGRAMS				=
 bin_SCRIPTS				=
 sbin_SCRIPTS				=
@@ -79,7 +80,8 @@ sbin_SCRIPTS				=
 # lists
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT	=
 BUILT_SOURCES				=
-TESTS					= tests/msg-header-errors
+TESTS					= tests/msg-header-errors \
+					  tests/url-parse
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= lib/libtallymark/libtallymark.sym
@@ -174,6 +176,12 @@ endif
 tests_msg_header_errors_DEPENDENCIES	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 tests_msg_header_errors_LDADD		= lib/libtallymark.la
 tests_msg_header_errors_SOURCES		= tests/msg-header-errors.c
+
+
+# macros for tests/url-parse
+tests_url_parse_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+tests_url_parse_LDADD			= lib/libtallymark.la
+tests_url_parse_SOURCES			= tests/url-parse.c
 
 
 # Makefile includes
