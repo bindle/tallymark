@@ -97,8 +97,10 @@ AC_PROG_LN_S
 # GNU Libtool Support
 LT_INIT(dlopen disable-fast-install win32-dll)
 
-# initiates bindle tools macros
-AC_BINDLE(contrib/bindletools)
+# check for common functions
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_FUNC_STRERROR_R
 
 # Type checks
 AC_TYPE_INT8_T
@@ -112,17 +114,37 @@ AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
 
+# check for required functions
+AC_CHECK_FUNCS([bzero],          [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([gettimeofday],   [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([memset],         [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([regcomp],        [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([socket],         [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strdup],         [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strerror],       [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strncasecmp],    [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strtol],         [], [AC_MSG_ERROR([missing required functions])])
+
+# check for headers
+AC_CHECK_HEADERS([getopt.h],     [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([arpa/inet.h],  [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([fcntl.h],      [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([netdb.h],      [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([netinet/in.h], [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([stddef.h],     [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([sys/socket.h], [], [AC_MSG_ERROR([missing required headers])])
+
+# initiates bindle tools macros
+AC_BINDLE(contrib/bindletools)
+
+# determine PACKAGE_VERSION via Git
+AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version.sh])
+
 # custom configure options
 AC_BINDLE_ENABLE_WARNINGS
 AC_BINDLE_FD_POLLER(poll)
 AC_TALLYMARK_COMPONENTS
 AC_TALLYMARK_THREAD_LOCKS
-
-# enables getopt_long if header and functions were found
-AC_CHECK_HEADERS([getopt.h], [AC_DEFINE_UNQUOTED(USE_GETOPT_LONG, 1, [Use GNU getopt_long])])
-
-# determine PACKAGE_VERSION via Git
-AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version.sh])
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
