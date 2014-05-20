@@ -113,6 +113,14 @@ struct libtallymark_message_struct
 #pragma mark - Prototypes
 #endif
 
+_TALLYMARK_F unsigned tallymark_msg_param_header(tallymark_msg * msg, size_t off,
+   uint32_t len, uint32_t id);
+_TALLYMARK_F unsigned tallymark_msg_param_len(unsigned len);
+_TALLYMARK_F unsigned tallymark_msg_param_str(tallymark_msg * msg, size_t off,
+   const char * str, size_t len);
+_TALLYMARK_F unsigned tallymark_msg_param_u32(tallymark_msg * msg, size_t off,
+   uint32_t val);
+
 _TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
 _TALLYMARK_F int tallymark_msg_read(tallymark_msg * msg, int s,

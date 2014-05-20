@@ -75,8 +75,23 @@
 typedef struct libtallymark_struct           tallymark;
 typedef struct libtallymark_message_struct   tallymark_msg;
 typedef struct libtallymark_header_struct    tallymark_hdr;
+typedef struct libtallymark_count_struct     tallymark_count;
+typedef struct libtallymark_history_struct   tallymark_history;
 typedef struct libtallymark_url_desc_struct  tallymark_url_desc;
 typedef union  libtallymark_sockaddr_union   tallymark_sockaddr;
+
+struct libtallymark_count_struct
+{
+   uint64_t seconds;
+   uint64_t count;
+};
+
+struct libtallymark_history_struct
+{
+   uint64_t time;
+   uint64_t lcount;
+   uint64_t rcount;
+};
 
 
 struct libtallymark_header_struct
