@@ -330,6 +330,7 @@ _TALLYMARK_F int tallymark_url_initialize(void);
 _TALLYMARK_F int tallymark_is_url(const char * urlstr);
 _TALLYMARK_F int tallymark_url_parse(const char * urlstr,
    tallymark_url_desc ** tudpp, int resolve);
+_TALLYMARK_F const char * tallymark_url_regex_string(void);
 _TALLYMARK_F int tallymark_url_resolve(tallymark_url_desc * tudp);
 
 

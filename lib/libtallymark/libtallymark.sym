@@ -69,6 +69,7 @@ tallymark_url_free
 tallymark_url_initialize
 tallymark_is_url
 tallymark_url_parse
+tallymark_url_regex_string
 tallymark_url_resolve
 #
 # lib/libtallymark/version.c

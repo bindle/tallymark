@@ -239,6 +239,12 @@ int tallymark_url_parse(const char * urlstr, tallymark_url_desc ** tudpp,
 }
 
 
+const char * tallymark_url_regex_string(void)
+{
+   return(TALLYMARK_URL_REGEX);
+}
+
+
 int tallymark_url_resolve(tallymark_url_desc * tudp)
 {
    char              port[8];
