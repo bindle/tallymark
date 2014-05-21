@@ -81,7 +81,8 @@
 #endif
 
 typedef struct tallymarked_config_struct  tallymarked_cnf;
-
+typedef struct tallymarked_count_struct   tallymarked_count;
+typedef struct tallymarked_record_struct  tallymarked_record;
 
 struct tallymarked_config_struct
 {
@@ -91,6 +92,24 @@ struct tallymarked_config_struct
    uint32_t                  opts;
    tallymark_msg           * req;
    tallymark_msg           * res;
+   uint64_t                  window;
+};
+
+
+struct tallymarked_count_struct
+{
+   uint64_t count;
+   uint64_t timestamp;
+};
+
+
+struct tallymarked_record_struct
+{
+   tallymarked_count    threshold;  //  16 bytes
+   uint8_t              hid[20];    //  20 bytes
+   uint32_t             did;        //   4 bytes
+   char               * string;     //   8 bytes
+   tallymarked_count    counts[10]; // 160 bytes
 };
 
 #endif /* end of header */
