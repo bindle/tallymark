@@ -105,6 +105,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
    tallymark_hdr   * hdr;
    tallymark_hdr   * buf;
    tallymark_bdy   * bdy;
+   uint8_t           pcount;
    size_t            off;
    size_t            len;
 
@@ -122,14 +123,14 @@ int tallymark_msg_compile(tallymark_msg * msg)
       return(msg->error = EINVAL);
 
    // updates header
-   off               = TM_HDR_LEN;
-   hdr->param_count  = 0;
+   off      = sizeof(tallymark_hdr);
+   pcount   = 0;
 
    if (bdy->capabilities != 0)
    {
       off += tallymark_msg_compile_param_hdr(msg,  off, 4, TALLYMARK_PARM_SYS_CAPABILITIES);
       off += tallymark_msg_compile_u32(msg,        off, bdy->capabilities);
-      hdr->param_count++;
+      pcount++;
    };
 
    if (bdy->package_name.bytes != 0)
@@ -137,7 +138,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
       len = tallymark_msg_compiled_len(bdy->package_name.bytes);
       off += tallymark_msg_compile_param_hdr(msg,  off, len, TALLYMARK_PARM_SYS_PKG_NAME);
       off += tallymark_msg_compile_utf8(msg,       off, &bdy->package_name);
-      hdr->param_count++;
+      pcount++;
    };
 
    if (bdy->version.bytes != 0)
@@ -145,28 +146,29 @@ int tallymark_msg_compile(tallymark_msg * msg)
       len = tallymark_msg_compiled_len(bdy->version.bytes);
       off += tallymark_msg_compile_param_hdr(msg,  off, len, TALLYMARK_PARM_SYS_VERSION);
       off += tallymark_msg_compile_utf8(msg,       off, &bdy->version);
-      hdr->param_count++;
+      pcount++;
    };
 
-   hdr->body_len  =  (uint8_t)(off - TM_HDR_LEN) / 4;
+   // updates header
+   hdr->msg_len            = (uint8_t)(off / 4);
+   hdr->param_count        = pcount;
 
    // compiles header
    buf->magic              = htonl(hdr->magic);
    buf->version_current    = hdr->version_current;
    buf->version_age        = hdr->version_age;
    buf->header_len         = hdr->header_len;
-   buf->body_len           = hdr->body_len;
-   buf->param_count        = hdr->param_count;
-   buf->response_codes     = hdr->response_codes;
-   buf->request_id         = htonl(hdr->request_id);
+   buf->msg_len            = hdr->msg_len;
    buf->request_codes      = htonl(hdr->request_codes);
-   buf->service_id         = htonl(hdr->service_id);
-   buf->field_id           = htonl(hdr->field_id);
+   buf->response_codes     = hdr->response_codes;
+   buf->param_count        = hdr->param_count;
+   buf->service_id         = hdr->service_id;
+   buf->field_id           = hdr->field_id;
+   buf->request_id         = htonl(hdr->request_id);
+   buf->sequence_id        = htonl(hdr->sequence_id);
    memcpy(buf->hash_id, hdr->hash_id, sizeof(hdr->hash_id));
 
-   hdr->body_len  =  (uint8_t)(off - TM_HDR_LEN) / 4;
-   msg->msg_len   =  TM_HDR_LEN;
-   msg->msg_len   += hdr->body_len * 4;
+   msg->msg_len   += hdr->msg_len * 4;
    msg->status    |= TALLYMARK_MSG_COMPILED;
 
    return(0);
@@ -217,7 +219,7 @@ size_t tallymark_msg_compiled_len(size_t len)
 
 
 int tallymark_msg_create_header(tallymark_msg * msg,
-   uint32_t req_id, uint32_t srv_id, uint32_t fld_id,
+   uint32_t req_id, uint8_t srv_id, uint8_t fld_id,
    const uint8_t * hash, size_t hash_len)
 {
    int               err;
@@ -236,8 +238,8 @@ int tallymark_msg_create_header(tallymark_msg * msg,
    hdr->magic              = TALLYMARK_MAGIC;
    hdr->version_current    = TALLYMARK_PROTO_VERSION;
    hdr->version_age        = TALLYMARK_PROTO_AGE;
-   hdr->header_len         = TM_HDR_LENGTH/4;
-   hdr->body_len           = 0;
+   hdr->header_len         = sizeof(tallymark_hdr)/4;
+   hdr->msg_len            = 0;
    hdr->request_id         = req_id;
    hdr->service_id         = srv_id;
    hdr->field_id           = fld_id;
@@ -380,8 +382,7 @@ int tallymark_msg_header_errors(int * poffset, int * plen)
    i += (offsetof(tallymark_hdr, version_current)  != TM_HDR_OFF_VERSION_CURRENT);
    i += (offsetof(tallymark_hdr, version_age)      != TM_HDR_OFF_VERSION_AGE);
    i += (offsetof(tallymark_hdr, header_len)       != TM_HDR_OFF_HEADER_LEN);
-   i += (offsetof(tallymark_hdr, body_len)         != TM_HDR_OFF_BODY_LEN);
-   i += (offsetof(tallymark_hdr, reserved)         != TM_HDR_OFF_RESERVED);
+   i += (offsetof(tallymark_hdr, msg_len)          != TM_HDR_OFF_MSG_LEN);
    i += (offsetof(tallymark_hdr, param_count)      != TM_HDR_OFF_PARAM_COUNT);
    i += (offsetof(tallymark_hdr, response_codes)   != TM_HDR_OFF_RESPONSE_CODES);
    i += (offsetof(tallymark_hdr, request_codes)    != TM_HDR_OFF_REQUEST_CODES);
@@ -395,13 +396,12 @@ int tallymark_msg_header_errors(int * poffset, int * plen)
    total += i;
 
    i = 0;
-   i += (sizeof(tallymark_hdr)                     != TM_HDR_LENGTH);
+   i += (sizeof(tallymark_hdr)                     != TM_HDR_LEN);
    i += (sizeof(hdr.magic)                         != TM_HDR_LEN_MAGIC);
    i += (sizeof(hdr.version_current)               != TM_HDR_LEN_VERSION_CURRENT);
    i += (sizeof(hdr.version_age)                   != TM_HDR_LEN_VERSION_AGE);
    i += (sizeof(hdr.header_len)                    != TM_HDR_LEN_HEADER_LEN);
-   i += (sizeof(hdr.body_len)                      != TM_HDR_LEN_BODY_LEN);
-   i += (sizeof(hdr.reserved)                      != TM_HDR_LEN_RESERVED);
+   i += (sizeof(hdr.msg_len)                       != TM_HDR_LEN_MSG_LEN);
    i += (sizeof(hdr.param_count)                   != TM_HDR_LEN_PARAM_COUNT);
    i += (sizeof(hdr.response_codes)                != TM_HDR_LEN_RESPONSE_CODES);
    i += (sizeof(hdr.request_codes)                 != TM_HDR_LEN_REQUEST_CODES);
@@ -442,7 +442,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
    hdr->version_current    = buf->version_current;
    hdr->version_age        = buf->version_age;
    hdr->header_len         = buf->header_len;
-   hdr->body_len           = buf->body_len;
+   hdr->msg_len            = buf->msg_len;
 
    // validates header magic number
    if (hdr->magic != TALLYMARK_MAGIC)
@@ -477,24 +477,24 @@ int tallymark_msg_parse(tallymark_msg * msg)
 
    // Verify the header's claimed message size matched the amount of data
    // received.
-   if (msg->msg_len != ((hdr->header_len + hdr->body_len) * 4U))
+   if (msg->msg_len != (hdr->msg_len * 4U))
    {
       msg->status = TALLYMARK_MSG_BAD;
       return(msg->error = EBADMSG);
    };
 
-   // parses last part of header
-   hdr->param_count        = buf->param_count;
-   hdr->response_codes     = buf->response_codes;
+   // parses rest of header
    hdr->request_codes      = ntohl(buf->request_codes);
+   hdr->response_codes     = buf->response_codes;
+   hdr->param_count        = buf->param_count;
+   hdr->service_id         = buf->service_id;
+   hdr->field_id           = buf->field_id;
    hdr->request_id         = ntohl(buf->request_id);
    hdr->sequence_id        = ntohl(buf->sequence_id);
-   hdr->service_id         = ntohl(buf->service_id);
-   hdr->field_id           = ntohl(buf->field_id);
-   memcpy(hdr->hash_id, &msg->buff.u8[TM_HDR_OFF_HASH_ID], TM_HDR_LEN_HASH_ID);
+   memcpy(hdr->hash_id, &msg->buff.u8[TM_HDR_OFF_HASH_ID], sizeof(hdr->hash_id));
 
    // parses body
-   off = TM_BDY_OFF;
+   off = hdr->header_len * 4;
    while(off < msg->msg_len)
    {
       // verify message is long enough to contain a parameter header
@@ -525,10 +525,10 @@ int tallymark_msg_parse(tallymark_msg * msg)
       switch(param_id)
       {
          case TALLYMARK_PARM_SYS_CAPABILITIES:
-         msg->body.capabilities   = (((uint32_t)msg->buff.u8[0] & 0xff) << 24);
-         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[1] & 0xff) << 16);
-         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[2] & 0xff) <<  8);
-         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[3] & 0xff) <<  0);
+         msg->body.capabilities   = (((uint32_t)msg->buff.u8[off+0] & 0xff) << 24);
+         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[off+1] & 0xff) << 16);
+         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[off+2] & 0xff) <<  8);
+         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[off+3] & 0xff) <<  0);
          break;
 
          case TALLYMARK_PARM_SYS_PKG_NAME:
@@ -599,7 +599,7 @@ int tallymark_msg_read(tallymark_msg * msg, int s,
    };
 
    // read full message from socket
-   len = (msg->buff.hdr.body_len + msg->buff.hdr.header_len) * 4;
+   len = msg->buff.hdr.msg_len * 4;
    bufflen = recvfrom(s, &msg->buff, TM_MSG_MAX_SIZE, 0, NULL, NULL);
    if (bufflen == -1)
       return(msg->error = errno);
@@ -654,7 +654,7 @@ int tallymark_msg_reset(tallymark_msg * msg)
    msg->header.magic               = TALLYMARK_MAGIC;
    msg->header.version_current     = TALLYMARK_PROTO_VERSION;
    msg->header.version_age         = TALLYMARK_PROTO_AGE;
-   msg->header.header_len          = (TM_HDR_LENGTH / 4);
+   msg->header.header_len          = (sizeof(tallymark_hdr) / 4);
 
    // resets body
    msg->body.capabilities                 = 0;

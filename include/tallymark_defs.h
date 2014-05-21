@@ -64,18 +64,17 @@
 #define TM_HDR_LEN_VERSION_CURRENT        1UL
 #define TM_HDR_LEN_VERSION_AGE            1UL
 #define TM_HDR_LEN_HEADER_LEN             1UL
-#define TM_HDR_LEN_BODY_LEN               1UL
-#define TM_HDR_LEN_RESERVED               2UL
-#define TM_HDR_LEN_PARAM_COUNT            1UL
-#define TM_HDR_LEN_RESPONSE_CODES         1UL
+#define TM_HDR_LEN_MSG_LEN                1UL
 #define TM_HDR_LEN_REQUEST_CODES          4UL
+#define TM_HDR_LEN_RESPONSE_CODES         1UL
+#define TM_HDR_LEN_PARAM_COUNT            1UL
+#define TM_HDR_LEN_SERVICE_ID             1UL
+#define TM_HDR_LEN_FIELD_ID               1UL
 #define TM_HDR_LEN_REQUEST_ID             4UL
 #define TM_HDR_LEN_SEQUENCE_ID            4UL
-#define TM_HDR_LEN_SERVICE_ID             4UL
-#define TM_HDR_LEN_FIELD_ID               4UL
-#define TM_HDR_LEN_HASH_ID               24UL
-#define TM_HDR_LEN                       56UL
-#define TM_BDY_LEN                     1024UL
+#define TM_HDR_LEN_HASH_ID               20UL
+#define TM_HDR_LEN                       44UL
+#define TM_MSG_LEN                     1024UL
 
 #pragma mark - Header Field Offsets
 #define TM_HDR_OFF                        0UL
@@ -83,18 +82,16 @@
 #define TM_HDR_OFF_VERSION_CURRENT        4UL
 #define TM_HDR_OFF_VERSION_AGE            5UL
 #define TM_HDR_OFF_HEADER_LEN             6UL
-#define TM_HDR_OFF_BODY_LEN               7UL
-#define TM_HDR_OFF_RESERVED               8UL
-#define TM_HDR_OFF_PARAM_COUNT           10UL
-#define TM_HDR_OFF_RESPONSE_CODES        11UL
-#define TM_HDR_OFF_REQUEST_CODES         12UL
+#define TM_HDR_OFF_MSG_LEN                7UL
+#define TM_HDR_OFF_REQUEST_CODES          8UL
+#define TM_HDR_OFF_RESPONSE_CODES        12UL
+#define TM_HDR_OFF_PARAM_COUNT           13UL
+#define TM_HDR_OFF_SERVICE_ID            14UL
+#define TM_HDR_OFF_FIELD_ID              15UL
 #define TM_HDR_OFF_REQUEST_ID            16UL
 #define TM_HDR_OFF_SEQUENCE_ID           20UL
-#define TM_HDR_OFF_SERVICE_ID            24UL
-#define TM_HDR_OFF_FIELD_ID              28UL
-#define TM_HDR_OFF_HASH_ID               32UL
-#define TM_HDR_LENGTH                    56UL
-#define TM_BDY_OFF                       56UL
+#define TM_HDR_OFF_HASH_ID               24UL
+#define TM_BDY_OFF                       TM_HDR_LEN
 
 #pragma mark - Header Field Codes
 #define TALLYMARK_HDR_MAGIC            (TM_HDR_OFF_MAGIC       << 24UL)

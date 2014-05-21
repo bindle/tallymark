@@ -105,17 +105,16 @@ struct libtallymark_header_struct
    int8_t      version_current;  // |    1 |  4 |   1 |     |
    int8_t      version_age;      // |    1 |  5 |     |     |
    uint8_t     header_len;       // |    1 |  6 |     |     |
-   uint8_t     body_len;         // |    1 |  7 |     |     |
-   uint8_t     reserved[2];      // |    2 |  8 |   2 |   1 |
-   uint8_t     param_count;      // |    1 | 10 |     |     |
-   uint8_t     response_codes;   // |    1 | 11 |     |     |
-   uint32_t    request_codes;    // |    4 | 12 |   3 |     |
+   uint8_t     msg_len;          // |    1 |  7 |     |     |
+   uint32_t    request_codes;    // |    4 |  8 |   2 |   1 |
+   uint8_t     response_codes;   // |    1 | 12 |   3 |     |
+   uint8_t     param_count;      // |    1 | 13 |     |     |
+   uint8_t     service_id;       // |    2 | 14 |     |     |
+   uint8_t     field_id;         // |    2 | 15 |     |     |
    uint32_t    request_id;       // |    4 | 16 |   4 |   2 |
-   uint32_t    sequence_id;      // |    4 | 28 |   7 |     |
-   uint32_t    service_id;       // |    4 | 20 |   5 |     |
-   uint32_t    field_id;         // |    4 | 24 |   6 |   3 |
-   uint8_t     hash_id[24];      // |   24 | 32 |   8 |   4 |
-   //          body              // | 1024 | 56 |  14 |   7 |
+   uint32_t    sequence_id;      // |    4 | 20 |   5 |     |
+   uint8_t     hash_id[20];      // |   24 | 24 |   6 |   3 |
+   //          parameters        // |      | 44 |  11 |     |
                                  // +------+----+-----+-----+
 };
 
@@ -286,7 +285,7 @@ _TALLYMARK_F int tallymark_msg_alloc(tallymark_msg ** pmsg);
 _TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 
 _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
-   uint32_t req_id, uint32_t srv_id, uint32_t fld_id,
+   uint32_t req_id, uint8_t srv_id, uint8_t fld_id,
    const uint8_t * hash, size_t hash_len);
 
 _TALLYMARK_F int tallymark_msg_errnum(tallymark_msg * msg);
