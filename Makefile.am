@@ -60,19 +60,19 @@ DEFS					=
 
 
 # automake targets
+bin_PROGRAMS				=
+bin_SCRIPTS				=
 check_PROGRAMS				= tests/msg-header-errors \
 					  tests/url-parse
 doc_DATA				= README COPYING ChangeLog AUTHORS
 include_HEADERS				=
 lib_LTLIBRARIES				=
 man_MANS				=
-info_TEXINFOS				=
 noinst_LTLIBRARIES			=
 noinst_HEADERS				=
 noinst_PROGRAMS				= src/socket-client \
 					  src/socket-server
-bin_PROGRAMS				=
-bin_SCRIPTS				=
+sbin_PROGRAMS				=
 sbin_SCRIPTS				=
 
 
@@ -146,6 +146,19 @@ src_socket_server_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makef
 src_socket_server_SOURCES		= $(noinst_HEADERS) src/sockets/socket-server.c
 
 
+# macros for src/tallymarked
+bin_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+bin_tallymarked_LDADD			= lib/libtallymark.la
+bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarked/tallymarked.h \
+					  src/tallymarked/main.c \
+					  src/tallymarked/memory.c \
+					  src/tallymarked/memory.h
+if ENABLE_TALLYMARKED
+sbin_PROGRAMS				+= bin/tallymarked
+endif
+
+
 # macros for src/tallymarker
 bin_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 bin_tallymarker_LDADD			= lib/libtallymark.la
@@ -157,29 +170,14 @@ bin_PROGRAMS				+= bin/tallymarker
 endif
 
 
-# macros for src/tallymarked
-bin_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-bin_tallymarked_LDADD			= lib/libtallymark.la
-bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
-					  src/tallymarked/tallymarked.h \
-					  src/tallymarked/main.c \
-					  src/tallymarked/memory.c \
-					  src/tallymarked/memory.h
-if ENABLE_TALLYMARKED
-bin_PROGRAMS				+= bin/tallymarked
-endif
-
-
 # macros for tests/msg-header-errors
 tests_msg_header_errors_DEPENDENCIES	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 tests_msg_header_errors_LDADD		= lib/libtallymark.la
-tests_msg_header_errors_SOURCES		= tests/msg-header-errors.c
 
 
 # macros for tests/url-parse
 tests_url_parse_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 tests_url_parse_LDADD			= lib/libtallymark.la
-tests_url_parse_SOURCES			= tests/url-parse.c
 
 
 # Makefile includes
