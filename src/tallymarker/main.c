@@ -213,7 +213,6 @@ int main(int argc, char * argv[])
 
    tallymark_msg_compile(msg);
    tallymark_msg_get_buffer(msg, &msg_buff, &msg_buff_len);
-   tallymark_print_hexdump(stdout, msg_buff, ((hdr->body_len+hdr->header_len)*4), ">> ", "%s: sending message ...\n", argv[0]);
 
    if ((err = tallymark_msg_sendto(s, msg, NULL, 0)) != 0)
    {
@@ -226,8 +225,6 @@ int main(int argc, char * argv[])
       fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(err));
       return(1);
    };
-
-   tallymark_print_hexdump(stdout, msg_buff, ((hdr->body_len+hdr->header_len)*4), "<< ", "%s: received message ...\n", argv[0]);
 
    len = sizeof(str);
    if ((err = tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_PKG_NAME, &str, &len)) != 0)
