@@ -195,7 +195,7 @@ int tallymark_url_parse(const char * urlstr, tallymark_url_desc ** tudpp,
    };
 
    // copy "port" into struct member "tud_port"
-   if (pmatch[SUBMATCH_IPV6].rm_eo != pmatch[SUBMATCH_IPV6].rm_so)
+   if (pmatch[SUBMATCH_PORT].rm_eo != pmatch[SUBMATCH_PORT].rm_so)
    {
       str[pmatch[SUBMATCH_PORT].rm_eo] = '\0';
       ptr = &str[pmatch[SUBMATCH_PORT].rm_so];
