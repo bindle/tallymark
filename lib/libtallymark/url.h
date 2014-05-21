@@ -59,12 +59,17 @@
 #endif
 
 #define TALLYMARK_URL_REGEX \
-   "^(tally[d]{0,1})://" /* scheme */ \
+   "^(tally[d]{0,1})://"                           /* scheme */ \
    "(" \
-   "([-.[:alnum:]]+|\\[([:[:xdigit:]]+(%[[:alnum:]]+){0,1})\\])"  /* host */ \
-   "(:([[:digit:]]+)){0,1}" /* port */ \
+      "(" \
+         "[-.0-9a-z]+"                             /* host/IPv4 */ \
+         "|" \
+         "\\[([:0-9a-f]+(%[0-9a-z]+){0,1})\\]"     /* IPv6 */ \
+      ")" \
+      "(:([0-9]+)){0,1}"                           /* port */ \
    "){0,1}" \
-   "[/-_.[:alnum:]]{0,}$"
+   "[/-_.0-9a-z]{0,}$"                            /* path */
+
 
 #define SUBMATCH_SCHEME       1
 #define SUBMATCH_HOST         3
