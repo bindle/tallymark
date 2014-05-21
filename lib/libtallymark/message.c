@@ -575,7 +575,8 @@ int tallymark_msg_parse_utf8(tallymark_msg * msg, size_t off,
 int tallymark_msg_read(tallymark_msg * msg, int s,
    struct sockaddr * address, socklen_t * address_len)
 {
-   ssize_t         len;
+   ssize_t  bufflen;
+   size_t   len;
 
    assert(msg  != NULL);
    assert(s    != -1);
@@ -586,11 +587,23 @@ int tallymark_msg_read(tallymark_msg * msg, int s,
    if ((address != NULL) && (address_len != NULL))
       bzero(address, *address_len);
 
-   // read header from socket
-   len = recvfrom(s, &msg->buff, TM_MSG_MAX_SIZE, 0, address, address_len);
-   if (len == -1)
+   // read first 8 bytes of header from socket
+   bufflen = recvfrom(s, &msg->buff, TM_MSG_MAX_SIZE, MSG_PEEK, address, address_len);
+   if (bufflen == -1)
       return(msg->error = errno);
-   if (len < 8)
+   msg->msg_len = (size_t)bufflen;
+   if (bufflen < 8)
+   {
+      msg->status = TALLYMARK_MSG_BAD;
+      return(msg->error = EBADMSG);
+   };
+
+   // read full message from socket
+   len = (msg->buff.hdr.body_len + msg->buff.hdr.header_len) * 4;
+   bufflen = recvfrom(s, &msg->buff, TM_MSG_MAX_SIZE, 0, NULL, NULL);
+   if (bufflen == -1)
+      return(msg->error = errno);
+   if ((msg->msg_len = (size_t)bufflen) != len)
    {
       msg->status = TALLYMARK_MSG_BAD;
       return(msg->error = EBADMSG);
@@ -598,7 +611,7 @@ int tallymark_msg_read(tallymark_msg * msg, int s,
 
    // update message state
    msg->status    = TALLYMARK_MSG_COMPILED;
-   msg->msg_len   = (size_t)len;
+   msg->msg_len   = (size_t)bufflen;
    msg->s         = s;
 
    return(0);
