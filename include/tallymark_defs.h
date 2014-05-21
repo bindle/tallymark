@@ -170,28 +170,28 @@
 /// @ingroup fieldCodes Data Field Codes
 /// @{
 #pragma mark - Message Parameter Codes
-#define TALLYMARK_PARM_SYS_CAPABILITIES 0x10000000 ///< window size of tallies
-#define TALLYMARK_PARM_SYS_VERSION      0x20000000 ///< ORed list of capabilities
-#define TALLYMARK_PARM_SYS_PKG_NAME     0x30000000 ///< ORed list of capabilities
+#define TALLYMARK_PARM_SYS_CAPABILITIES 0x100000 ///< window size of tallies
+#define TALLYMARK_PARM_SYS_VERSION      0x200000 ///< ORed list of capabilities
+#define TALLYMARK_PARM_SYS_PKG_NAME     0x300000 ///< ORed list of capabilities
 
-#define TALLYMARK_PARM_TALLY_COUNT      0x00000001 ///< tally count of requested data
-#define TALLYMARK_PARM_TALLY_AVERAGE    0x00000002 ///< tally average of requested data
-#define TALLYMARK_PARM_TALLY_HISTORY    0x00000003 ///< tally history of requested data
+#define TALLYMARK_PARM_TALLY_COUNT      0x000001 ///< tally count of requested data
+#define TALLYMARK_PARM_TALLY_AVERAGE    0x000002 ///< tally average of requested data
+#define TALLYMARK_PARM_TALLY_HISTORY    0x000003 ///< tally history of requested data
 
-#define TALLYMARK_PARM_THRESHOLD_QUERY  0x00000010 ///< current threshold of requested data
-#define TALLYMARK_PARM_THRESHOLD_DEF    0x00000020 ///< threshold definition of requested data
+#define TALLYMARK_PARM_THRESHOLD_QUERY  0x000010 ///< current threshold of requested data
+#define TALLYMARK_PARM_THRESHOLD_DEF    0x000020 ///< threshold definition of requested data
 
-#define TALLYMARK_PARM_HASH_LIST        0x00000100 ///< Send list of hashes
-#define TALLYMARK_PARM_HASH_TEXT        0x00000200 ///< Send text value of tallied data
-#define TALLYMARK_PARM_HASH_ID          0x00000400 ///< send hash value (only useful with OP_HASH_LIST)
+#define TALLYMARK_PARM_HASH_LIST        0x000100 ///< Send list of hashes
+#define TALLYMARK_PARM_HASH_TEXT        0x000200 ///< Send text value of tallied data
+#define TALLYMARK_PARM_HASH_ID          0x000400 ///< send hash value (only useful with OP_HASH_LIST)
 
-#define TALLYMARK_PARM_SERVICE_LIST     0x00001000 ///< send list of services
-#define TALLYMARK_PARM_SERVICE_NAME     0x00002000 ///< send service name
-#define TALLYMARK_PARM_SERVICE_ID       0x00004000 ///< send service ID (only useful with OP_SERVICE_LIST)
+#define TALLYMARK_PARM_SERVICE_LIST     0x001000 ///< send list of services
+#define TALLYMARK_PARM_SERVICE_NAME     0x002000 ///< send service name
+#define TALLYMARK_PARM_SERVICE_ID       0x004000 ///< send service ID (only useful with OP_SERVICE_LIST)
 
-#define TALLYMARK_PARM_FIELD_LIST       0x00010000 ///< send list of fields
-#define TALLYMARK_PARM_FIELD_NAME       0x00020000 ///< send field name
-#define TALLYMARK_PARM_FIELD_ID         0x00040000 ///< send field ID (only useful with OP_FIELD_LIST)
+#define TALLYMARK_PARM_FIELD_LIST       0x010000 ///< send list of fields
+#define TALLYMARK_PARM_FIELD_NAME       0x020000 ///< send field name
+#define TALLYMARK_PARM_FIELD_ID         0x040000 ///< send field ID (only useful with OP_FIELD_LIST)
 /// @}
 
 

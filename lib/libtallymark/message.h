@@ -69,7 +69,20 @@
 #endif
 
 typedef struct libtallymark_body_struct     tallymark_bdy;
+typedef struct libtallymark_blob_struct     tallymark_blob;
 
+struct libtallymark_blob_struct
+{
+   size_t bytes;
+   union
+   {
+      uint8_t  * u8;
+      uint32_t * u32;
+      uint64_t * u64;
+      char     * str;
+      void     * ptr;
+   } dat;
+};
 
 struct libtallymark_body_struct
 {
@@ -77,11 +90,8 @@ struct libtallymark_body_struct
    uint32_t    capabilities;
 
    // TALLYMARK_FLD_SYS_VERSION
-   char      * version;
-   uint32_t    version_size;
-   char      * package_name;
-   uint32_t    package_name_size;
-
+   tallymark_blob    version;
+   tallymark_blob    package_name;
 };
 
 
@@ -113,20 +123,29 @@ struct libtallymark_message_struct
 #pragma mark - Prototypes
 #endif
 
-_TALLYMARK_F unsigned tallymark_msg_param_header(tallymark_msg * msg, size_t off,
-   uint32_t len, uint32_t id);
-_TALLYMARK_F unsigned tallymark_msg_param_len(unsigned len);
-_TALLYMARK_F unsigned tallymark_msg_param_str(tallymark_msg * msg, size_t off,
-   const char * str, size_t len);
-_TALLYMARK_F unsigned tallymark_msg_param_u32(tallymark_msg * msg, size_t off,
+_TALLYMARK_F size_t tallymark_msg_compile_param_hdr(tallymark_msg * msg,
+   size_t off, size_t data_len, uint32_t id);
+
+_TALLYMARK_F size_t tallymark_msg_compile_u32(tallymark_msg * msg, size_t off,
    uint32_t val);
 
+_TALLYMARK_F size_t tallymark_msg_compile_utf8(tallymark_msg * msg, size_t off,
+   const tallymark_blob * utf8);
+
+_TALLYMARK_F size_t tallymark_msg_compiled_len(size_t len);
+
 _TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
+
+_TALLYMARK_F int tallymark_msg_parse_utf8(tallymark_msg * msg, size_t off,
+   size_t param_len, tallymark_blob * blob);
+
 _TALLYMARK_F int tallymark_msg_read(tallymark_msg * msg, int s,
    struct sockaddr * address, socklen_t * address_len);
-_TALLYMARK_F int tallymark_msg_set_string(tallymark_msg * msg, char ** ptr,
-   const void * invalue, size_t invalue_size);
-_TALLYMARK_F int tallymark_msg_get_string(tallymark_msg * msg,
-   const char * invalue, void * outvalue, size_t * outvalue_size);
+
+_TALLYMARK_F int tallymark_msg_set_utf8(tallymark_msg * msg,
+   tallymark_blob * pout, const void * invalue, size_t invalue_size);
+
+_TALLYMARK_F int tallymark_msg_get_utf8(tallymark_msg * msg,
+   const tallymark_blob * blob, void * outvalue, size_t * outvalue_size);
 
 #endif /* end of header */

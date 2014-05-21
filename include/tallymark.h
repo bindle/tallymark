@@ -309,7 +309,7 @@ _TALLYMARK_F int tallymark_msg_recvfrom(int s, tallymark_msg * msg,
 
 _TALLYMARK_F int tallymark_msg_reset(tallymark_msg * msg);
 
-_TALLYMARK_F ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
+_TALLYMARK_F int tallymark_msg_sendto(int s, tallymark_msg * msg,
    const struct sockaddr * dest_addr, socklen_t dest_len);
 
 _TALLYMARK_F int tallymark_msg_set_header(tallymark_msg * msg, int header,

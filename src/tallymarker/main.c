@@ -62,6 +62,8 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <arpa/inet.h>
+#include <time.h>
+#include <stdlib.h>
 
 
 ///////////////////
@@ -122,13 +124,13 @@ int main(int argc, char * argv[])
    //int               opt;
    int                  err;
    size_t               len;
-   socklen_t            socklen;
    tallymark_msg      * msg;
+   const tallymark_hdr * hdr;
    tallymark_url_desc * tudp;
-   tallymark_sockaddr   addr;
    uint32_t             inval32;
+   const uint8_t      * msg_buff;
+   size_t               msg_buff_len;
    char               * str;
-   char                 buff[1024];
 
    static char   short_opt[] = "H:hV";
    static struct option long_opt[] =
@@ -204,38 +206,45 @@ int main(int argc, char * argv[])
       return(1);
    };
 
-   tallymark_msg_create_header(msg, 0x0011, 25, 1, (const uint8_t *)"0123456789", 10);
-
+   tallymark_msg_create_header(msg, (uint32_t)time(NULL), 25, 1, (const uint8_t *)"0123456789", 10);
+   tallymark_msg_get_header(msg, &hdr);
    inval32 = TALLYMARK_REQ_SYS_CAPABILITIES |TALLYMARK_REQ_SYS_VERSION;
    tallymark_msg_set_header(msg, TALLYMARK_HDR_REQUEST_CODES, &inval32, sizeof(inval32));
 
-   socklen = sizeof(addr.sa_in6.sin6_len);
-   if ((err = (int)tallymark_msg_sendto(s, msg, NULL, 0)) == -1)
+   tallymark_msg_compile(msg);
+   tallymark_msg_get_buffer(msg, &msg_buff, &msg_buff_len);
+   tallymark_print_hexdump(stdout, msg_buff, ((hdr->body_len+hdr->header_len)*4), ">> ", "%s: sending message ...\n", argv[0]);
+
+   if ((err = tallymark_msg_sendto(s, msg, NULL, 0)) != 0)
    {
-      fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(tallymark_msg_errnum(msg)));
+      fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(err));
       return(1);
    };
 
-printf("got here 100\n");
-   if ((err = (int)tallymark_msg_recvfrom(s, msg, NULL, 0)) == -1)
+   if ((err = tallymark_msg_recvfrom(s, msg, NULL, 0)) != 0)
    {
-      fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(tallymark_msg_errnum(msg)));
+      fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(err));
       return(1);
    };
-printf("got here 200\n");
 
-   len = sizeof(buff)-1;
-   tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_PKG_NAME, buff, &len);
-   buff[len] = '\0';
-   printf("%s", buff);
+   tallymark_print_hexdump(stdout, msg_buff, ((hdr->body_len+hdr->header_len)*4), "<< ", "%s: received message ...\n", argv[0]);
 
-   len = sizeof(buff)-1;
-   tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_VERSION, buff, &len);
-   buff[len] = '\0';
-   printf(" (%s)\n", buff);
+   len = sizeof(str);
+   if ((err = tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_PKG_NAME, &str, &len)) != 0)
+      printf("tallymark_msg_get_param(TALLYMARK_PARM_SYS_PKG_NAME): %s\n", tallymark_strerror(err));
+   printf("%s", str);
+   free(str);
+
+   len = sizeof(str);
+   if ((err = tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_VERSION, &str, &len)) != 0)
+      printf("tallymark_msg_get_param(TALLYMARK_PARM_SYS_VERSION): %s\n", tallymark_strerror(err));
+   printf(" (%s)\n", str);
+   free(str);
 
    len = sizeof(inval32);
-   tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_CAPABILITIES, &inval32, &len);
+   inval32 = 0;
+   if ((err = tallymark_msg_get_param(msg, TALLYMARK_PARM_SYS_CAPABILITIES, &inval32, &len)) != 0)
+      printf("tallymark_msg_get_param(): %s\n", tallymark_strerror(err));
    printf("Capabilities: %08x\n", inval32);
 
    return(0);

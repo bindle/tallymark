@@ -126,7 +126,8 @@ int main(int argc, char * argv[])
    char                 straddr[INET6_ADDRSTRLEN];
    socklen_t            addrlen;
    uint32_t             u32;
-   const char         * rstr;
+   uint8_t              u8;
+   const char         * constr;
 
    static char   short_opt[] = "46hl:p:V";
    static struct option long_opt[] =
@@ -239,12 +240,13 @@ int main(int argc, char * argv[])
          continue;
       };
       tallymark_msg_get_header(cnf->req, &req_hdr);
-      printf("%s/%i: %u: received request %08x\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id, req_hdr->request_codes);
+      printf("%s/%i: %u: received request for %08x\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id, req_hdr->request_codes);
 
       tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, sizeof(req_hdr->hash_id));
+
+      u8 = TALLYMARK_RES_RESPONSE|TALLYMARK_RES_EOR;
+      tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u8, sizeof(u8));
       tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_REQUEST_CODES, &req_hdr->request_codes, sizeof(req_hdr->request_codes));
-      u32 = TALLYMARK_RES_RESPONSE|TALLYMARK_RES_EOR;
-      tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u32, sizeof(u32));
 
       if ((TALLYMARK_REQ_SYS_CAPABILITIES & req_hdr->request_codes) != 0)
       {
@@ -253,10 +255,10 @@ int main(int argc, char * argv[])
       };
       if ((TALLYMARK_REQ_SYS_VERSION & req_hdr->request_codes) != 0)
       {
-         rstr = PACKAGE_NAME;
-         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_PKG_NAME, &rstr, strlen(rstr));
-         rstr = PACKAGE_VERSION;
-         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_VERSION, &rstr, strlen(rstr));
+         constr = PACKAGE_NAME;
+         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_PKG_NAME, &constr, strlen(constr));
+         constr = PACKAGE_VERSION;
+         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_VERSION,  &constr, strlen(constr));
       };
 
       printf("%s/%i: %u: sending response\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id);

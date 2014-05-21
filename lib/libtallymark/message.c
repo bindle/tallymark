@@ -100,53 +100,13 @@ int tallymark_msg_alloc(tallymark_msg ** pmsg)
 }
 
 
-unsigned tallymark_msg_param_header(tallymark_msg * msg, size_t off, uint32_t len,
-   uint32_t id)
-{
-   msg->buff.u8[off+0] = (uint8_t)(len >> 2);
-   msg->buff.u8[off+1] = (uint8_t)((id >> 16) & 0xff);
-   msg->buff.u8[off+2] = (uint8_t)((id >>  8) & 0xff);
-   msg->buff.u8[off+3] = (uint8_t)((id >>  0) & 0xff);
-   return(4);
-}
-
-
-unsigned tallymark_msg_param_len(unsigned len)
-{
-   if ((len & 0x03) != 0)
-   {
-      len &= ~0x03U;
-      len += 4U;
-   };
-   return(len);
-}
-
-
-unsigned tallymark_msg_param_str(tallymark_msg * msg, size_t off, const char * str, size_t len)
-{
-   bzero(&msg->buff.u8[off], tallymark_msg_param_len((unsigned)len));
-   memcpy(&msg->buff.u8[off], str, len);
-   return(tallymark_msg_param_len((unsigned)len));
-}
-
-
-unsigned tallymark_msg_param_u32(tallymark_msg * msg, size_t off, uint32_t val)
-{
-   msg->buff.u8[off+0] = (uint8_t)((val >> 24) & 0xff);
-   msg->buff.u8[off+1] = (uint8_t)((val >> 16) & 0xff);
-   msg->buff.u8[off+2] = (uint8_t)((val >>  8) & 0xff);
-   msg->buff.u8[off+3] = (uint8_t)((val >>  0) & 0xff);
-   return(4);
-}
-
-
 int tallymark_msg_compile(tallymark_msg * msg)
 {
    tallymark_hdr   * hdr;
    tallymark_hdr   * buf;
    tallymark_bdy   * bdy;
    size_t            off;
-   uint32_t          len;
+   size_t            len;
 
    assert(msg  != NULL);
 
@@ -167,24 +127,24 @@ int tallymark_msg_compile(tallymark_msg * msg)
 
    if (bdy->capabilities != 0)
    {
-      off += tallymark_msg_param_header(msg, off, 8, TALLYMARK_PARM_SYS_CAPABILITIES);
-      off += tallymark_msg_param_u32(msg,    off, bdy->capabilities);
+      off += tallymark_msg_compile_param_hdr(msg,  off, 4, TALLYMARK_PARM_SYS_CAPABILITIES);
+      off += tallymark_msg_compile_u32(msg,        off, bdy->capabilities);
       hdr->param_count++;
    };
 
-   if (bdy->package_name != NULL)
+   if (bdy->package_name.bytes != 0)
    {
-      len = tallymark_msg_param_len(bdy->package_name_size);
-      off += tallymark_msg_param_header(msg, off, len+4, TALLYMARK_PARM_SYS_PKG_NAME);
-      off += tallymark_msg_param_str(msg,    off, bdy->package_name, bdy->package_name_size);
+      len = tallymark_msg_compiled_len(bdy->package_name.bytes);
+      off += tallymark_msg_compile_param_hdr(msg,  off, len, TALLYMARK_PARM_SYS_PKG_NAME);
+      off += tallymark_msg_compile_utf8(msg,       off, &bdy->package_name);
       hdr->param_count++;
    };
 
-   if (bdy->version != NULL)
+   if (bdy->version.bytes != 0)
    {
-      len = tallymark_msg_param_len(bdy->version_size);
-      off += tallymark_msg_param_header(msg, off, len+4, TALLYMARK_PARM_SYS_VERSION);
-      off += tallymark_msg_param_str(msg,    off, bdy->version, bdy->version_size);
+      len = tallymark_msg_compiled_len(bdy->version.bytes);
+      off += tallymark_msg_compile_param_hdr(msg,  off, len, TALLYMARK_PARM_SYS_VERSION);
+      off += tallymark_msg_compile_utf8(msg,       off, &bdy->version);
       hdr->param_count++;
    };
 
@@ -210,6 +170,49 @@ int tallymark_msg_compile(tallymark_msg * msg)
    msg->status    |= TALLYMARK_MSG_COMPILED;
 
    return(0);
+}
+
+
+size_t tallymark_msg_compile_param_hdr(tallymark_msg * msg, size_t off, size_t data_len,
+   uint32_t id)
+{
+   data_len += 4;
+   msg->buff.u8[off+0] = (uint8_t)(data_len >> 2);
+   msg->buff.u8[off+1] = (uint8_t)((id >> 16) & 0xff);
+   msg->buff.u8[off+2] = (uint8_t)((id >>  8) & 0xff);
+   msg->buff.u8[off+3] = (uint8_t)((id >>  0) & 0xff);
+   return(4);
+}
+
+
+size_t tallymark_msg_compile_u32(tallymark_msg * msg, size_t off, uint32_t val)
+{
+   msg->buff.u8[off+0] = (uint8_t)((val >> 24) & 0xff);
+   msg->buff.u8[off+1] = (uint8_t)((val >> 16) & 0xff);
+   msg->buff.u8[off+2] = (uint8_t)((val >>  8) & 0xff);
+   msg->buff.u8[off+3] = (uint8_t)((val >>  0) & 0xff);
+   return(4);
+}
+
+
+size_t tallymark_msg_compile_utf8(tallymark_msg * msg, size_t off, const tallymark_blob * blob)
+{
+   size_t len;
+   len = tallymark_msg_compiled_len(blob->bytes);
+   bzero(&msg->buff.u8[off], len);
+   memcpy(&msg->buff.u8[off], blob->dat.str, blob->bytes);
+   return(len);
+}
+
+
+size_t tallymark_msg_compiled_len(size_t len)
+{
+   if ((len & 0x03) != 0)
+   {
+      len &= ~0x03U;
+      len += 4U;
+   };
+   return(len);
 }
 
 
@@ -259,10 +262,10 @@ void tallymark_msg_free(tallymark_msg * msg)
 {
    assert(msg  != NULL);
 
-   if (msg->body.version != NULL)
-      free(msg->body.version);
-   if (msg->body.package_name != NULL)
-      free(msg->body.package_name);
+   if (msg->body.version.dat.ptr != NULL)
+      free(msg->body.version.dat.ptr);
+   if (msg->body.package_name.dat.ptr != NULL)
+      free(msg->body.package_name.dat.ptr);
 
    memset(msg, 0, sizeof(tallymark_msg));
 
@@ -284,27 +287,32 @@ int tallymark_msg_get_buffer(tallymark_msg * msg, const uint8_t ** pbuf,
 }
 
 
-int tallymark_msg_get_string(tallymark_msg * msg, const char * invalue,
+int tallymark_msg_get_utf8(tallymark_msg * msg, const tallymark_blob * blob,
    void * outvalue, size_t * outvalue_size)
 {
-   size_t len;
-
    assert(msg           != NULL);
    assert(outvalue      != NULL);
-   assert(outvalue_size != NULL);
+   assert(outvalue_size != 0);
 
-   len = strlen(invalue);
-   len = ((*outvalue_size - 1) < len) ? (*outvalue_size - 1) : len;
-
-   if (invalue == NULL)
+   if ((blob->dat.ptr == NULL) || (blob->bytes == 0))
    {
-      ((char *)outvalue)[0] = '\0';
-      *outvalue_size = 0;
+      (*((char **)outvalue)) = NULL;
+      if (outvalue_size != NULL)
+         *outvalue_size = 0;
       return(0);
    };
-   strncpy((char *)outvalue, invalue, len);
-   ((char *)outvalue)[0] = '\0';
-   *outvalue_size = len;
+
+   if ((*((char **)outvalue) = malloc(blob->bytes+1)) == NULL)
+   {
+      if (outvalue_size != NULL)
+         *outvalue_size = 0;
+      return(msg->error = ENOMEM);
+   };
+
+   memcpy(*((char **)outvalue), blob->dat.ptr, blob->bytes);
+   (*((uint8_t **)outvalue))[blob->bytes] = 0;
+   if (outvalue_size != NULL)
+      *outvalue_size = blob->bytes;
 
    return(0);
 }
@@ -331,10 +339,10 @@ int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
       return(0);
 
       case TALLYMARK_PARM_SYS_VERSION:
-      return(tallymark_msg_get_string(msg, msg->body.version, outvalue, outvalue_size));
+      return(tallymark_msg_get_utf8(msg, &msg->body.version, outvalue, outvalue_size));
 
       case TALLYMARK_PARM_SYS_PKG_NAME:
-      return(tallymark_msg_get_string(msg, msg->body.package_name, outvalue, outvalue_size));
+      return(tallymark_msg_get_utf8(msg, &msg->body.package_name, outvalue, outvalue_size));
 
       case TALLYMARK_PARM_TALLY_COUNT:
 
@@ -414,6 +422,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
 {
    tallymark_hdr      * hdr;
    tallymark_hdr      * buf;
+   int                  err;
    size_t               off;
    uint32_t             param_len;
    uint32_t             param_id;
@@ -497,12 +506,12 @@ int tallymark_msg_parse(tallymark_msg * msg)
 
       // parses parameter length and ID
       param_len  = msg->buff.u8[off] * 4;
-      param_id   = (((uint32_t)msg->buff.u8[1] & 0xff) << 16);
-      param_id  |= (((uint32_t)msg->buff.u8[2] & 0xff) <<  8);
-      param_id  |= (((uint32_t)msg->buff.u8[3] & 0xff) <<  0);
+      param_id   = (((uint32_t)msg->buff.u8[off+1] & 0xff) << 16);
+      param_id  |= (((uint32_t)msg->buff.u8[off+2] & 0xff) <<  8);
+      param_id  |= (((uint32_t)msg->buff.u8[off+3] & 0xff) <<  0);
 
       // verify message is long enough to contain the specified parameter
-      if ((off + param_len) >= msg->msg_len)
+      if ((off + param_len) > msg->msg_len)
       {
          msg->status = TALLYMARK_MSG_BAD;
          return(msg->error = EBADMSG);
@@ -523,21 +532,13 @@ int tallymark_msg_parse(tallymark_msg * msg)
          break;
 
          case TALLYMARK_PARM_SYS_PKG_NAME:
-         if (msg->body.package_name != NULL)
-            free(msg->body.package_name);
-         if ((msg->body.package_name = malloc(param_len+1)) == NULL)
-            return(msg->error = ENOMEM);
-         memcpy(msg->body.package_name, &msg->buff.u8[0], param_len);
-         msg->body.package_name[param_len] = '\0';
+         if ((err = tallymark_msg_parse_utf8(msg, off, param_len, &msg->body.package_name)) != 0)
+            return(err);
          break;
 
          case TALLYMARK_PARM_SYS_VERSION:
-         if (msg->body.version != NULL)
-            free(msg->body.version);
-         if ((msg->body.version = malloc(param_len+1)) == NULL)
-            return(msg->error = ENOMEM);
-         memcpy(msg->body.version, &msg->buff.u8[0], param_len);
-         msg->body.version[param_len] = '\0';
+         if ((err = tallymark_msg_parse_utf8(msg, off, param_len, &msg->body.version)) != 0)
+            return(err);
          break;
 
          default:
@@ -551,6 +552,24 @@ int tallymark_msg_parse(tallymark_msg * msg)
 
    return(0);
 }
+
+
+int tallymark_msg_parse_utf8(tallymark_msg * msg, size_t off,
+   size_t param_len, tallymark_blob * blob)
+{
+   void * ptr;
+
+   if ((ptr = realloc(blob->dat.ptr, (param_len+1))) == NULL)
+      return(msg->error = ENOMEM);
+   blob->dat.ptr = ptr;
+
+   memcpy(ptr, &msg->buff.u8[off], param_len);
+   blob->dat.str[param_len] = '\0';
+   blob->bytes = param_len;
+
+   return(0);
+}
+
 
 
 int tallymark_msg_read(tallymark_msg * msg, int s,
@@ -625,23 +644,22 @@ int tallymark_msg_reset(tallymark_msg * msg)
    msg->header.header_len          = (TM_HDR_LENGTH / 4);
 
    // resets body
-   msg->body.capabilities           = 0;
-   msg->body.version_size           = 0;
-   msg->body.package_name_size      = 0;
-   if (msg->body.package_name != NULL)
-      msg->body.package_name[0]     = '\0';
-   if (msg->body.version != NULL)
-      msg->body.version[0]          = '\0';
+   msg->body.capabilities                 = 0;
+   msg->body.version.bytes                = 0;
+   msg->body.package_name.bytes           = 0;
+   if (msg->body.package_name.dat.str != NULL)
+      msg->body.package_name.dat.str[0]   = '\0';
+   if (msg->body.version.dat.str != NULL)
+      msg->body.version.dat.str[0]        = '\0';
 
    return(0);
 }
 
 
-ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
+int tallymark_msg_sendto(int s, tallymark_msg * msg,
    const struct sockaddr * dest_addr, socklen_t dest_len)
 {
    int     err;
-   ssize_t len;
 
    assert(s    != -1);
    assert(msg  != NULL);
@@ -658,33 +676,39 @@ ssize_t tallymark_msg_sendto(int s, tallymark_msg * msg,
          return(-1);
    };
 
-   len = sendto(s, msg->buff.u8, msg->msg_len, 0, dest_addr, dest_len);
-   if (len == -1)
-      msg->error = errno;
+   if (sendto(s, msg->buff.u8, msg->msg_len, 0, dest_addr, dest_len) == -1)
+      return(msg->error = errno);
 
-   return(len);
+   return(0);
 }
 
 
-int tallymark_msg_set_string(tallymark_msg * msg, char ** ptr,
+int tallymark_msg_set_utf8(tallymark_msg * msg, tallymark_blob * pout,
    const void * invalue, size_t invalue_size)
 {
+   char * ptr;
    assert(msg              != NULL);
-   assert(ptr              != NULL);
-   assert(invalue          != NULL);
+   assert(pout             != NULL);
 
-   if (*ptr != NULL)
-   {
-      free(*ptr);
-      *ptr = NULL;
-   };
+   // clears value if missing
    if (invalue == NULL)
+   {
+      if (pout->dat.ptr != NULL)
+         free(pout->dat.ptr);
+      pout->dat.ptr  = NULL;
+      pout->bytes    = 0;
       return(0);
+   };
 
-   if ((*ptr = malloc(invalue_size+1)) == NULL)
+   // allocates memory
+   if ((ptr = realloc(pout->dat.ptr, invalue_size+1)) == NULL)
       return(msg->error = ENOMEM);
-   strncpy(*ptr, invalue, invalue_size);
-   (*ptr)[invalue_size] = '\0';
+   pout->dat.ptr  = ptr;
+   pout->bytes    = invalue_size;
+
+   // copy memory
+   memcpy(ptr, *((const uint8_t * const * const)invalue), invalue_size);
+   ptr[invalue_size] = '\0';
 
    return(0);
 }
@@ -741,10 +765,10 @@ int tallymark_msg_set_param(tallymark_msg * msg, int param,
       return(0);
 
       case TALLYMARK_PARM_SYS_VERSION:
-      return(tallymark_msg_set_string(msg, &msg->body.version, invalue, invalue_size));
+      return(tallymark_msg_set_utf8(msg, &msg->body.version, invalue, invalue_size));
 
       case TALLYMARK_PARM_SYS_PKG_NAME:
-      return(tallymark_msg_set_string(msg, &msg->body.package_name, invalue, invalue_size));
+      return(tallymark_msg_set_utf8(msg, &msg->body.package_name, invalue, invalue_size));
 
       case TALLYMARK_PARM_TALLY_COUNT:
 
