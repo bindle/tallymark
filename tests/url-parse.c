@@ -107,6 +107,16 @@ const char * tallymark_valid_urls[] =
    NULL
 };
 
+const char * tallymark_invalid_urls[] =
+{
+   "tally://local_host",
+   "tally://local_host/",
+   "tally://local_host:2211",
+   "tally://local_host:2211/",
+   NULL
+};
+
+
 /////////////////
 //             //
 //  Functions  //
@@ -124,12 +134,28 @@ int main(void)
 
    rc = 0;
 
+   printf("URL Regex:\n");
+   printf("  %s\n", tallymark_url_regex_string());
+
+   printf("Testing Invalid URLs:\n");
+   for(pos = 0; tallymark_invalid_urls[pos] != NULL; pos++)
+   {
+      if (tallymark_url_parse(tallymark_invalid_urls[pos], &tudp, 1) != 0)
+      {
+         fprintf(stdout, "  Failed: %s\n", tallymark_invalid_urls[pos]);
+         continue;
+      };
+      rc = 1;
+      fprintf(stdout, "! Passed: %s\n", tallymark_invalid_urls[pos]);
+      tallymark_url_free(tudp);
+   };
+
    printf("Testing Valid URLs:\n");
    for(pos = 0; tallymark_valid_urls[pos] != NULL; pos++)
    {
       if (tallymark_url_parse(tallymark_valid_urls[pos], &tudp, 1) != 0)
       {
-         fprintf(stdout, "--Failed: %s\n", tallymark_valid_urls[pos]);
+         fprintf(stdout, "! Failed: %s\n", tallymark_valid_urls[pos]);
          rc = 1;
          continue;
       };
