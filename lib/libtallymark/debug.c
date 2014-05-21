@@ -89,7 +89,7 @@ void tallymark_print_hexdump(FILE * fs, const uint8_t * buff, size_t len,
          else
             fprintf(fs, "   ");
       };
-      fprintf(fs, " ");
+      fprintf(fs, "  ");
       for(x = y; (x < (y+16)) && (x < len); x++)
          fprintf(fs, "%c", ((buff[x] >= 0x20) && (buff[x] <= 0x7e)) ? buff[x] : '.');
       fprintf(fs, "\n");
