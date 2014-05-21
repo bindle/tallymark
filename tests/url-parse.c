@@ -72,6 +72,10 @@ int main(void);
 
 const char * tallymark_valid_urls[] =
 {
+   "tally://",
+   "tally:///",
+   "tally://:2211",
+   "tally://:2211/",
    "tally://localhost",
    "tally://localhost/",
    "tally://localhost:2211",
@@ -84,10 +88,18 @@ const char * tallymark_valid_urls[] =
    "tally://0.0.0.0/",
    "tally://0.0.0.0:2211",
    "tally://0.0.0.0:2211/",
+   "tally://[::]",
+   "tally://[::]/",
+   "tally://[::]:2211",
+   "tally://[::]:2211/",
    "tally://[::1]",
    "tally://[::1]/",
    "tally://[::1]:2211",
    "tally://[::1]:2211/",
+   "tally://[fe80::]",
+   "tally://[fe80::]/",
+   "tally://[fe80::]:2211",
+   "tally://[fe80::]:2211/",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]/",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]:2211",
@@ -106,21 +118,26 @@ const char * tallymark_valid_urls[] =
 
 int main(void)
 {
+   int                  rc;
    size_t               pos;
    tallymark_url_desc * tudp;
 
+   rc = 0;
+
+   printf("Testing Valid URLs:\n");
    for(pos = 0; tallymark_valid_urls[pos] != NULL; pos++)
    {
-      fprintf(stdout, "Testing:          %s\n", tallymark_valid_urls[pos]);
       if (tallymark_url_parse(tallymark_valid_urls[pos], &tudp, 1) != 0)
-      //{
-         fprintf(stdout, "Valid URL Failed: %s\n", tallymark_valid_urls[pos]);
-      //   return(1);
-      //};
-      //tallymark_url_free(tudp);
+      {
+         fprintf(stdout, "--Failed: %s\n", tallymark_valid_urls[pos]);
+         rc = 1;
+         continue;
+      };
+      fprintf(stdout, "  Passed: %s\n", tallymark_valid_urls[pos]);
+      tallymark_url_free(tudp);
    };
 
-   return(0);
+   return(rc);
 }
 
 
