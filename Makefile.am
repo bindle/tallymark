@@ -146,27 +146,27 @@ src_socket_server_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makef
 src_socket_server_SOURCES		= $(noinst_HEADERS) src/sockets/socket-server.c
 
 
-# macros for src/tallymarked
-bin_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-bin_tallymarked_LDADD			= lib/libtallymark.la
-bin_tallymarked_SOURCES			= $(noinst_HEADERS) \
-					  src/tallymarked/tallymarked.h \
-					  src/tallymarked/main.c \
-					  src/tallymarked/memory.c \
-					  src/tallymarked/memory.h
-if ENABLE_TALLYMARKED
-sbin_PROGRAMS				+= bin/tallymarked
+# macros for src/tallymarker
+src_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_tallymarker_LDADD			= lib/libtallymark.la
+src_tallymarker_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarkr/tallymarker.c \
+					  src/tallymarkr/tallymarker.h
+if ENABLE_TALLYMARKER
+bin_PROGRAMS				+= src/tallymarker
 endif
 
 
-# macros for src/tallymarker
-bin_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-bin_tallymarker_LDADD			= lib/libtallymark.la
-bin_tallymarker_SOURCES			= $(noinst_HEADERS) \
-					  src/tallymarker/tallymarker.h \
-					  src/tallymarker/main.c
-if ENABLE_TALLYMARKER
-bin_PROGRAMS				+= bin/tallymarker
+# macros for src/tallymarked
+src_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_tallymarked_LDADD			= lib/libtallymark.la
+src_tallymarked_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarkd/tallymarked.c \
+					  src/tallymarkd/tallymarked.h \
+					  src/tallymarkd/memory.c \
+					  src/tallymarkd/memory.h
+if ENABLE_TALLYMARKED
+sbin_PROGRAMS				+= src/tallymarked
 endif
 
 
