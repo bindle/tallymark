@@ -59,7 +59,9 @@
 /// @{
 #define TM_MSG_MAX_SIZE                2048
 
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Header Field Lengths
+#endif
 #define TM_HDR_LEN_MAGIC                  4UL
 #define TM_HDR_LEN_VERSION_CURRENT        1UL
 #define TM_HDR_LEN_VERSION_AGE            1UL
@@ -76,7 +78,9 @@
 #define TM_HDR_LEN                       44UL
 #define TM_MSG_LEN                     1024UL
 
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Header Field Offsets
+#endif
 #define TM_HDR_OFF                        0UL
 #define TM_HDR_OFF_MAGIC                  0UL
 #define TM_HDR_OFF_VERSION_CURRENT        4UL
@@ -93,7 +97,9 @@
 #define TM_HDR_OFF_HASH_ID               24UL
 #define TM_BDY_OFF                       TM_HDR_LEN
 
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Header Field Codes
+#endif
 #define TALLYMARK_HDR_MAGIC            (TM_HDR_OFF_MAGIC           << 24UL)
 #define TALLYMARK_HDR_VERSION_CURRENT  (TM_HDR_OFF_VERSION_CURRENT << 24UL)
 #define TALLYMARK_HDR_VERSION_AGE      (TM_HDR_OFF_VERSION_AGE     << 24UL)
@@ -112,7 +118,9 @@
 
 /// @ingroup protocolCodes Protocol Version Codes
 /// @{
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Protocol Information
+#endif
 #define TALLYMARK_MAGIC                0xe2889100U // UTF-8 N-ARY Summation Character
 #define TALLYMARK_PORT                 2211U       // Unicode Character 'N-ARY SUMMATION' (U+2211)
 #define TALLYMARK_PROTO_VERSION        0x01L
@@ -122,7 +130,9 @@
 
 /// @ingroup responseCodes Response Codes
 /// @{
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Message Response Codes
+#endif
 #define TALLYMARK_RES_PERM             0x10U ///< permission denied
 #define TALLYMARK_RES_INVALID          0x20U ///< invalid command/hash/service/field/etc
 #define TALLYMARK_RES_EOR              0x40U ///< End of response
@@ -137,7 +147,9 @@
 
 /// @ingroup requestCodes Request Codes
 /// @{
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Message Request Codes
+#endif
 #define TALLYMARK_REQ_HASH_QUERY          0x00000001U ///< Send list of hashes matching service ID and field ID
 #define TALLYMARK_REQ_HASH_SET_TEXT       0x00000002U ///< Set text value of tallied data if not already set
 #undef  TALLYMARK_REQ_HASH_RECORD      // 0x00000004U ///< request full hash record (tally history, value text, etc)
@@ -182,7 +194,9 @@
 
 /// @ingroup fieldCodes Data Field Codes
 /// @{
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Message Parameter Codes
+#endif
 #define TALLYMARK_PARM_HASH_COUNT         0x000001U ///< requests current tally count
 #define TALLYMARK_PARM_HASH_TEXT          0x000002U ///< request full hash record (tally history, value text, etc)
 #undef  TALLYMARK_PARM_HASH_HISTORY    // 0x000003U ///< resets tally history and thresholds
@@ -201,7 +215,9 @@
 /// @}
 
 
+#ifdef __TALLYMARK_PMARK
 #pragma mark - Message Status Codes
+#endif
 #define TALLYMARK_MSG_RESET               0xdead0000UL
 #define TALLYMARK_MSG_COMPILED            0x00000002UL
 #define TALLYMARK_MSG_PARSED              0x00000004UL
