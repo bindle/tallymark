@@ -346,9 +346,6 @@ int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
       case TALLYMARK_PARM_SYS_PKG_NAME:
       return(tallymark_msg_get_utf8(msg, &msg->body.package_name, outvalue, outvalue_size));
 
-      case TALLYMARK_PARM_TALLY_COUNT:
-
-      case TALLYMARK_PARM_TALLY_HISTORY:
       default:
       break;
    };
@@ -783,9 +780,6 @@ int tallymark_msg_set_param(tallymark_msg * msg, int param,
       case TALLYMARK_PARM_SYS_PKG_NAME:
       return(tallymark_msg_set_utf8(msg, &msg->body.package_name, invalue, invalue_size));
 
-      case TALLYMARK_PARM_TALLY_COUNT:
-
-      case TALLYMARK_PARM_TALLY_HISTORY:
       default:
       break;
    };

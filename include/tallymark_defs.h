@@ -94,7 +94,7 @@
 #define TM_BDY_OFF                       TM_HDR_LEN
 
 #pragma mark - Header Field Codes
-#define TALLYMARK_HDR_MAGIC            (TM_HDR_OFF_MAGIC       << 24UL)
+#define TALLYMARK_HDR_MAGIC            (TM_HDR_OFF_MAGIC           << 24UL)
 #define TALLYMARK_HDR_VERSION_CURRENT  (TM_HDR_OFF_VERSION_CURRENT << 24UL)
 #define TALLYMARK_HDR_VERSION_AGE      (TM_HDR_OFF_VERSION_AGE     << 24UL)
 #define TALLYMARK_HDR_HEADER_LEN       (TM_HDR_OFF_HEADER_LEN      << 24UL)
@@ -107,97 +107,106 @@
 #define TALLYMARK_HDR_SERVICE_ID       (TM_HDR_OFF_SERVICE_ID      << 24UL)
 #define TALLYMARK_HDR_FIELD_ID         (TM_HDR_OFF_FIELD_ID        << 24UL)
 #define TALLYMARK_HDR_HASH_ID          (TM_HDR_OFF_HASH_ID         << 24UL)
-/// }
+/// @}
 
 
 /// @ingroup protocolCodes Protocol Version Codes
 /// @{
 #pragma mark - Protocol Information
-#define TALLYMARK_MAGIC                0xe2889100 // UTF-8 N-ARY Summation Character
-#define TALLYMARK_PORT                 2211       // Unicode Character 'N-ARY SUMMATION' (U+2211)
-#define TALLYMARK_PROTO_VERSION        0x00
-#define TALLYMARK_PROTO_AGE            0x00
-/// }
+#define TALLYMARK_MAGIC                0xe2889100U // UTF-8 N-ARY Summation Character
+#define TALLYMARK_PORT                 2211U       // Unicode Character 'N-ARY SUMMATION' (U+2211)
+#define TALLYMARK_PROTO_VERSION        0x01L
+#define TALLYMARK_PROTO_AGE            0x00L
+/// @}
 
 
 /// @ingroup responseCodes Response Codes
 /// @{
 #pragma mark - Message Response Codes
-#define TALLYMARK_RES_RESPONSE         0x80 ///< Indicates the message is a response
-#define TALLYMARK_RES_EOR              0x40 ///< End of response
-#define TALLYMARK_RES_INVALID          0x20 ///< invalid command/hash/service/field/etc
-#define TALLYMARK_RES_PERM             0x10 ///< permission denied
+#define TALLYMARK_RES_PERM             0x10U ///< permission denied
+#define TALLYMARK_RES_INVALID          0x20U ///< invalid command/hash/service/field/etc
+#define TALLYMARK_RES_EOR              0x40U ///< End of response
+#define TALLYMARK_RES_RESPONSE         0x80U ///< Indicates the message is a response
+
+#undef  TALLYMARK_RES_RESERVED      // 0x01U
+#undef  TALLYMARK_RES_RESERVED      // 0x02U
+#undef  TALLYMARK_RES_RESERVED      // 0x04U
+#undef  TALLYMARK_RES_RESERVED      // 0x08U
 /// @}
 
 
 /// @ingroup requestCodes Request Codes
 /// @{
 #pragma mark - Message Request Codes
-#define TALLYMARK_REQ_SYS_SYNC         0x80000000 ///< request is from another server
-#define TALLYMARK_REQ_SYS_CAPABILITIES 0x40000000 ///< send list of capabilities
-#define TALLYMARK_REQ_SYS_VERSION      0x20000000 ///< server name & version
+#define TALLYMARK_REQ_HASH_QUERY          0x00000001U ///< Send list of hashes matching service ID and field ID
+#define TALLYMARK_REQ_HASH_SET_TEXT       0x00000002U ///< Set text value of tallied data if not already set
+#undef  TALLYMARK_REQ_HASH_RECORD      // 0x00000004U ///< request full hash record (tally history, value text, etc)
+#undef  TALLYMARK_REQ_HASH_RESET       // 0x00000008U ///< resets tally history and thresholds
 
-#define TALLYMARK_REQ_TALLY_INCREMENT  0x00000001 ///< requests the counter be incremented
-#define TALLYMARK_REQ_TALLY_COUNT      0x00000002 ///< requests current tally count
-#define TALLYMARK_REQ_TALLY_AVERAGE    0x00000004 ///< requests current tally average
-#define TALLYMARK_REQ_TALLY_HISTORY    0x00000008 ///< requests full tally history
+#define TALLYMARK_REQ_HASH_COUNT          0x00000010U ///< requests current tally count
+#define TALLYMARK_REQ_HASH_INCREMENT      0x00000020U ///< increment the counter
+#undef  TALLYMARK_REQ_SERVICE_QUERY    // 0x00000040U ///< send list of services
+#undef  TALLYMARK_REQ_SERVICE_NAME     // 0x00000080U ///< send service name
 
-#define TALLYMARK_REQ_THRESHOLD_QUERY  0x00000010 ///< request threshold level reached
-#define TALLYMARK_REQ_THRESHOLD_SET    0x00000020 ///< mark specified threshold as reached
-#define TALLYMARK_REQ_THRESHOLD_UNSET  0x00000040 ///< unset specified threshold
-#define TALLYMARK_REQ_THRESHOLD_DEF    0x00000080 ///< request threshold definition
+#undef  TALLYMARK_REQ_FIELD_QUERY      // 0x00000100U ///< send list of fields matching service ID
+#undef  TALLYMARK_REQ_FIELD_NAME       // 0x00000200U ///< send field name
+#undef  TALLYMARK_REQ_FIELD_WINDOW     // 0x00000400U ///< request window size and window slot count
+#undef  TALLYMARK_REQ_RESERVED         // 0x00000800U
 
-#define TALLYMARK_REQ_HASH_LIST        0x00000100 ///< Send list of hashes
-#define TALLYMARK_REQ_HASH_TEXT        0x00000200 ///< Send text value of tallied data
-#define TALLYMARK_REQ_HASH_ID          0x00000400 ///< send hash value (only useful with OP_HASH_LIST)
-#define TALLYMARK_REQ_HASH_RESET       0x00000800 ///< resets tally and thresholds
+#undef  TALLYMARK_REQ_RESERVED         // 0x00008000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00004000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00002000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00001000U
 
-#define TALLYMARK_REQ_SERVICE_LIST     0x00001000 ///< send list of services
-#define TALLYMARK_REQ_SERVICE_NAME     0x00002000 ///< send service name
-#define TALLYMARK_REQ_SERVICE_ID       0x00004000 ///< send service ID (only useful with OP_SERVICE_LIST)
+#undef  TALLYMARK_REQ_RESERVED         // 0x00080000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00040000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00020000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00010000U
 
-#define TALLYMARK_REQ_FIELD_LIST       0x00010000 ///< send list of fields
-#define TALLYMARK_REQ_FIELD_NAME       0x00020000 ///< send field name
-#define TALLYMARK_REQ_FIELD_ID         0x00040000 ///< send field ID (only useful with OP_FIELD_LIST)
-#define TALLYMARK_REQ_FIELD_WINDOW     0x00080000 ///< request window information for service/field
+#define TALLYMARK_REQ_THRESHOLD_QUERY     0x00100000U ///< current threshold level reached
+#undef  TALLYMARK_REQ_THRESHOLD_SET    // 0x00200000U ///< mark specified threshold as reached
+#undef  TALLYMARK_REQ_THRESHOLD_DEF    // 0x00400000U ///< request threshold definition of service and field
+#undef  TALLYMARK_REQ_RESERVED         // 0x00800000U
 
+#undef  TALLYMARK_REQ_DATA_PRUNE       // 0x01000000U ///< instruct server to prune old data
+#undef  TALLYMARK_REQ_DATA_DUMP        // 0x02000000U ///< dump records matching service ID and field ID (ID of 0x00 is wild card)
+#undef  TALLYMARK_REQ_RESERVED         // 0x04000000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x08000000U
+
+#undef  TALLYMARK_REQ_RESERVED         // 0x10000000U
+#define TALLYMARK_REQ_SYS_VERSION         0x20000000U ///< send server name & version
+#define TALLYMARK_REQ_SYS_CAPABILITIES    0x40000000U ///< send list of capabilities
+#undef  TALLYMARK_REQ_SYS_SYNC         // 0x80000000U ///< request is from another server
 /// @}
 
 
 /// @ingroup fieldCodes Data Field Codes
 /// @{
 #pragma mark - Message Parameter Codes
-#define TALLYMARK_PARM_SYS_CAPABILITIES 0x100000 ///< window size of tallies
-#define TALLYMARK_PARM_SYS_VERSION      0x200000 ///< ORed list of capabilities
-#define TALLYMARK_PARM_SYS_PKG_NAME     0x300000 ///< ORed list of capabilities
+#define TALLYMARK_PARM_HASH_COUNT         0x000001U ///< requests current tally count
+#define TALLYMARK_PARM_HASH_TEXT          0x000002U ///< request full hash record (tally history, value text, etc)
+#undef  TALLYMARK_PARM_HASH_HISTORY    // 0x000003U ///< resets tally history and thresholds
 
-#define TALLYMARK_PARM_TALLY_COUNT      0x000001 ///< tally count of requested data
-#define TALLYMARK_PARM_TALLY_AVERAGE    0x000002 ///< tally average of requested data
-#define TALLYMARK_PARM_TALLY_HISTORY    0x000003 ///< tally history of requested data
+#define TALLYMARK_PARM_THRESHOLD          0x0000010U ///< current threshold of requested data
+#undef  TALLYMARK_PARM_THRESHOLD_DEF   // 0x0000020U ///< threshold definition of requested data
 
-#define TALLYMARK_PARM_THRESHOLD_QUERY  0x000010 ///< current threshold of requested data
-#define TALLYMARK_PARM_THRESHOLD_DEF    0x000020 ///< threshold definition of requested data
+#undef  TALLYMARK_PARM_SERVICE_NAME    // 0x000100U ///< send service name
 
-#define TALLYMARK_PARM_HASH_LIST        0x000100 ///< Send list of hashes
-#define TALLYMARK_PARM_HASH_TEXT        0x000200 ///< Send text value of tallied data
-#define TALLYMARK_PARM_HASH_ID          0x000400 ///< send hash value (only useful with OP_HASH_LIST)
+#undef  TALLYMARK_PARM_FIELD_NAME      // 0x001000U ///< send field name
+#undef  TALLYMARK_PARM_FIELD_WINDOW    // 0x002000U ///< send field ID (only useful with OP_FIELD_LIST)
 
-#define TALLYMARK_PARM_SERVICE_LIST     0x001000 ///< send list of services
-#define TALLYMARK_PARM_SERVICE_NAME     0x002000 ///< send service name
-#define TALLYMARK_PARM_SERVICE_ID       0x004000 ///< send service ID (only useful with OP_SERVICE_LIST)
-
-#define TALLYMARK_PARM_FIELD_LIST       0x010000 ///< send list of fields
-#define TALLYMARK_PARM_FIELD_NAME       0x020000 ///< send field name
-#define TALLYMARK_PARM_FIELD_ID         0x040000 ///< send field ID (only useful with OP_FIELD_LIST)
+#define TALLYMARK_PARM_SYS_CAPABILITIES   0x100000U ///< window size of tallies
+#define TALLYMARK_PARM_SYS_VERSION        0x200000U ///< ORed list of capabilities
+#define TALLYMARK_PARM_SYS_PKG_NAME       0x300000U ///< ORed list of capabilities
 /// @}
 
 
 #pragma mark - Message Status Codes
-#define TALLYMARK_MSG_RESET            0xDead0000UL
-#define TALLYMARK_MSG_COMPILED         0x00000002UL
-#define TALLYMARK_MSG_PARSED           0x00000004UL
-#define TALLYMARK_MSG_READY            (TALLYMARK_MSG_COMPILED|TALLYMARK_MSG_PARSED)
-#define TALLYMARK_MSG_BAD              0xBADC0DE0UL
+#define TALLYMARK_MSG_RESET               0xdead0000UL
+#define TALLYMARK_MSG_COMPILED            0x00000002UL
+#define TALLYMARK_MSG_PARSED              0x00000004UL
+#define TALLYMARK_MSG_READY               (TALLYMARK_MSG_COMPILED|TALLYMARK_MSG_PARSED)
+#define TALLYMARK_MSG_BAD                 0xbad00000UL
 
 
 #endif /* end of header */
