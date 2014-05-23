@@ -223,10 +223,11 @@ int main(int argc, char * argv[])
       fprintf(stderr, "getaddrinfo(): %s\n", gai_strerror(err));
       return(1);
    };
+   socklen  = res->ai_addrlen;
    memcpy(&addr, res->ai_addr, res->ai_addrlen);
    freeaddrinfo(res);
 
-   if ((err = getnameinfo(&addr.sa, addr.sa.sa_len, straddr, INET6_ADDRSTRLEN, NULL, 0, NI_NUMERICHOST)) != 0)
+   if ((err = getnameinfo(&addr.sa, socklen, straddr, INET6_ADDRSTRLEN, NULL, 0, NI_NUMERICHOST)) != 0)
    {
       fprintf(stderr, "getaddrinfo(): %s\n", gai_strerror(err));
       return(1);
@@ -247,7 +248,7 @@ int main(int argc, char * argv[])
 #endif
 
    printf("%s: binding socket ...\n", argv[0]);
-   if ((err = bind(s, &addr.sa, addr.sa.sa_len)) == -1)
+   if ((err = bind(s, &addr.sa, socklen)) == -1)
    {
       perror("bind()");
       close(s);
@@ -276,7 +277,7 @@ int main(int argc, char * argv[])
       // send message
       snprintf(sbuff, sizeof(sbuff)-1, "You sent: %s", rbuff);
       sbuff[sizeof(sbuff)-1] = '\0';
-      if ((len = sendto(s, sbuff, strlen(sbuff), 0, &addr.sa, addr.sa.sa_len)) == -1)
+      if ((len = sendto(s, sbuff, strlen(sbuff), 0, &addr.sa, socklen)) == -1)
       {
          perror("sendto()");
          close(s);

@@ -65,6 +65,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <poll.h>
+#include <unistd.h>
 
 
 ///////////////////
@@ -136,6 +137,7 @@ int main(int argc, char * argv[])
    size_t            buff_len;
    char              straddr[INET6_ADDRSTRLEN];
    struct pollfd     fds[1];
+   socklen_t         socklen;
    union
    {
       struct sockaddr         sa;
@@ -252,12 +254,13 @@ int main(int argc, char * argv[])
       return(1);
    };
    memcpy(&addr, res->ai_addr, res->ai_addrlen);
+   socklen  = res->ai_addrlen;
    protocol = res->ai_protocol;
    socktype = res->ai_socktype;
    freeaddrinfo(res);
 
    // map binary address into human readable form
-   if ((err = getnameinfo(&addr.sa, addr.sa.sa_len, straddr, INET6_ADDRSTRLEN, NULL, 0, NI_NUMERICHOST)) != 0)
+   if ((err = getnameinfo(&addr.sa, socklen, straddr, INET6_ADDRSTRLEN, NULL, 0, NI_NUMERICHOST)) != 0)
    {
       fprintf(stderr, "getaddrinfo(): %s\n", gai_strerror(err));
       return(1);
@@ -271,7 +274,7 @@ int main(int argc, char * argv[])
    };
 
    printf("%s: connecting to %s://[%s]:%i ...\n", argv[0], (protocol == IPPROTO_UDP ? "udp" : "tcp"), straddr, ntohs(addr.sa_in6.sin6_port));
-   if ((err = connect(s, &addr.sa, addr.sa.sa_len)) == -1)
+   if ((err = connect(s, &addr.sa, socklen)) == -1)
    {
       perror("connect()");
       close(s);
