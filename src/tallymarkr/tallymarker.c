@@ -199,7 +199,7 @@ int main(int argc, char * argv[])
    };
 
    printf("%s: connecting to %s ...\n", argv[0], tudp->tud_strurl);
-   if ((err = connect(s, &tudp->tud_addr.sa, tudp->tud_addr.sa.sa_len)) == -1)
+   if ((err = connect(s, &tudp->tud_addr.sa, tudp->tud_addrlen)) == -1)
    {
       perror("connect()");
       close(s);
