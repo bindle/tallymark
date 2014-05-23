@@ -76,7 +76,6 @@ typedef struct libtallymark_struct           tallymark;
 typedef struct libtallymark_message_struct   tallymark_msg;
 typedef struct libtallymark_header_struct    tallymark_hdr;
 typedef struct libtallymark_count_struct     tallymark_count;
-typedef struct libtallymark_history_struct   tallymark_history;
 typedef struct libtallymark_url_desc_struct  tallymark_url_desc;
 typedef union  libtallymark_sockaddr_union   tallymark_sockaddr;
 
@@ -86,17 +85,21 @@ struct libtallymark_count_struct
    uint64_t count;
 };
 
-struct libtallymark_history_struct
-{
-   uint64_t time;
-   uint64_t lcount;
-   uint64_t rcount;
-};
+
+struct libtallymark_parameter_struct
+{                                //        +----------------+
+                                 //        | buffer offsets |
+                                 // +------+----+-----+-----+
+                                 // | size | u8 | u32 | u64 |
+                                 // +------+----+-----+-----+
+   uint8_t     param_len;        // |    1 |  0 |   0 |   0 |
+   uint8_t     param_id[3];      // |    3 |  1 |   0 |     |
+   //          bytes             // |      |  4 |   1 |     |
+};                               // +------+----+-----+-----+
 
 
 struct libtallymark_header_struct
-{
-                                 //        +----------------+
+{                                //        +----------------+
                                  //        | buffer offsets |
                                  // +------+----+-----+-----+
                                  // | size | u8 | u32 | u64 |
@@ -115,8 +118,7 @@ struct libtallymark_header_struct
    uint32_t    sequence_id;      // |    4 | 20 |   5 |     |
    uint8_t     hash_id[20];      // |   24 | 24 |   6 |   3 |
    //          parameters        // |      | 44 |  11 |     |
-                                 // +------+----+-----+-----+
-};
+};                               // +------+----+-----+-----+
 
 
 union  libtallymark_sockaddr_union
