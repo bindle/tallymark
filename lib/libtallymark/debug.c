@@ -75,11 +75,11 @@ void tallymark_print_hexdump(FILE * fs, const uint8_t * buff, size_t len,
 
    prefix = (prefix == NULL) ? "" : prefix;
 
-   fprintf(fs, "%s offset    0  1  2  3   4  5  6  7   8  9  a  b   c  d  e  f  0123456789abcdef\n", prefix);
+   fprintf(fs, "%s off     0  1  2  3   4  5  6  7   8  9  a  b   c  d  e  f  0123456789abcdef\n", prefix);
    len = (len > (~0LLU - 16LLU)) ? (~0LLU - 16LLU) : len;
    for(y = 0; y < len; y += 16)
    {
-      fprintf(fs, "%s%08zx", prefix, y);
+      fprintf(fs, "%s%06zx", prefix, y);
       for(x = 0; x < 16; x++)
       {
          if ((x & 0x03) == 0)
