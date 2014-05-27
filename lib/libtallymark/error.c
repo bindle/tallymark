@@ -84,10 +84,16 @@ void tallymark_perror(const char * s)
 
 char * tallymark_strerror(int errnum)
 {
-   if (errnum >= 0)
+   if (errnum > 0)
       return(strerror(errnum));
-
-   return(NULL);
+   if (errnum == 0)
+      return("success");
+   switch(errnum)
+   {
+      default:
+      break;
+   };
+   return("unknown error");
 }
 
 
