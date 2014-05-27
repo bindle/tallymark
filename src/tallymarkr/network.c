@@ -123,12 +123,12 @@ int tallymarker_recv(tallymarker_cnf * cnf, tallymark_msg * res)
    if (res == NULL)
       res = cnf->res;
 
-   if (cnf->timeout != 0)
+   if ((cnf->timeout*1000) > 0)
    {
       fds[0].fd      = cnf->s;
       fds[0].events  = POLLIN;
       tallymarker_debug(cnf, 1, "waiting for data ...\n");
-      if ((err = poll(fds, 1, cnf->timeout)) == -1)
+      if ((err = poll(fds, 1, (cnf->timeout*1000))) == -1)
       {
          perror("poll()");
          return(-1);

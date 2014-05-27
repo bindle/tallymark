@@ -60,7 +60,7 @@
 #pragma mark - Definitions
 #endif
 
-#define TALLYMARKER_GETOPT_SHORT "46H:hqVvx"
+#define TALLYMARKER_GETOPT_SHORT "46H:hqt:Vvx"
 #define TALLYMARKER_GETOPT_LONG \
    {"help",             no_argument,       NULL, 'h' }, \
    {"quiet",            no_argument,       NULL, 'q' }, \

@@ -99,7 +99,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    {
       "debugger",                                     // command name
       tallymarker_cmd_debugger,                       // entry function
-      "abcdef:ghijk:lmnopqr:s:tuvwxyz"
+      "abcdef:ghijk:lmnopqr:s:t:uvwxyz"
       "ABCDEFGH:IJK:LMNOPQRSTUVWXYZ"
       "0123456789",                                   // getopt short options
       0,                                              // number of required arguments
@@ -254,6 +254,10 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
 
          case 'r':
          cnf->request_codes = (uint32_t)strtoll(optarg, NULL, 0);
+         break;
+
+         case 't':
+         cnf->timeout = (int)strtoll(optarg, NULL, 0);
          break;
 
          case 'V':
@@ -421,6 +425,7 @@ void tallymarker_usage(tallymarker_cnf * cnf)
    if ((strchr(shortopts, 'q'))) printf("  -q, --quiet, --silent     do not print messages\n");
    if ((strchr(shortopts, 'r'))) printf("  -r code                   numeric request code to send to server\n");
    if ((strchr(shortopts, 's'))) printf("  -s num                    numeric ID of service type\n");
+   if ((strchr(shortopts, 't'))) printf("  -t sec                    operation timeout in seconds\n");
    if ((strchr(shortopts, 'V'))) printf("  -V, --version             print version number and exit\n");
    if ((strchr(shortopts, 'v'))) printf("  -v, --verbose             print verbose messages\n");
    if ((strchr(shortopts, 'x'))) printf("  -x                        display raw messages\n");
