@@ -150,6 +150,16 @@ src_socket_server_SOURCES		= $(noinst_HEADERS) src/sockets/socket-server.c
 src_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 src_tallymarker_LDADD			= lib/libtallymark.la
 src_tallymarker_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarkr/cmd-help.c \
+					  src/tallymarkr/cmd-help.h \
+					  src/tallymarkr/cmd-info.c \
+					  src/tallymarkr/cmd-info.h \
+					  src/tallymarkr/conf.c \
+					  src/tallymarkr/conf.h \
+					  src/tallymarkr/debug.c \
+					  src/tallymarkr/debug.h \
+					  src/tallymarkr/network.c \
+					  src/tallymarkr/network.h \
 					  src/tallymarkr/tallymarker.c \
 					  src/tallymarkr/tallymarker.h
 if ENABLE_TALLYMARKER

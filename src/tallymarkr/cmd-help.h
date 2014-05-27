@@ -34,7 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-
+#ifndef __SRC_TALLYMARKER_CMD_HELP_H
+#define __SRC_TALLYMARKER_CMD_HELP_H 1
 
 ///////////////
 //           //
@@ -47,24 +48,6 @@
 
 #include "tallymarker.h"
 
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
-#include <getopt.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <fcntl.h>
-#include <arpa/inet.h>
-#include <time.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-
-#include "conf.h"
-#include "cmd-info.h"
-#include "network.h"
-
 
 //////////////////
 //              //
@@ -72,51 +55,10 @@
 //              //
 //////////////////
 #ifdef __TALLYMARK_PMARK
-#pragma mark - Prototypes
+#pragma mark -
 #endif
 
-int main(int argc, char * argv[]);
+int tallymarker_cmd_help(tallymarker_cnf * cnf);
 
 
-/////////////////
-//             //
-//  Functions  //
-//             //
-/////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Functions
-#endif
-
-int main(int argc, char * argv[])
-{
-   int                  err;
-   tallymarker_cnf    * cnf;
-
-   sranddev();
-
-   switch(tallymaker_init(&cnf, argc, argv))
-   {
-      case -1:
-      return(-1);
-
-      case 1:
-      return(0);
-
-      default:
-      break;
-   };
-
-   if ((err = tallymarker_connect(cnf)) != 0)
-   {
-      tallymaker_destroy(cnf);
-      return(1);
-   };
-
-   err = cnf->cmd->cmd_func(cnf);
-
-   tallymaker_destroy(cnf);
-
-   return(err);
-}
-
-/* end of source */
+#endif /* end of header */

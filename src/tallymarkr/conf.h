@@ -34,7 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-
+#ifndef __SRC_TALLYMARKER_CONF_H
+#define __SRC_TALLYMARKER_CONF_H 1
 
 ///////////////
 //           //
@@ -47,23 +48,26 @@
 
 #include "tallymarker.h"
 
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
 #include <getopt.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <fcntl.h>
-#include <arpa/inet.h>
-#include <time.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
 
-#include "conf.h"
-#include "cmd-info.h"
-#include "network.h"
+
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Definitions
+#endif
+
+#define TALLYMARKER_GETOPT_SHORT "46H:hqVvx"
+#define TALLYMARKER_GETOPT_LONG \
+   {"help",             no_argument,       NULL, 'h' }, \
+   {"quiet",            no_argument,       NULL, 'q' }, \
+   {"silent",           no_argument,       NULL, 'q' }, \
+   {"version",          no_argument,       NULL, 'V' }, \
+   {"verbose",          no_argument,       NULL, 'v' }, \
+   { NULL, 0, NULL, 0 }
 
 
 //////////////////
@@ -72,51 +76,18 @@
 //              //
 //////////////////
 #ifdef __TALLYMARK_PMARK
-#pragma mark - Prototypes
+#pragma mark -
 #endif
 
-int main(int argc, char * argv[]);
+int tallymaker_destroy(tallymarker_cnf * cnf);
 
+int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
+   char * const * argv, const char * short_opt,
+   const struct option * long_opt, int * opt_index);
 
-/////////////////
-//             //
-//  Functions  //
-//             //
-/////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Functions
-#endif
+int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[]);
 
-int main(int argc, char * argv[])
-{
-   int                  err;
-   tallymarker_cnf    * cnf;
+void tallymarker_usage(tallymarker_cnf * cnf);
+void tallymarker_version(void);
 
-   sranddev();
-
-   switch(tallymaker_init(&cnf, argc, argv))
-   {
-      case -1:
-      return(-1);
-
-      case 1:
-      return(0);
-
-      default:
-      break;
-   };
-
-   if ((err = tallymarker_connect(cnf)) != 0)
-   {
-      tallymaker_destroy(cnf);
-      return(1);
-   };
-
-   err = cnf->cmd->cmd_func(cnf);
-
-   tallymaker_destroy(cnf);
-
-   return(err);
-}
-
-/* end of source */
+#endif /* end of header */

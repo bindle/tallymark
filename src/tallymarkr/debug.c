@@ -34,6 +34,7 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
+#include "debug.h"
 
 
 ///////////////
@@ -45,25 +46,12 @@
 #pragma mark - Headers
 #endif
 
-#include "tallymarker.h"
-
 #include <stdio.h>
-#include <assert.h>
 #include <string.h>
-#include <getopt.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <fcntl.h>
-#include <arpa/inet.h>
-#include <time.h>
+#include <assert.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <stdarg.h>
 #include <errno.h>
-
-#include "conf.h"
-#include "cmd-info.h"
-#include "network.h"
 
 
 //////////////////
@@ -75,8 +63,6 @@
 #pragma mark - Prototypes
 #endif
 
-int main(int argc, char * argv[]);
-
 
 /////////////////
 //             //
@@ -87,36 +73,45 @@ int main(int argc, char * argv[]);
 #pragma mark - Functions
 #endif
 
-int main(int argc, char * argv[])
+void tallymarker_debug(tallymarker_cnf * cnf, int level,
+   const char * fmt, ...)
 {
-   int                  err;
-   tallymarker_cnf    * cnf;
+   va_list ap;
 
-   sranddev();
+   assert(cnf != NULL);
+   assert(fmt != NULL);
 
-   switch(tallymaker_init(&cnf, argc, argv))
-   {
-      case -1:
-      return(-1);
+   if (cnf->verbose < level)
+      return;
 
-      case 1:
-      return(0);
+   printf("%s: ", cnf->prog_name);
 
-      default:
-      break;
-   };
+   va_start(ap, fmt);
+   vfprintf(stdout, fmt, ap);
+   va_end(ap);
 
-   if ((err = tallymarker_connect(cnf)) != 0)
-   {
-      tallymaker_destroy(cnf);
-      return(1);
-   };
+   fflush(stdout);
 
-   err = cnf->cmd->cmd_func(cnf);
+   return;
+}
 
-   tallymaker_destroy(cnf);
 
-   return(err);
+void tallymarker_error(tallymarker_cnf * cnf, const char * fmt, ...)
+{
+   va_list ap;
+
+   assert(cnf != NULL);
+   assert(fmt != NULL);
+
+   fprintf(stderr, "%s: ", cnf->prog_name);
+
+   va_start(ap, fmt);
+   vfprintf(stderr, fmt, ap);
+   va_end(ap);
+
+   fflush(stderr);
+
+   return;
 }
 
 /* end of source */

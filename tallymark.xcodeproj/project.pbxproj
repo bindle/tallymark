@@ -41,6 +41,11 @@
 		A090DD61192A829F00F20EBE /* url.h in Headers */ = {isa = PBXBuildFile; fileRef = A090DD5F192A829F00F20EBE /* url.h */; };
 		A090DD6A192B19ED00F20EBE /* debug.c in Sources */ = {isa = PBXBuildFile; fileRef = A090DD68192B19ED00F20EBE /* debug.c */; };
 		A090DD6B192B19ED00F20EBE /* debug.h in Headers */ = {isa = PBXBuildFile; fileRef = A090DD69192B19ED00F20EBE /* debug.h */; };
+		A09D04C3192FEC4400C96985 /* conf.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04C0192FEC2600C96985 /* conf.c */; };
+		A09D04C6193292E700C96985 /* cmd-info.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04C4193292E700C96985 /* cmd-info.c */; };
+		A09D04C91932FD3600C96985 /* network.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04C71932FD3600C96985 /* network.c */; };
+		A09D04CC1932FEF900C96985 /* debug.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04CA1932FEF900C96985 /* debug.c */; };
+		A09D04CF193414D500C96985 /* cmd-help.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04CD193414D500C96985 /* cmd-help.c */; };
 		A0CF1B24192169A500E5C668 /* tallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FCD192166330081CD19 /* tallymark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0CF1B25192169A500E5C668 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FD2192166330081CD19 /* version.c */; };
 		A0CF1B26192169B100E5C668 /* tallymarked.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE0192166330081CD19 /* tallymarked.c */; };
@@ -202,6 +207,16 @@
 		A090DD68192B19ED00F20EBE /* debug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = debug.c; sourceTree = "<group>"; };
 		A090DD69192B19ED00F20EBE /* debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 		A090DD6C192B28AA00F20EBE /* url-parse.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "url-parse.c"; sourceTree = "<group>"; };
+		A09D04C0192FEC2600C96985 /* conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = conf.c; sourceTree = "<group>"; };
+		A09D04C2192FEC3B00C96985 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
+		A09D04C4193292E700C96985 /* cmd-info.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "cmd-info.c"; sourceTree = "<group>"; };
+		A09D04C5193292E700C96985 /* cmd-info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cmd-info.h"; sourceTree = "<group>"; };
+		A09D04C71932FD3600C96985 /* network.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = network.c; sourceTree = "<group>"; };
+		A09D04C81932FD3600C96985 /* network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = network.h; sourceTree = "<group>"; };
+		A09D04CA1932FEF900C96985 /* debug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = debug.c; sourceTree = "<group>"; };
+		A09D04CB1932FEF900C96985 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
+		A09D04CD193414D500C96985 /* cmd-help.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "cmd-help.c"; sourceTree = "<group>"; };
+		A09D04CE193414D500C96985 /* cmd-help.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cmd-help.h"; sourceTree = "<group>"; };
 		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -426,6 +441,16 @@
 		A0AC5FE1192166330081CD19 /* tallymarkr */ = {
 			isa = PBXGroup;
 			children = (
+				A09D04CD193414D500C96985 /* cmd-help.c */,
+				A09D04CE193414D500C96985 /* cmd-help.h */,
+				A09D04C4193292E700C96985 /* cmd-info.c */,
+				A09D04C5193292E700C96985 /* cmd-info.h */,
+				A09D04C0192FEC2600C96985 /* conf.c */,
+				A09D04C2192FEC3B00C96985 /* conf.h */,
+				A09D04CA1932FEF900C96985 /* debug.c */,
+				A09D04CB1932FEF900C96985 /* debug.h */,
+				A09D04C71932FD3600C96985 /* network.c */,
+				A09D04C81932FD3600C96985 /* network.h */,
 				A0AC5FE2192166330081CD19 /* tallymarker.c */,
 				A0CF1B4F1921EFB200E5C668 /* tallymarker.h */,
 			);
@@ -673,7 +698,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A09D04C91932FD3600C96985 /* network.c in Sources */,
+				A09D04CC1932FEF900C96985 /* debug.c in Sources */,
 				A0CF1B27192169C300E5C668 /* tallymarker.c in Sources */,
+				A09D04CF193414D500C96985 /* cmd-help.c in Sources */,
+				A09D04C3192FEC4400C96985 /* conf.c in Sources */,
+				A09D04C6193292E700C96985 /* cmd-info.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
