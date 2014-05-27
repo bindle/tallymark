@@ -240,6 +240,10 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
          cnf->family = PF_INET6;
          break;
 
+         case 'f':
+         cnf->field_id = (uint8_t) strtoll(optarg, NULL, 0);
+         break;
+
          case 'H':
          cnf->urlstr = optarg;
          break;
@@ -254,6 +258,10 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
 
          case 'r':
          cnf->request_codes = (uint32_t)strtoll(optarg, NULL, 0);
+         break;
+
+         case 's':
+         cnf->service_id = (uint8_t) strtoll(optarg, NULL, 0);
          break;
 
          case 't':
