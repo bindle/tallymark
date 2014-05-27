@@ -60,7 +60,8 @@
 
 int tallymarker_connect(tallymarker_cnf * cnf);
 int tallymarker_recv(tallymarker_cnf * cnf, tallymark_msg * res);
-int tallymarker_send(tallymarker_cnf * cnf, tallymark_msg * req);
+int tallymarker_send(tallymarker_cnf * cnf, tallymark_msg * req,
+   uint32_t req_code);
 
 
 #endif /* end of header */

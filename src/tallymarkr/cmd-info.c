@@ -83,7 +83,6 @@ int tallymarker_cmd_info(tallymarker_cnf * cnf)
 {
    size_t                  len;
    uint32_t                caps;
-   uint32_t                inval32;
    char                  * pkg_name;
    char                  * pkg_version;
    const tallymark_hdr   * hdr;
@@ -93,10 +92,8 @@ int tallymarker_cmd_info(tallymarker_cnf * cnf)
    caps   = 0;
 
    tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash_id, sizeof(cnf->hash_id));
-   inval32 = TALLYMARK_REQ_SYS_CAPABILITIES |TALLYMARK_REQ_SYS_VERSION;
-   tallymark_msg_set_header(cnf->req, TALLYMARK_HDR_REQUEST_CODES, &inval32, sizeof(inval32));
 
-   if (tallymarker_send(cnf, cnf->req) != 0)
+   if (tallymarker_send(cnf, cnf->req, TALLYMARK_REQ_SYS_CAPABILITIES |TALLYMARK_REQ_SYS_VERSION) != 0)
       return(1);
 
    while (tallymarker_recv(cnf, cnf->res) == 0)

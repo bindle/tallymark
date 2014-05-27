@@ -158,7 +158,7 @@ int tallymarker_recv(tallymarker_cnf * cnf, tallymark_msg * res)
 }
 
 
-int tallymarker_send(tallymarker_cnf * cnf, tallymark_msg * req)
+int tallymarker_send(tallymarker_cnf * cnf, tallymark_msg * req, uint32_t req_code)
 {
    int                     err;
    const uint8_t         * msg_buff;
@@ -168,6 +168,8 @@ int tallymarker_send(tallymarker_cnf * cnf, tallymark_msg * req)
    assert(cnf != NULL);
    if (req == NULL)
       req = cnf->req;
+
+   tallymark_msg_set_header(req, TALLYMARK_HDR_REQUEST_CODES, &req_code, sizeof(req_code));
 
    tallymarker_debug(cnf, 1, "sending data ...\n");
 
@@ -181,7 +183,7 @@ int tallymarker_send(tallymarker_cnf * cnf, tallymark_msg * req)
 
    if ((err = tallymark_msg_sendto(cnf->s, req, NULL, 0)) != 0)
    {
-      fprintf(stderr, "tallymark_msg_sendto(): %s\n", tallymark_strerror(err));
+      fprintf(stderr, "tallymark_msg_sendto(): %s (%i)\n", tallymark_strerror(err), err);
       return(1);
    };
 
