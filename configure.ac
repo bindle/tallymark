@@ -125,12 +125,19 @@ AC_CHECK_FUNCS([strerror],       [], [AC_MSG_ERROR([missing required functions])
 AC_CHECK_FUNCS([strncasecmp],    [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strtol],         [], [AC_MSG_ERROR([missing required functions])])
 
+# check for required libraries
+AC_SEARCH_LIBS([SHA1],           [crypto], [], [AC_MSG_ERROR([missing required library])])
+AC_SEARCH_LIBS([SHA1_Init],      [crypto], [], [AC_MSG_ERROR([missing required library])])
+AC_SEARCH_LIBS([SHA1_Update],    [crypto], [], [AC_MSG_ERROR([missing required library])])
+AC_SEARCH_LIBS([SHA1_Final],     [crypto], [], [AC_MSG_ERROR([missing required library])])
+
 # check for headers
 AC_CHECK_HEADERS([getopt.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([arpa/inet.h],  [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([fcntl.h],      [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([netdb.h],      [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([netinet/in.h], [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([openssl/sha.h],[], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([stddef.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([sys/socket.h], [], [AC_MSG_ERROR([missing required headers])])
 
