@@ -92,7 +92,7 @@ int main(int argc, char * argv[])
    int                  err;
    tallymarker_cnf    * cnf;
 
-   sranddev();
+   srand((unsigned)tallymark_seed());
 
    switch(tallymaker_init(&cnf, argc, argv))
    {
