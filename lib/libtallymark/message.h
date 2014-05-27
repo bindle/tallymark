@@ -86,10 +86,14 @@ struct libtallymark_blob_struct
 
 struct libtallymark_body_struct
 {
-   // TALLYMARK_FLD_SYS_CAPABILITIES
+   // TALLYMARK_PARM_HASH_COUNT
+   int               hash_count_set;
+   tallymark_count   hash_count;
+
+   // TALLYMARK_PARM_SYS_CAPABILITIES
    uint32_t    capabilities;
 
-   // TALLYMARK_FLD_SYS_VERSION
+   // TALLYMARK_PARM_SYS_VERSION
    tallymark_blob    version;
    tallymark_blob    package_name;
 };
@@ -123,8 +127,14 @@ struct libtallymark_message_struct
 #pragma mark - Prototypes
 #endif
 
+_TALLYMARK_F size_t tallymark_msg_compile_count(tallymark_msg * msg,
+   size_t off, tallymark_count * val);
+
 _TALLYMARK_F size_t tallymark_msg_compile_param_hdr(tallymark_msg * msg,
    size_t off, size_t data_len, uint32_t id);
+
+_TALLYMARK_F size_t tallymark_msg_compile_u64(tallymark_msg * msg, size_t off,
+   uint64_t val);
 
 _TALLYMARK_F size_t tallymark_msg_compile_u32(tallymark_msg * msg, size_t off,
    uint32_t val);
@@ -135,6 +145,15 @@ _TALLYMARK_F size_t tallymark_msg_compile_utf8(tallymark_msg * msg, size_t off,
 _TALLYMARK_F size_t tallymark_msg_compiled_len(size_t len);
 
 _TALLYMARK_F int tallymark_msg_parse(tallymark_msg * msg);
+
+_TALLYMARK_F int tallymark_msg_parse_count(tallymark_msg * msg, size_t off,
+   tallymark_count * count);
+
+_TALLYMARK_F int tallymark_msg_parse_u32(tallymark_msg * msg, size_t off,
+   uint32_t * u32);
+
+_TALLYMARK_F int tallymark_msg_parse_u64(tallymark_msg * msg, size_t off,
+   uint64_t * u64);
 
 _TALLYMARK_F int tallymark_msg_parse_utf8(tallymark_msg * msg, size_t off,
    size_t param_len, tallymark_blob * blob);

@@ -52,7 +52,10 @@
 #include <stdlib.h>
 #include <errno.h>
 
+#include "cmd-count.h"
+#include "cmd-debugger.h"
 #include "cmd-help.h"
+#include "cmd-increment.h"
 #include "cmd-info.h"
 
 
@@ -84,6 +87,24 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       0,                                              // number of required arguments
       "",                                             // cli usage
       "force the server to create a checkpoint"       // command description
+   },
+   {
+      "count",                                        // command name
+      tallymarker_cmd_count,                          // entry function
+      TALLYMARKER_GETOPT_SHORT,                       // getopt short options
+      0,                                              // number of required arguments
+      "",                                             // cli usage
+      "return the current count of a hash value"      // command description
+   },
+   {
+      "debugger",                                     // command name
+      tallymarker_cmd_debugger,                       // entry function
+      "abcdef:ghijk:lmnopqr:s:tuvwxyz"
+      "ABCDEFGH:IJK:LMNOPQRSTUVWXYZ"
+      "0123456789",                                   // getopt short options
+      0,                                              // number of required arguments
+      "",                                             // cli usage
+      "debugging tool used by package maintainers"    // command description
    },
    {
       "dump",                                         // command name
@@ -119,7 +140,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    },
    {
       "increment",                                    // command name
-      NULL,                                           // entry function
+      tallymarker_cmd_increment,                      // entry function
       TALLYMARKER_GETOPT_SHORT,                       // getopt short options
       0,                                              // number of required arguments
       "",                                             // cli usage
@@ -229,6 +250,10 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
 
          case 'q':
          cnf->quiet++;
+         break;
+
+         case 'r':
+         cnf->request_codes = (uint32_t)strtoll(optarg, NULL, 0);
          break;
 
          case 'V':
@@ -388,9 +413,14 @@ void tallymarker_usage(tallymarker_cnf * cnf)
    printf("OPTIONS:\n");
    if ((strchr(shortopts, '4'))) printf("  -4                        force use of IPv4 addresses only\n");
    if ((strchr(shortopts, '6'))) printf("  -6                        force use of IPv6 addresses only\n");
+   if ((strchr(shortopts, 'f'))) printf("  -f num                    numeric ID of field type\n");
    if ((strchr(shortopts, 'H'))) printf("  -H uri                    URI of server\n");
    if ((strchr(shortopts, 'h'))) printf("  -h, --help                print this help and exit\n");
+   if ((strchr(shortopts, 'K'))) printf("  -K string                 unhashed string of record\n");
+   if ((strchr(shortopts, 'k'))) printf("  -k hash                   SHA1 hash of value\n");
    if ((strchr(shortopts, 'q'))) printf("  -q, --quiet, --silent     do not print messages\n");
+   if ((strchr(shortopts, 'r'))) printf("  -r code                   numeric request code to send to server\n");
+   if ((strchr(shortopts, 's'))) printf("  -s num                    numeric ID of service type\n");
    if ((strchr(shortopts, 'V'))) printf("  -V, --version             print version number and exit\n");
    if ((strchr(shortopts, 'v'))) printf("  -v, --verbose             print verbose messages\n");
    if ((strchr(shortopts, 'x'))) printf("  -x                        display raw messages\n");

@@ -150,8 +150,14 @@ src_socket_server_SOURCES		= $(noinst_HEADERS) src/sockets/socket-server.c
 src_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 src_tallymarker_LDADD			= lib/libtallymark.la
 src_tallymarker_SOURCES			= $(noinst_HEADERS) \
+					  src/tallymarkr/cmd-count.c \
+					  src/tallymarkr/cmd-count.h \
+					  src/tallymarkr/cmd-debugger.c \
+					  src/tallymarkr/cmd-debugger.h \
 					  src/tallymarkr/cmd-help.c \
 					  src/tallymarkr/cmd-help.h \
+					  src/tallymarkr/cmd-increment.c \
+					  src/tallymarkr/cmd-increment.h \
 					  src/tallymarkr/cmd-info.c \
 					  src/tallymarkr/cmd-info.h \
 					  src/tallymarkr/conf.c \

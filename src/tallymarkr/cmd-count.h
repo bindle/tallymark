@@ -34,13 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-/**
- *   @file tallymark.h
- *   Tally Mark Daemon public API
- */
-#ifndef __SRC_TALLYMARKER_TALLYMARKER_H
-#define __SRC_TALLYMARKER_TALLYMARKER_H 1
-
+#ifndef __SRC_TALLYMARKER_CMD_COUNT_H
+#define __SRC_TALLYMARKER_CMD_COUNT_H 1
 
 ///////////////
 //           //
@@ -51,14 +46,7 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
-
-#include <tallymark.h>
-#include <getopt.h>
+#include "tallymarker.h"
 
 
 ///////////////////
@@ -70,68 +58,17 @@
 #pragma mark - Definitions
 #endif
 
-#ifndef PROGRAM_NAME
-#define PROGRAM_NAME "tallymarker"
-#endif
-#ifndef PACKAGE_BUGREPORT
-#define PACKAGE_BUGREPORT "syzdek@bindlebinaries.com"
-#endif
-#ifndef PACKAGE_COPYRIGHT
-#define PACKAGE_COPYRIGHT ""
-#endif
-#ifndef PACKAGE_NAME
-#define PACKAGE_NAME ":-|"
-#endif
-#ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION ""
-#endif
-
 
 //////////////////
 //              //
-//  Data Types  //
+//  Prototypes  //
 //              //
 //////////////////
 #ifdef __TALLYMARK_PMARK
-#pragma mark - Data Types
+#pragma mark -
 #endif
 
-typedef struct tallymarker_config_struct tallymarker_cnf;
-typedef struct tallymarker_command_struct tallymarker_cmd;
-
-struct tallymarker_config_struct
-{
-   const char            * prog_name;
-   const char            * urlstr;
-   const tallymarker_cmd * cmd;
-   tallymark_url_desc    * tudp;
-   tallymark_msg         * req;
-   tallymark_msg         * res;
-   const tallymark_hdr   * res_hdr;
-   const tallymark_hdr   * req_hdr;
-   int                     family;
-   int                     quiet;
-   int                     verbose;
-   int                     hexdump;
-   int                     s;
-   int                     timeout;
-   uint32_t                request_codes;
-   uint8_t                 request_id;
-   uint8_t                 service_id;
-   uint8_t                 field_id;
-   uint8_t                 hash_id[TM_HDR_LEN_HASH_ID];
-};
-
-
-struct tallymarker_command_struct
-{
-   const char * cmd_name;
-   int  (*cmd_func)(tallymarker_cnf * cnf);
-   const char * cmd_shortopts;
-   int          arguments;
-   const char * cmd_help;
-   const char * cmd_desc;
-};
+int tallymarker_cmd_count(tallymarker_cnf * cnf);
 
 
 #endif /* end of header */

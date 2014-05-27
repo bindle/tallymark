@@ -133,6 +133,13 @@ int tallymark_msg_compile(tallymark_msg * msg)
       pcount++;
    };
 
+   if (bdy->hash_count_set != 0)
+   {
+      off += tallymark_msg_compile_param_hdr(msg,  off, 16, TALLYMARK_PARM_HASH_COUNT);
+      off += tallymark_msg_compile_u64(msg,      off, bdy->hash_count.count);
+      off += tallymark_msg_compile_u64(msg,      off, bdy->hash_count.seconds);
+   };
+
    if (bdy->package_name.bytes != 0)
    {
       len = tallymark_msg_compiled_len(bdy->package_name.bytes);
@@ -175,6 +182,14 @@ int tallymark_msg_compile(tallymark_msg * msg)
 }
 
 
+size_t tallymark_msg_compile_count(tallymark_msg * msg, size_t off, tallymark_count * val)
+{
+   tallymark_msg_compile_u64(msg, off+0, val->count);
+   tallymark_msg_compile_u64(msg, off+8, val->seconds);
+   return(16);
+}
+
+
 size_t tallymark_msg_compile_param_hdr(tallymark_msg * msg, size_t off, size_t data_len,
    uint32_t id)
 {
@@ -184,6 +199,20 @@ size_t tallymark_msg_compile_param_hdr(tallymark_msg * msg, size_t off, size_t d
    msg->buff.u8[off+2] = (uint8_t)((id >>  8) & 0xff);
    msg->buff.u8[off+3] = (uint8_t)((id >>  0) & 0xff);
    return(4);
+}
+
+
+size_t tallymark_msg_compile_u64(tallymark_msg * msg, size_t off, uint64_t val)
+{
+   msg->buff.u8[off+0] = (uint8_t)((val >> 56) & 0xff);
+   msg->buff.u8[off+1] = (uint8_t)((val >> 48) & 0xff);
+   msg->buff.u8[off+2] = (uint8_t)((val >> 40) & 0xff);
+   msg->buff.u8[off+3] = (uint8_t)((val >> 32) & 0xff);
+   msg->buff.u8[off+4] = (uint8_t)((val >> 24) & 0xff);
+   msg->buff.u8[off+5] = (uint8_t)((val >> 16) & 0xff);
+   msg->buff.u8[off+6] = (uint8_t)((val >>  8) & 0xff);
+   msg->buff.u8[off+7] = (uint8_t)((val >>  0) & 0xff);
+   return(8);
 }
 
 
@@ -333,6 +362,13 @@ int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
 
    switch(param)
    {
+      case TALLYMARK_PARM_HASH_COUNT:
+      if (*outvalue_size != sizeof(tallymark_count))
+         return(msg->error = EINVAL);
+      ((tallymark_count *)outvalue)->count   = msg->body.hash_count.count;
+      ((tallymark_count *)outvalue)->seconds = msg->body.hash_count.seconds;
+      return(0);
+
       case TALLYMARK_PARM_SYS_CAPABILITIES:
       if (*outvalue_size < sizeof(msg->body.capabilities))
          return(msg->error = EINVAL);
@@ -528,6 +564,11 @@ int tallymark_msg_parse(tallymark_msg * msg)
          msg->body.capabilities  |= (((uint32_t)msg->buff.u8[off+3] & 0xff) <<  0);
          break;
 
+         case TALLYMARK_PARM_HASH_COUNT:
+         tallymark_msg_parse_count(msg, off, &msg->body.hash_count);
+         msg->body.hash_count_set = 1;
+         break;
+
          case TALLYMARK_PARM_SYS_PKG_NAME:
          if ((err = tallymark_msg_parse_utf8(msg, off, param_len, &msg->body.package_name)) != 0)
             return(err);
@@ -547,6 +588,38 @@ int tallymark_msg_parse(tallymark_msg * msg)
 
    msg->status |= TALLYMARK_MSG_PARSED;
 
+   return(0);
+}
+
+
+int tallymark_msg_parse_count(tallymark_msg * msg, size_t off, tallymark_count * count)
+{
+   tallymark_msg_parse_u64(msg, off+0, &count->count);
+   tallymark_msg_parse_u64(msg, off+8, &count->seconds);
+   return(0);
+}
+
+
+int tallymark_msg_parse_u32(tallymark_msg * msg, size_t off, uint32_t * u32)
+{
+   *u32  = (((uint32_t)msg->buff.u8[off+0] & 0xff) << 24);
+   *u32 |= (((uint32_t)msg->buff.u8[off+1] & 0xff) << 16);
+   *u32 |= (((uint32_t)msg->buff.u8[off+2] & 0xff) <<  8);
+   *u32 |= (((uint32_t)msg->buff.u8[off+3] & 0xff) <<  0);
+   return(0);
+}
+
+
+int tallymark_msg_parse_u64(tallymark_msg * msg, size_t off, uint64_t * u64)
+{
+   *u64  = (((uint64_t)msg->buff.u8[off+0] & 0xff) << 56LLU);
+   *u64 |= (((uint64_t)msg->buff.u8[off+1] & 0xff) << 48LLU);
+   *u64 |= (((uint64_t)msg->buff.u8[off+2] & 0xff) << 40LLU);
+   *u64 |= (((uint64_t)msg->buff.u8[off+3] & 0xff) << 32LLU);
+   *u64 |= (((uint64_t)msg->buff.u8[off+4] & 0xff) << 24LLU);
+   *u64 |= (((uint64_t)msg->buff.u8[off+5] & 0xff) << 16LLU);
+   *u64 |= (((uint64_t)msg->buff.u8[off+6] & 0xff) <<  8LLU);
+   *u64 |= (((uint64_t)msg->buff.u8[off+7] & 0xff) <<  0LLU);
    return(0);
 }
 
@@ -654,6 +727,9 @@ int tallymark_msg_reset(tallymark_msg * msg)
    msg->header.header_len          = (sizeof(tallymark_hdr) / 4);
 
    // resets body
+   msg->body.hash_count.count             = 0;
+   msg->body.hash_count.seconds           = 0;
+   msg->body.hash_count_set               = 0;
    msg->body.capabilities                 = 0;
    msg->body.version.bytes                = 0;
    msg->body.package_name.bytes           = 0;
@@ -768,6 +844,14 @@ int tallymark_msg_set_param(tallymark_msg * msg, int param,
 
    switch(param)
    {
+      case TALLYMARK_PARM_HASH_COUNT:
+      if (invalue_size != sizeof(tallymark_count))
+         return(msg->error = EINVAL);
+      msg->body.hash_count.count   = ((const tallymark_count *)invalue)->count;
+      msg->body.hash_count.seconds = ((const tallymark_count *)invalue)->seconds;
+      msg->body.hash_count_set     = 1;
+      return(0);
+
       case TALLYMARK_PARM_SYS_CAPABILITIES:
       if (invalue_size != sizeof(msg->body.capabilities))
          return(msg->error = EINVAL);
