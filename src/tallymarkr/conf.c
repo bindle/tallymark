@@ -222,7 +222,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
    char * const * argv, const char * short_opt,
    const struct option * long_opt, int * opt_index)
 {
-   int            c;
+   int   c;
 
    while((c = getopt_long(argc, argv, short_opt, long_opt, opt_index)) != -1)
    {
