@@ -64,6 +64,9 @@ tallymark_msg_set_param
 # lib/libtallymark/network-*.c
 tallymark_net_poll
 #
+# lib/libtallymark/random.c
+tallymark_seed
+#
 # lib/libtallymark/url.c
 tallymark_url_free
 tallymark_url_initialize

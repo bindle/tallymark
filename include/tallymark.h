@@ -319,6 +319,18 @@ _TALLYMARK_F int tallymark_msg_set_header(tallymark_msg * msg, int header,
 _TALLYMARK_F int tallymark_msg_set_param(tallymark_msg * msg, int param,
    const void * invalue, size_t invalue_size);
 
+
+/**
+ *  @defgroup random Random Functions
+ *  @brief Functions for assisting with random number operations
+ */
+#ifdef __TALLYMARK_PMARK
+#pragma mark Random Prototypes
+#endif
+
+_TALLYMARK_F uint64_t tallymark_seed(void);
+
+
 /**
  *  @defgroup url URL Functions
  *  @brief Functions for parsing URLs
