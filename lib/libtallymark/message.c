@@ -669,7 +669,7 @@ int tallymark_msg_reset(tallymark_msg * msg)
 int tallymark_msg_sendto(int s, tallymark_msg * msg,
    const struct sockaddr * dest_addr, socklen_t dest_len)
 {
-   int     err;
+   int err;
 
    assert(s    != -1);
    assert(msg  != NULL);
@@ -680,10 +680,10 @@ int tallymark_msg_sendto(int s, tallymark_msg * msg,
       {
          msg->error = EINVAL;
          errno = msg->error;
-         return(-1);
+         return(msg->error);
       };
       if ((err = tallymark_msg_compile(msg)) != 0)
-         return(-1);
+         return(err);
    };
 
    if (sendto(s, msg->buff.u8, msg->msg_len, 0, dest_addr, dest_len) == -1)
