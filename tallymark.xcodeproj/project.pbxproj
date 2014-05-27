@@ -49,6 +49,9 @@
 		A09D04D41934654300C96985 /* cmd-count.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04D01934654300C96985 /* cmd-count.c */; };
 		A09D04D51934654300C96985 /* cmd-increment.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04D21934654300C96985 /* cmd-increment.c */; };
 		A09D04D81934689400C96985 /* cmd-debugger.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04D61934689400C96985 /* cmd-debugger.c */; };
+		A09D04DA1935473E00C96985 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A09D04D91935473E00C96985 /* libcrypto.dylib */; };
+		A09D04DE1935546000C96985 /* random.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04DC1935546000C96985 /* random.c */; };
+		A09D04DF1935546000C96985 /* random.h in Headers */ = {isa = PBXBuildFile; fileRef = A09D04DD1935546000C96985 /* random.h */; };
 		A0CF1B24192169A500E5C668 /* tallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FCD192166330081CD19 /* tallymark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0CF1B25192169A500E5C668 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FD2192166330081CD19 /* version.c */; };
 		A0CF1B26192169B100E5C668 /* tallymarked.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE0192166330081CD19 /* tallymarked.c */; };
@@ -226,6 +229,9 @@
 		A09D04D31934654300C96985 /* cmd-increment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cmd-increment.h"; sourceTree = "<group>"; };
 		A09D04D61934689400C96985 /* cmd-debugger.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "cmd-debugger.c"; sourceTree = "<group>"; };
 		A09D04D71934689400C96985 /* cmd-debugger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cmd-debugger.h"; sourceTree = "<group>"; };
+		A09D04D91935473E00C96985 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		A09D04DC1935546000C96985 /* random.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = random.c; sourceTree = "<group>"; };
+		A09D04DD1935546000C96985 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
 		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,6 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A09D04DA1935473E00C96985 /* libcrypto.dylib in Frameworks */,
 				A0CF1B471921DEF000E5C668 /* libbindle-osx.a in Frameworks */,
 				A0CF1B3019216A4000E5C668 /* libtallymark.a in Frameworks */,
 			);
@@ -333,6 +340,7 @@
 				A0AC5FD4192166330081CD19 /* m4 */,
 				A0AC5FDE192166330081CD19 /* src */,
 				A090DD5B1929548B00F20EBE /* tests */,
+				A09D04DB1935489E00C96985 /* Frameworks */,
 				A0AC5F8D1921657C0081CD19 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -344,6 +352,14 @@
 				A090DD6C192B28AA00F20EBE /* url-parse.c */,
 			);
 			path = tests;
+			sourceTree = "<group>";
+		};
+		A09D04DB1935489E00C96985 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A09D04D91935473E00C96985 /* libcrypto.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A0AC5F8D1921657C0081CD19 /* Products */ = {
@@ -409,6 +425,8 @@
 				A0CF1B641922DBD100E5C668 /* memory.h */,
 				A0CF1B741924425900E5C668 /* message.c */,
 				A0CF1B751924425900E5C668 /* message.h */,
+				A09D04DC1935546000C96985 /* random.c */,
+				A09D04DD1935546000C96985 /* random.h */,
 				A0CF1B691923151900E5C668 /* thread.c */,
 				A0CF1B6A1923151900E5C668 /* thread.h */,
 				A090DD5E192A829F00F20EBE /* url.c */,
@@ -519,6 +537,7 @@
 				A0CF1B671922DC0500E5C668 /* version.h in Headers */,
 				A0CF1B5E1922D1C800E5C668 /* fdpoller.h in Headers */,
 				A0CF1B661922DBD100E5C668 /* memory.h in Headers */,
+				A09D04DF1935546000C96985 /* random.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,6 +721,7 @@
 				A0CF1B761924425900E5C668 /* message.c in Sources */,
 				A0CF1B25192169A500E5C668 /* version.c in Sources */,
 				A0CF1B6B1923151900E5C668 /* thread.c in Sources */,
+				A09D04DE1935546000C96985 /* random.c in Sources */,
 				A090DD60192A829F00F20EBE /* url.c in Sources */,
 				A0CF1B651922DBD100E5C668 /* memory.c in Sources */,
 				A0CF1B5C1922D1C800E5C668 /* fdpoller-poll.c in Sources */,
