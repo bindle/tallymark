@@ -100,12 +100,15 @@ int tallymarker_cmd_count(tallymarker_cnf * cnf)
       if ((hdr->response_codes & TALLYMARK_RES_EOR) != 0)
       {
          printf("count:    %" PRIu64 "\n", count.count);
-         printf("duration: %" PRIu64 " seconds\n", count.seconds);
-         count.seconds++;
-         printf("average:  %" PRIu64 " per second\n", count.count/count.seconds);
-         printf("average:  %" PRIu64 " per minute\n", (count.count*60)/count.seconds);
-         printf("average:  %" PRIu64 " per hour\n",   (count.count*360)/count.seconds);
-         printf("average:  %" PRIu64 " per day\n",    (count.count*8640)/count.seconds);
+         if (count.count > 0)
+         {
+            printf("duration: %" PRIu64 " seconds\n", count.seconds);
+            count.seconds++;
+            printf("average:  %" PRIu64 " per second\n", count.count/count.seconds);
+            printf("average:  %" PRIu64 " per minute\n", (count.count*60)/count.seconds);
+            printf("average:  %" PRIu64 " per hour\n",   (count.count*360)/count.seconds);
+            printf("average:  %" PRIu64 " per day\n",    (count.count*8640)/count.seconds);
+         };
          return(0);
       };
    };

@@ -79,6 +79,8 @@
 int tallymarker_cmd_threshold(tallymarker_cnf * cnf)
 {
    size_t                  len;
+   time_t                  t;
+   char                    buff[26];
    tallymark_count         count;
    const tallymark_hdr   * hdr;
 
@@ -100,7 +102,13 @@ int tallymarker_cmd_threshold(tallymarker_cnf * cnf)
       if ((hdr->response_codes & TALLYMARK_RES_EOR) != 0)
       {
          printf("threshold: %" PRIu64 "\n", count.count);
-         printf("timestamp: %" PRIu64 "\n", count.seconds);
+         if (count.count > 0)
+         {
+            t = (time_t)count.seconds;
+            t = time(NULL);
+            strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S %z", localtime(&t));
+            printf("timestamp: %s\n", buff);
+         };
          return(0);
       };
    };

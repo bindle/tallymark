@@ -99,8 +99,9 @@ int tallymarker_cmd_increment(tallymarker_cnf * cnf)
       };
       if ((hdr->response_codes & TALLYMARK_RES_EOR) != 0)
       {
-         printf("count:    %llu\n", count.count);
-         printf("duration: %llu seconds\n", count.seconds);
+         printf("count:    %" PRIu64 "\n", count.count);
+         if (count.count > 0)
+            printf("duration: %" PRIu64 " seconds\n", count.seconds);
          return(0);
       };
    };
