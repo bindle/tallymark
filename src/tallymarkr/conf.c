@@ -372,6 +372,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
 
 int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
 {
+   const char   * prog_name;
    const char   * str;
    int            opt_index;
    int            err;
@@ -384,17 +385,28 @@ int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
 
    assert(pcnf != NULL);
 
+   // determines short program name
+   prog_name = argv[0];
+   if ((str = rindex(argv[0], '/')) != NULL)
+   {
+      str++;
+      prog_name = str;
+   };
+
    // allocates memory for config struct
    if ((*pcnf = malloc(sizeof(tallymarker_cnf))) == NULL)
    {
-      fprintf(stderr, "%s: malloc(): %s\n", (*pcnf)->prog_name, strerror(errno));
+      fprintf(stderr, "%s: malloc(): %s\n", prog_name, strerror(errno));
       return(-1);
    };
 
    // sets initial values
    bzero(*pcnf, sizeof(tallymarker_cnf));
-   (*pcnf)->s        = -1;
-   (*pcnf)->timeout  = 10000;
+   (*pcnf)->s           = -1;
+   (*pcnf)->timeout     = 10000;
+   (*pcnf)->prog_name   = prog_name;
+   (*pcnf)->urlstr      = "tally://localhost/";
+   (*pcnf)->family      = PF_UNSPEC;
 
    // allocates memory for messages
    if ((err = tallymark_msg_alloc(&(*pcnf)->res)) != 0)
@@ -407,18 +419,6 @@ int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
       fprintf(stderr, "tallymark_msg_alloc(): %s\n", tallymark_strerror(err));
       return(-1);
    };
-
-   // determines short program name
-   (*pcnf)->prog_name = argv[0];
-   if ((str = rindex(argv[0], '/')) != NULL)
-   {
-      str++;
-      (*pcnf)->prog_name = str;
-   };
-
-   // sets defaults
-   (*pcnf)->urlstr = "tally://localhost/";
-   (*pcnf)->family = PF_UNSPEC;
 
    // parses global CLI options
    if ((err = tallymarker_getopt(*pcnf, argc, argv, short_opt, long_opt, &opt_index)) != 0)
