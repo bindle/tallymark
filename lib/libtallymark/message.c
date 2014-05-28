@@ -137,6 +137,15 @@ int tallymark_msg_compile(tallymark_msg * msg)
    {
       off += tallymark_msg_compile_param_hdr(msg,  off, 16, TALLYMARK_PARM_HASH_COUNT);
       off += tallymark_msg_compile_count(msg,      off, &bdy->hash_count);
+      pcount++;
+   };
+
+   if (bdy->hash_text.bytes != 0)
+   {
+      len = tallymark_msg_compiled_len(bdy->package_name.bytes);
+      off += tallymark_msg_compile_param_hdr(msg,  off, len, TALLYMARK_PARM_HASH_TEXT);
+      off += tallymark_msg_compile_utf8(msg,       off, &bdy->hash_text);
+      pcount++;
    };
 
    if (bdy->package_name.bytes != 0)
@@ -151,6 +160,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
    {
       off += tallymark_msg_compile_param_hdr(msg,  off, 16, TALLYMARK_PARM_THRESHOLD);
       off += tallymark_msg_compile_count(msg,      off, &bdy->threshold);
+      pcount++;
    };
 
    if (bdy->version.bytes != 0)
@@ -374,6 +384,9 @@ int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
       ((tallymark_count *)outvalue)->seconds = msg->body.hash_count.seconds;
       return(0);
 
+      case TALLYMARK_PARM_HASH_TEXT:
+      return(tallymark_msg_get_utf8(msg, &msg->body.hash_text, outvalue, outvalue_size));
+
       case TALLYMARK_PARM_SYS_CAPABILITIES:
       if (*outvalue_size < sizeof(msg->body.capabilities))
          return(msg->error = EINVAL);
@@ -576,6 +589,11 @@ int tallymark_msg_parse(tallymark_msg * msg)
          case TALLYMARK_PARM_HASH_COUNT:
          tallymark_msg_parse_count(msg, off, &msg->body.hash_count);
          msg->body.hash_count_set = 1;
+         break;
+
+         case TALLYMARK_PARM_HASH_TEXT:
+         if ((err = tallymark_msg_parse_utf8(msg, off, param_len, &msg->body.hash_text)) != 0)
+            return(err);
          break;
 
          case TALLYMARK_PARM_SYS_PKG_NAME:
@@ -865,6 +883,9 @@ int tallymark_msg_set_param(tallymark_msg * msg, int param,
       msg->body.hash_count.seconds = ((const tallymark_count *)invalue)->seconds;
       msg->body.hash_count_set     = 1;
       return(0);
+
+      case TALLYMARK_PARM_HASH_TEXT:
+      return(tallymark_msg_set_utf8(msg, &msg->body.hash_text, invalue, invalue_size));
 
       case TALLYMARK_PARM_SYS_CAPABILITIES:
       if (invalue_size != sizeof(msg->body.capabilities))

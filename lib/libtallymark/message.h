@@ -90,8 +90,11 @@ struct libtallymark_body_struct
    int               hash_count_set;
    tallymark_count   hash_count;
 
+   // TALLYMARK_PARM_HASH_TEXT
+   tallymark_blob    hash_text;
+
    // TALLYMARK_PARM_SYS_CAPABILITIES
-   uint32_t    capabilities;
+   uint32_t          capabilities;
 
    // TALLYMARK_PARM_SYS_VERSION
    tallymark_blob    version;
