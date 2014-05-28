@@ -94,7 +94,7 @@ int main(int argc, char * argv[])
 
    srand((unsigned)tallymark_seed());
 
-   switch(tallymaker_init(&cnf, argc, argv))
+   switch(tallymarker_init(&cnf, argc, argv))
    {
       case -1:
       return(-1);
@@ -108,13 +108,13 @@ int main(int argc, char * argv[])
 
    if ((err = tallymarker_connect(cnf)) != 0)
    {
-      tallymaker_destroy(cnf);
+      tallymarker_destroy(cnf);
       return(1);
    };
 
    err = cnf->cmd->cmd_func(cnf);
 
-   tallymaker_destroy(cnf);
+   tallymarker_destroy(cnf);
 
    return(err);
 }

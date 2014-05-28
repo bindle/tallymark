@@ -79,13 +79,13 @@
 #pragma mark -
 #endif
 
-int tallymaker_destroy(tallymarker_cnf * cnf);
+int tallymarker_destroy(tallymarker_cnf * cnf);
 
 int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
    char * const * argv, const char * short_opt,
    const struct option * long_opt, int * opt_index);
 
-int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[]);
+int tallymarker_init(tallymarker_cnf ** pcnf, int argc, char * argv[]);
 
 void tallymarker_usage(tallymarker_cnf * cnf);
 void tallymarker_version(void);

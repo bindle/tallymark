@@ -256,7 +256,7 @@ size_t tallymarker_hextobin(const char * str, size_t slen, uint8_t * bytes,
 }
 
 
-int tallymaker_destroy(tallymarker_cnf * cnf)
+int tallymarker_destroy(tallymarker_cnf * cnf)
 {
    assert(cnf != NULL);
 
@@ -370,7 +370,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
 }
 
 
-int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
+int tallymarker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
 {
    const char   * prog_name;
    const char   * str;
@@ -423,7 +423,7 @@ int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
    // parses global CLI options
    if ((err = tallymarker_getopt(*pcnf, argc, argv, short_opt, long_opt, &opt_index)) != 0)
    {
-      tallymaker_destroy(*pcnf);
+      tallymarker_destroy(*pcnf);
       return(err);
    };
 
@@ -432,7 +432,7 @@ int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
    {
       fprintf(stderr, "%s: missing command\n", (*pcnf)->prog_name);
       fprintf(stderr, "Try `%s --help' for more information.\n", (*pcnf)->prog_name);
-      tallymaker_destroy(*pcnf);
+      tallymarker_destroy(*pcnf);
       return(-1);
    };
 
@@ -457,21 +457,21 @@ int tallymaker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
    {
       fprintf(stderr, "%s: unknown command -- \"%s\"\n", (*pcnf)->prog_name, cmd_name);
       fprintf(stderr, "Try `%s --help' for more information.\n", (*pcnf)->prog_name);
-      tallymaker_destroy(*pcnf);
+      tallymarker_destroy(*pcnf);
       return(-1);
    };
    if (!((*pcnf)->cmd->cmd_func))
    {
       fprintf(stderr, "%s: command not implemented -- \"%s\"\n", (*pcnf)->prog_name, (*pcnf)->cmd->cmd_name);
       fprintf(stderr, "Try `%s --help' for more information.\n", (*pcnf)->prog_name);
-      tallymaker_destroy(*pcnf);
+      tallymarker_destroy(*pcnf);
       return(-1);
    };
 
    // parses command specific CLI options
    if ((err = tallymarker_getopt(*pcnf, argc, argv, (*pcnf)->cmd->cmd_shortopts, long_opt, &opt_index)) != 0)
    {
-      tallymaker_destroy(*pcnf);
+      tallymarker_destroy(*pcnf);
       return(-1);
    };
 
