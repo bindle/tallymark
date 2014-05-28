@@ -92,6 +92,8 @@ int main(int argc, char * argv[])
    tallymark_sockaddr   addr;
    const tallymark_hdr  * req_hdr;
    const tallymark_hdr  * res_hdr;
+   char                   hash[21];
+   int                  i;
    int                  s;
    int                  err;
    char                 straddr[INET6_ADDRSTRLEN];
@@ -151,7 +153,9 @@ int main(int argc, char * argv[])
          continue;
       };
       tallymark_msg_get_header(cnf->req, &req_hdr);
-      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=0x%08x", straddr, req_hdr->request_id, req_hdr->request_codes);
+      for(i = 0; i < 20; i++)
+         snprintf(&hash[i*2], 3, "%02x", req_hdr->hash_id[i]);
+      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=%" PRIx32 ", type=%u:%u, hash=%s", straddr, req_hdr->request_id, req_hdr->request_codes, req_hdr->service_id, req_hdr->field_id, hash);
 
       tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, sizeof(req_hdr->hash_id));
 
@@ -175,9 +179,9 @@ int main(int argc, char * argv[])
       tallymark_msg_compile(cnf->res);
       tallymark_msg_get_header(cnf->res, &res_hdr);
 
-      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%" PRIu32 ", res=0x%02x", straddr, res_hdr->request_id, res_hdr->sequence_id, res_hdr->response_codes);
+      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%08" PRIu32 ", res=%02x", straddr, res_hdr->request_id, res_hdr->sequence_id, res_hdr->response_codes);
       if ((err = (int)tallymark_msg_sendto(s, cnf->res, &addr.sa, addrlen)) == -1)
-         syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%" PRIu32 ", error=%s", straddr, res_hdr->request_id, res_hdr->sequence_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
+         syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%08" PRIu32 ", error=%s", straddr, res_hdr->request_id, res_hdr->sequence_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
    };
 
    tallymarked_destroy(cnf);
