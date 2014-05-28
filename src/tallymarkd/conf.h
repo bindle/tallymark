@@ -58,7 +58,6 @@
 #pragma mark - Prototypes
 #endif
 
-
 int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[]);
 void tallymarked_destroy(tallymarked_cnf * cnf);
 

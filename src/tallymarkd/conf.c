@@ -239,5 +239,4 @@ void tallymarked_version(void)
 }
 
 
-
 /* end of source */
