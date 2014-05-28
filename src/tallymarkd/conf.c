@@ -56,6 +56,8 @@
 
 #include <tallymark.h>
 
+#include "db.h"
+
 
 //////////////////
 //              //
@@ -188,6 +190,13 @@ int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[])
       return(-1);
    };
 
+   // allocates memory for backend
+   if ((err = tallymarked_backend_init(*pcnf)) != 0)
+   {
+      tallymarked_destroy(*pcnf);
+      return(-1);
+   };
+
    // parses global CLI options
    if ((err = tallymarked_getopt(*pcnf, argc, argv, &opt_index)) != 0)
    {
@@ -203,12 +212,31 @@ void tallymarked_destroy(tallymarked_cnf * cnf)
 {
    assert(cnf != NULL);
 
+   if (cnf->tudp != NULL)
+      tallymark_url_free(cnf->tudp);
+   cnf->tudp = NULL;
+
+   if (cnf->db != NULL)
+      tallymarked_backend_destroy(cnf->db);
+   cnf->db = NULL;
+
+   if (cnf->req != NULL)
+      tallymark_msg_free(cnf->req);
+   cnf->req = NULL;
+
+   if (cnf->res != NULL)
+      tallymark_msg_free(cnf->res);
+   cnf->res = NULL;
+
+   // closes sockets
    if (cnf->s[0] != -1)
       close(cnf->s[0]);
    if (cnf->s[1] != -1)
       close(cnf->s[1]);
    cnf->s[0] = -1;
    cnf->s[1] = -1;
+
+   free(cnf);
 
    return;
 }

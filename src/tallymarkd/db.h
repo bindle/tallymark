@@ -34,9 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-#ifndef __SRC_TALLYMARKED_TALLYMARKED_H
-#define __SRC_TALLYMARKED_TALLYMARKED_H 1
-
+#ifndef __SRC_TALLYMARKED_DB_H
+#define __SRC_TALLYMARKED_DB_H 1
 
 ///////////////
 //           //
@@ -47,92 +46,21 @@
 #pragma mark - Headers
 #endif
 
-#ifdef HAVE_CONFIG_H
-#   include "config.h"
-#else
-#   include "git-package-version.h"
-#endif
-
-#include <tallymark.h>
-
-#include <sys/socket.h>
-
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Definitions
-#endif
-
-#ifndef PROGRAM_NAME
-#define PROGRAM_NAME "tallymarked"
-#endif
-#ifndef PACKAGE_BUGREPORT
-#define PACKAGE_BUGREPORT "syzdek@bindlebinaries.com"
-#endif
-#ifndef PACKAGE_COPYRIGHT
-#define PACKAGE_COPYRIGHT ""
-#endif
-#ifndef PACKAGE_NAME
-#define PACKAGE_NAME ":-|"
-#endif
-#ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION ""
-#endif
-
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Definitions
-#endif
-
-#define TALLYMARKED_IPV4   0x01UL
-#define TALLYMARKED_IPV6   0x02UL
+#include "tallymarked.h"
 
 
 //////////////////
 //              //
-//  Data Types  //
+//  Prototypes  //
 //              //
 //////////////////
 #ifdef __TALLYMARK_PMARK
-#pragma mark - Data Types
+#pragma mark - Prototypes
 #endif
 
-typedef struct tallymarked_config_struct     tallymarked_cnf;
-typedef struct tallymarked_database_struct   tallymarked_db;
-typedef struct tallymarked_record_struct     tallymarked_record;
-
-struct tallymarked_config_struct
-{
-   const char            * prog_name;
-   const char            * urlstr;
-   tallymark_url_desc    * tudp;
-   tallymarked_db        * db;
-   int                     family;
-   int                     foreground;
-   int                     s[2];
-   tallymark_msg         * req;
-   tallymark_msg         * res;
-   uint64_t                window;
-};
-
-
-struct tallymarked_record_struct
-{
-   uint8_t              srv;        //   1 bytes
-   uint8_t              fld;        //   1 bytes
-   uint8_t              hid[20];    //  20 bytes
-   char               * string;     //   8 bytes
-   tallymark_count      threshold;  //  16 bytes
-   tallymark_count      count;      //  16 bytes
-};
+int tallymarked_backend_destroy(tallymarked_db * cnf);
+int tallymarked_backend_init(tallymarked_cnf * cnf);
+int tallymarked_backend_record(tallymarked_cnf * cnf, uint8_t srv,
+   uint8_t fld, const uint8_t * hash, tallymarked_record ** prec);
 
 #endif /* end of header */

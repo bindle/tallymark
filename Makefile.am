@@ -185,6 +185,8 @@ src_tallymarked_SOURCES			= $(noinst_HEADERS) \
 					  src/tallymarkd/conf.h \
 					  src/tallymarkd/daemon.c \
 					  src/tallymarkd/daemon.h \
+					  src/tallymarkd/db-dumb.c \
+					  src/tallymarkd/db.h \
 					  src/tallymarkd/network.c \
 					  src/tallymarkd/network.h \
 					  src/tallymarkd/tallymarked.c \

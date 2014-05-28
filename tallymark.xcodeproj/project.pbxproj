@@ -55,6 +55,7 @@
 		A09D04E21935BAB300C96985 /* cmd-threshold.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04E01935BAB300C96985 /* cmd-threshold.c */; };
 		A09D04E51935CE2000C96985 /* network.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04E31935CE2000C96985 /* network.c */; };
 		A09D04E91935DB4600C96985 /* daemon.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04E71935DB4600C96985 /* daemon.c */; };
+		A09D04F11935E70F00C96985 /* db-dumb.c in Sources */ = {isa = PBXBuildFile; fileRef = A09D04EF1935E70F00C96985 /* db-dumb.c */; };
 		A0CF1B24192169A500E5C668 /* tallymark.h in Headers */ = {isa = PBXBuildFile; fileRef = A0AC5FCD192166330081CD19 /* tallymark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0CF1B25192169A500E5C668 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FD2192166330081CD19 /* version.c */; };
 		A0CF1B26192169B100E5C668 /* tallymarked.c in Sources */ = {isa = PBXBuildFile; fileRef = A0AC5FE0192166330081CD19 /* tallymarked.c */; };
@@ -241,6 +242,8 @@
 		A09D04E41935CE2000C96985 /* network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = network.h; sourceTree = "<group>"; };
 		A09D04E71935DB4600C96985 /* daemon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = daemon.c; sourceTree = "<group>"; };
 		A09D04E81935DB4600C96985 /* daemon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = daemon.h; sourceTree = "<group>"; };
+		A09D04EF1935E70F00C96985 /* db-dumb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "db-dumb.c"; sourceTree = "<group>"; };
+		A09D04F01935E70F00C96985 /* db.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = db.h; sourceTree = "<group>"; };
 		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -470,6 +473,8 @@
 				A0CF1B56192206CD00E5C668 /* conf.h */,
 				A09D04E71935DB4600C96985 /* daemon.c */,
 				A09D04E81935DB4600C96985 /* daemon.h */,
+				A09D04EF1935E70F00C96985 /* db-dumb.c */,
+				A09D04F01935E70F00C96985 /* db.h */,
 				A09D04E31935CE2000C96985 /* network.c */,
 				A09D04E41935CE2000C96985 /* network.h */,
 				A0AC5FE0192166330081CD19 /* tallymarked.c */,
@@ -765,6 +770,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A09D04F11935E70F00C96985 /* db-dumb.c in Sources */,
 				A09D04E51935CE2000C96985 /* network.c in Sources */,
 				A09D04E91935DB4600C96985 /* daemon.c in Sources */,
 				A0CF1B57192206CD00E5C668 /* conf.c in Sources */,

@@ -59,9 +59,11 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <syslog.h>
+#include <time.h>
 
 #include "conf.h"
 #include "daemon.h"
+#include "db.h"
 #include "network.h"
 
 
@@ -101,6 +103,8 @@ int main(int argc, char * argv[])
    uint32_t             u32;
    uint8_t              u8;
    const char         * constr;
+   tallymarked_record * rec;
+   tallymark_count      count;
 
    srand((unsigned)tallymark_seed());
 
@@ -157,17 +161,39 @@ int main(int argc, char * argv[])
          snprintf(&hash[i*2], 3, "%02x", req_hdr->hash_id[i]);
       syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=%" PRIx32 ", type=%u:%u, hash=%s", straddr, req_hdr->request_id, req_hdr->request_codes, req_hdr->service_id, req_hdr->field_id, hash);
 
+      if ((err = tallymarked_backend_record(cnf, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, &rec)) != 0)
+      {
+         syslog(LOG_ERR, "client=%s error=%s", straddr, tallymark_strerror(err));
+         continue;
+      };
+      
       tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, sizeof(req_hdr->hash_id));
 
       u8 = TALLYMARK_RES_RESPONSE|TALLYMARK_RES_EOR;
       tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u8, sizeof(u8));
       tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_REQUEST_CODES, &req_hdr->request_codes, sizeof(req_hdr->request_codes));
 
+      if ((TALLYMARK_REQ_HASH_INCREMENT & req_hdr->request_codes) != 0)
+      {
+         rec->count.count++;
+         if (rec->count.seconds == 0)
+            rec->count.seconds = (uint64_t)time(NULL);
+      };
+
+      if ((TALLYMARK_REQ_HASH_COUNT & req_hdr->request_codes) != 0)
+      {
+         count.count   = rec->count.count;
+         count.seconds = (uint64_t)time(NULL) - rec->count.seconds;
+         count.seconds++;
+         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_HASH_COUNT, &count, sizeof(count));
+      };
+
       if ((TALLYMARK_REQ_SYS_CAPABILITIES & req_hdr->request_codes) != 0)
       {
          u32 = TALLYMARK_REQ_SYS_CAPABILITIES|TALLYMARK_REQ_SYS_VERSION;
          tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_CAPABILITIES, &u32, sizeof(u32));
       };
+
       if ((TALLYMARK_REQ_SYS_VERSION & req_hdr->request_codes) != 0)
       {
          constr = PACKAGE_NAME;
