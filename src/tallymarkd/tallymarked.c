@@ -59,33 +59,7 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 
-#include "memory.h"
-
-
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Definitions
-#endif
-
-#ifndef PROGRAM_NAME
-#define PROGRAM_NAME "tallymarked"
-#endif
-#ifndef PACKAGE_BUGREPORT
-#define PACKAGE_BUGREPORT "syzdek@bindlebinaries.com"
-#endif
-#ifndef PACKAGE_COPYRIGHT
-#define PACKAGE_COPYRIGHT ""
-#endif
-#ifndef PACKAGE_NAME
-#define PACKAGE_NAME ":-|"
-#endif
-#ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION ""
-#endif
+#include "conf.h"
 
 
 //////////////////
@@ -98,8 +72,6 @@
 #endif
 
 int main(int argc, char * argv[]);
-void my_usage(void);
-void my_version(void);
 
 
 /////////////////
@@ -113,8 +85,6 @@ void my_version(void);
 
 int main(int argc, char * argv[])
 {
-   int                  c;
-   int                  opt_index;
    tallymarked_cnf    * cnf;
    tallymark_url_desc * tudp;
    tallymark_sockaddr   addr;
@@ -122,83 +92,31 @@ int main(int argc, char * argv[])
    int                  s;
    int                  opt;
    int                  err;
-   char               * str;
    char                 straddr[INET6_ADDRSTRLEN];
    socklen_t            addrlen;
    uint32_t             u32;
    uint8_t              u8;
    const char         * constr;
 
-   static char   short_opt[] = "46hl:p:V";
-   static struct option long_opt[] =
+   srand((unsigned)tallymark_seed());
+
+   switch(tallymarked_init(&cnf, argc, argv))
    {
-      { "help",          no_argument, 0, 'h'},
-      { "version",       no_argument, 0, 'V'},
-      { NULL,            0,           0, 0  }
-   };
+      case -1:
+      return(-1);
 
-   if ((str = rindex(argv[0], '/')) != NULL)
-   {
-      str++;
-      argv[0] = str;
-   };
+      case 1:
+      return(0);
 
-   if ((cnf = tallymarked_alloc()) == NULL)
-   {
-      fprintf(stderr, "%s: out of virtual memory\n", PROGRAM_NAME);
-      return(1);
-   };
-
-   while((c = getopt_long(argc, argv, short_opt, long_opt, &opt_index)) != -1)
-   {
-      switch(c)
-      {
-         case -1:	/* no more arguments */
-         case 0:	/* long options toggles */
-         break;
-
-         case '4':
-         cnf->opts |= TALLYMARKED_IPV4;
-         cnf->opts &= ~TALLYMARKED_IPV6;
-         break;
-
-         case '6':
-         cnf->opts |= TALLYMARKED_IPV6;
-         cnf->opts &= ~TALLYMARKED_IPV4;
-         break;
-
-         case 'h':
-         my_usage();
-         tallymarked_free(cnf);
-         return(0);
-
-         case 'l':
-         cnf->url = optarg;
-         break;
-
-         case 'V':
-         my_version();
-         tallymarked_free(cnf);
-         return(0);
-
-         case '?':
-         fprintf(stderr, "Try `%s --help' for more information.\n", argv[0]);
-         tallymarked_free(cnf);
-         return(1);
-
-         default:
-         fprintf(stderr, "%s: unrecognized option `--%c'\n", argv[0], c);
-         fprintf(stderr, "Try `%s --help' for more information.\n", argv[0]);
-         tallymarked_free(cnf);
-         return(1);
-      };
+      default:
+      break;
    };
 
    // parse URL and resolve hostname
-   if ((err = tallymark_url_parse(cnf->url, &cnf->tudp, 1)) != 0)
+   if ((err = tallymark_url_parse(cnf->urlstr, &cnf->tudp, 1)) != 0)
    {
       fprintf(stderr, "%s: tallymark_url_parse(): %s\n", argv[0], tallymark_strerror(err));
-      tallymarked_free(cnf);
+      tallymarked_destroy(cnf);
       return(1);
    };
 
@@ -220,7 +138,7 @@ int main(int argc, char * argv[])
    if (bind(s, &tudp->tud_addr.sa, tudp->tud_addrlen))
    {
       perror("bind()");
-      tallymarked_free(cnf);
+      tallymarked_destroy(cnf);
       close(s);
       return(-1);
    };
@@ -266,38 +184,9 @@ int main(int argc, char * argv[])
          printf("%s/%i: %u: error: %s\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
    };
 
-   tallymarked_free(cnf);
+   tallymarked_destroy(cnf);
 
    return(0);
-}
-
-
-void my_usage(void)
-{
-   printf("Usage: %s [OPTIONS]\n", PROGRAM_NAME);
-   printf("Options:\n");
-   printf("  -4                        listen on IPv4 addresses only\n");
-   printf("  -6                        listen on IPv6 addresses only\n");
-   printf("  -l address                listen on address (default: any\n");
-   printf("  -p port                   listen on port\n");
-   printf("  -h, --help                print this help and exit\n");
-   printf("  -V, --version             print version number and exit\n");
-   printf("  -v, --verbose             print verbose messages\n");
-   printf("\n");
-   return;
-}
-
-
-void my_version(void)
-{
-   printf(( "%s (%s) %s\n"
-            "libtallymark (%s) %s\n"
-            "%s\n"),
-            PROGRAM_NAME, PACKAGE_NAME, PACKAGE_VERSION,
-            PACKAGE_NAME, tallymark_pkg_version(NULL, NULL, NULL, NULL),
-            PACKAGE_COPYRIGHT
-   );
-   return;
 }
 
 

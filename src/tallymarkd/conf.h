@@ -34,8 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-#ifndef __SRC_TALLYMARKED_MEMORY_H
-#define __SRC_TALLYMARKED_MEMORY_H 1
+#ifndef __SRC_TALLYMARKED_CONF_H
+#define __SRC_TALLYMARKED_CONF_H 1
 
 ///////////////
 //           //
@@ -59,7 +59,7 @@
 #endif
 
 
-tallymarked_cnf * tallymarked_alloc(void);
-void tallymarked_free(tallymarked_cnf * cnf);
+int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[]);
+void tallymarked_destroy(tallymarked_cnf * cnf);
 
 #endif /* end of header */

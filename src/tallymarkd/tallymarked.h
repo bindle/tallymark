@@ -67,6 +67,32 @@
 #pragma mark - Definitions
 #endif
 
+#ifndef PROGRAM_NAME
+#define PROGRAM_NAME "tallymarked"
+#endif
+#ifndef PACKAGE_BUGREPORT
+#define PACKAGE_BUGREPORT "syzdek@bindlebinaries.com"
+#endif
+#ifndef PACKAGE_COPYRIGHT
+#define PACKAGE_COPYRIGHT ""
+#endif
+#ifndef PACKAGE_NAME
+#define PACKAGE_NAME ":-|"
+#endif
+#ifndef PACKAGE_VERSION
+#define PACKAGE_VERSION ""
+#endif
+
+
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Definitions
+#endif
+
 #define TALLYMARKED_IPV4   0x01UL
 #define TALLYMARKED_IPV6   0x02UL
 
@@ -85,10 +111,11 @@ typedef struct tallymarked_record_struct  tallymarked_record;
 
 struct tallymarked_config_struct
 {
-   const char              * url;
+   const char              * prog_name;
+   const char              * urlstr;
    tallymark_url_desc      * tudp;
+   int                     family;
    int                       s[2];
-   uint32_t                  opts;
    tallymark_msg           * req;
    tallymark_msg           * res;
    uint64_t                  window;

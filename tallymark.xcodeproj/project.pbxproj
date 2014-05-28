@@ -61,7 +61,7 @@
 		A0CF1B3119216A4500E5C668 /* libtallymark.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AC5F8C1921657C0081CD19 /* libtallymark.a */; };
 		A0CF1B461921DEEA00E5C668 /* libbindle-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0CF1B3F1921DEB200E5C668 /* libbindle-osx.a */; };
 		A0CF1B471921DEF000E5C668 /* libbindle-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0CF1B3F1921DEB200E5C668 /* libbindle-osx.a */; };
-		A0CF1B57192206CD00E5C668 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B55192206CD00E5C668 /* memory.c */; };
+		A0CF1B57192206CD00E5C668 /* conf.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B55192206CD00E5C668 /* conf.c */; };
 		A0CF1B5C1922D1C800E5C668 /* fdpoller-poll.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B591922D1C800E5C668 /* fdpoller-poll.c */; };
 		A0CF1B5E1922D1C800E5C668 /* fdpoller.h in Headers */ = {isa = PBXBuildFile; fileRef = A0CF1B5B1922D1C800E5C668 /* fdpoller.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		A0CF1B651922DBD100E5C668 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = A0CF1B631922DBD100E5C668 /* memory.c */; };
@@ -258,8 +258,8 @@
 		A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = bindletools.xcodeproj; path = contrib/bindletools/bindletools.xcodeproj; sourceTree = "<group>"; };
 		A0CF1B4E1921EF1F00E5C668 /* tallymarked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymarked.h; sourceTree = "<group>"; };
 		A0CF1B4F1921EFB200E5C668 /* tallymarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tallymarker.h; sourceTree = "<group>"; };
-		A0CF1B55192206CD00E5C668 /* memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
-		A0CF1B56192206CD00E5C668 /* memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
+		A0CF1B55192206CD00E5C668 /* conf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = conf.c; sourceTree = "<group>"; };
+		A0CF1B56192206CD00E5C668 /* conf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = conf.h; sourceTree = "<group>"; };
 		A0CF1B591922D1C800E5C668 /* fdpoller-poll.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "fdpoller-poll.c"; sourceTree = "<group>"; };
 		A0CF1B5B1922D1C800E5C668 /* fdpoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fdpoller.h; sourceTree = "<group>"; };
 		A0CF1B631922DBD100E5C668 /* memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
@@ -460,10 +460,10 @@
 		A0AC5FDF192166330081CD19 /* tallymarkd */ = {
 			isa = PBXGroup;
 			children = (
-				A0CF1B55192206CD00E5C668 /* memory.c */,
-				A0CF1B56192206CD00E5C668 /* memory.h */,
-				A0CF1B4E1921EF1F00E5C668 /* tallymarked.h */,
+				A0CF1B55192206CD00E5C668 /* conf.c */,
+				A0CF1B56192206CD00E5C668 /* conf.h */,
 				A0AC5FE0192166330081CD19 /* tallymarked.c */,
+				A0CF1B4E1921EF1F00E5C668 /* tallymarked.h */,
 			);
 			path = tallymarkd;
 			sourceTree = "<group>";
@@ -755,7 +755,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0CF1B57192206CD00E5C668 /* memory.c in Sources */,
+				A0CF1B57192206CD00E5C668 /* conf.c in Sources */,
 				A0CF1B26192169B100E5C668 /* tallymarked.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
