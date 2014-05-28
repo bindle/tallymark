@@ -114,6 +114,7 @@ int main(int argc, char * argv[])
    };
 
    openlog(cnf->prog_name, LOG_CONS|LOG_PERROR|LOG_PID, LOG_DAEMON);
+   syslog(LOG_INFO, "starting %s %s", PACKAGE_NAME, PACKAGE_VERSION);
 
    if ((err = tallymarked_listen(cnf)) == -1)
    {
