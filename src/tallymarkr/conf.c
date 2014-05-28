@@ -58,6 +58,7 @@
 #include "cmd-help.h"
 #include "cmd-increment.h"
 #include "cmd-info.h"
+#include "cmd-threshold.h"
 
 
 //////////////////
@@ -95,7 +96,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    {
       "count",                                        // command name
       tallymarker_cmd_count,                          // entry function
-      TALLYMARKER_GETOPT_SHORT,                       // getopt short options
+      TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
       0,                                              // number of required arguments
       "",                                             // cli usage
       "return the current count of a hash value"      // command description
@@ -145,7 +146,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    {
       "increment",                                    // command name
       tallymarker_cmd_increment,                      // entry function
-      TALLYMARKER_GETOPT_SHORT,                       // getopt short options
+      TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
       0,                                              // number of required arguments
       "",                                             // cli usage
       "increment the count for a hash value"          // command description
@@ -161,7 +162,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    {
       "record",                                       // command name
       NULL,                                           // entry function
-      TALLYMARKER_GETOPT_SHORT,                       // getopt short options
+      TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
       0,                                              // number of required arguments
       "",                                             // cli usage
       "display the full record for a hash value"      // command description
@@ -169,7 +170,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    {
       "reset",                                        // command name
       NULL,                                           // entry function
-      TALLYMARKER_GETOPT_SHORT,                       // getopt short options
+      TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
       0,                                              // number of required arguments
       "",                                             // cli usage
       "reset the count and threshold for a hash"      // command description
@@ -181,6 +182,14 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       0,                                              // number of required arguments
       "",                                             // cli usage
       "display the list of services"                  // command description
+   },
+   {
+      "threshold",                                    // command name
+      tallymarker_cmd_threshold,                      // entry function
+      TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
+      0,                                              // number of required arguments
+      "",                                             // cli usage
+      "return the current threshold of a hash value"  // command description
    },
    { NULL, NULL, NULL, 0, NULL, NULL }
 };
