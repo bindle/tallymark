@@ -320,7 +320,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
          case 'K':
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-         SHA1((unsigned char *)optarg, sizeof(optarg) - 1, cnf->hash_id);
+         SHA1((unsigned char *)optarg, strlen(optarg), cnf->hash_id);
 #pragma clang diagnostic pop
          break;
 

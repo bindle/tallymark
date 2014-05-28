@@ -155,13 +155,8 @@ int tallymarked_backend_record(tallymarked_cnf * cnf, uint8_t srv,
    for(x = 0; ((x < db->len) && (*prec == NULL)); x++)
    {
       rec = &db->records[x];
-      if (rec->srv != srv)
-         continue;
-      if (rec->fld != fld)
-         continue;
-      if ((memcmp(hash, rec->hid, sizeof(rec->hid))))
-         continue;
-      *prec = rec;
+      if ( (rec->srv == srv) && (rec->fld == fld) && (!(memcmp(hash, rec->hid, 20))) )
+         *prec = rec;
    };
 
    if (*prec == NULL)
@@ -173,6 +168,7 @@ int tallymarked_backend_record(tallymarked_cnf * cnf, uint8_t srv,
       rec->srv = srv;
       rec->fld = fld;
       memcpy(rec->hid, hash, sizeof(rec->hid));
+      db->len++;
    };
 
    return(0);
