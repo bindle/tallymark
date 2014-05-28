@@ -34,8 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-#include "network.h"
-
+#ifndef __SRC_TALLYMARKED_DAEMON_H
+#define __SRC_TALLYMARKED_DAEMON_H 1
 
 ///////////////
 //           //
@@ -46,16 +46,7 @@
 #pragma mark - Headers
 #endif
 
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <errno.h>
-#include <getopt.h>
-#include <syslog.h>
-
-#include <tallymark.h>
+#include "tallymarked.h"
 
 
 //////////////////
@@ -67,60 +58,6 @@
 #pragma mark - Prototypes
 #endif
 
-   
-/////////////////
-//             //
-//  Functions  //
-//             //
-/////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Functions
-#endif
+int tallymarked_daemon(tallymarked_cnf * cnf);
 
-int tallymarked_listen(tallymarked_cnf * cnf)
-{
-   int s;
-   int err;
-   int opt;
-   tallymark_url_desc * tudp;
-
-   assert(cnf != NULL);
-
-   // parse URL and resolve hostname
-   if ((err = tallymark_url_parse(cnf->urlstr, &cnf->tudp, 1)) != 0)
-   {
-      fprintf(stderr, "%s: tallymark_url_parse(): %s\n", cnf->prog_name, tallymark_strerror(err));
-      return(-1);
-   };
-
-   // create socket
-   tudp = cnf->tudp;
-   if ((s = socket(tudp->tud_family, tudp->tud_socktype, tudp->tud_protocol)) == -1)
-   {
-      perror("socket()");
-      return(-1);
-   };
-
-   //fcntl(s, F_SETFL, O_NONBLOCK);
-   opt = 1;setsockopt(s, SOL_SOCKET,   SO_REUSEADDR, (void *)&opt, sizeof(int));
-   opt = 0;setsockopt(s, IPPROTO_IPV6,  IPV6_V6ONLY, (void *)&opt, sizeof(int));
-#ifdef SO_NOSIGPIPE
-   opt = 1;setsockopt(s, SOL_SOCKET, SO_NOSIGPIPE, (void *)&opt, sizeof(int));
-#endif
-
-   if (bind(s, &tudp->tud_addr.sa, tudp->tud_addrlen))
-   {
-      perror("bind()");
-      close(s);
-      return(-1);
-   };
-
-   cnf->s[0] = s;
-
-   syslog(LOG_INFO, "listening on %s", cnf->tudp->tud_strurl);
-
-   return(0);
-}
-
-
-/* end of source */
+#endif /* end of header */

@@ -61,6 +61,7 @@
 #include <syslog.h>
 
 #include "conf.h"
+#include "daemon.h"
 #include "network.h"
 
 
@@ -121,9 +122,21 @@ int main(int argc, char * argv[])
       tallymarked_destroy(cnf);
       return(1);
    };
-
-   syslog(LOG_INFO, "listening on %s", cnf->tudp->tud_strurl);
    s = cnf->s[0];
+
+   switch((tallymarked_daemon(cnf)))
+   {
+      case -1:
+      tallymarked_destroy(cnf);
+      return(1);
+
+      case 0:
+      break;
+
+      default:
+      tallymarked_destroy(cnf);
+      return(0);
+   };
 
    while(1)
    {

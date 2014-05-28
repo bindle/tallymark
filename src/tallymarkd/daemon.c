@@ -34,7 +34,7 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-#include "network.h"
+#include "daemon.h"
 
 
 ///////////////
@@ -52,7 +52,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
-#include <getopt.h>
 #include <syslog.h>
 
 #include <tallymark.h>
@@ -77,47 +76,41 @@
 #pragma mark - Functions
 #endif
 
-int tallymarked_listen(tallymarked_cnf * cnf)
+int tallymarked_daemon(tallymarked_cnf * cnf)
 {
-   int s;
-   int err;
-   int opt;
-   tallymark_url_desc * tudp;
+   int pid;
 
    assert(cnf != NULL);
 
-   // parse URL and resolve hostname
-   if ((err = tallymark_url_parse(cnf->urlstr, &cnf->tudp, 1)) != 0)
+   if (cnf->foreground != 0)
    {
-      fprintf(stderr, "%s: tallymark_url_parse(): %s\n", cnf->prog_name, tallymark_strerror(err));
-      return(-1);
+      syslog(LOG_INFO, "running in foreground");
+      return(0);
    };
 
-   // create socket
-   tudp = cnf->tudp;
-   if ((s = socket(tudp->tud_family, tudp->tud_socktype, tudp->tud_protocol)) == -1)
+   switch (pid = fork())
    {
-      perror("socket()");
+      case -1:
+      perror("fork()");
       return(-1);
+
+      case 0:
+      closelog();
+      openlog(cnf->prog_name, LOG_CONS|LOG_PID, LOG_DAEMON);
+      close(STDERR_FILENO);
+      close(STDIN_FILENO);
+      close(STDOUT_FILENO);
+      if (setsid() == -1)
+      {
+         syslog(LOG_ERR, "setsid(): %m");
+         return(-1);
+      };
+      break;
+
+      default:
+      syslog(LOG_INFO, "switching from pid \"%i\" to pid \"%i\"", getpid(), pid);
+      return(pid);
    };
-
-   //fcntl(s, F_SETFL, O_NONBLOCK);
-   opt = 1;setsockopt(s, SOL_SOCKET,   SO_REUSEADDR, (void *)&opt, sizeof(int));
-   opt = 0;setsockopt(s, IPPROTO_IPV6,  IPV6_V6ONLY, (void *)&opt, sizeof(int));
-#ifdef SO_NOSIGPIPE
-   opt = 1;setsockopt(s, SOL_SOCKET, SO_NOSIGPIPE, (void *)&opt, sizeof(int));
-#endif
-
-   if (bind(s, &tudp->tud_addr.sa, tudp->tud_addrlen))
-   {
-      perror("bind()");
-      close(s);
-      return(-1);
-   };
-
-   cnf->s[0] = s;
-
-   syslog(LOG_INFO, "listening on %s", cnf->tudp->tud_strurl);
 
    return(0);
 }

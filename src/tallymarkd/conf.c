@@ -86,7 +86,7 @@ int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
 {
    int   c;
 
-   static char   short_opt[] = "46hl:p:V";
+   static char   short_opt[] = "46fhl:p:V";
    static struct option long_opt[] =
    {
       { "help",          no_argument, 0, 'h'},
@@ -109,6 +109,10 @@ int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
 
          case '6':
          cnf->family = PF_INET6;
+         break;
+
+         case 'f':
+         cnf->foreground = 1;
          break;
 
          case 'h':
@@ -216,6 +220,7 @@ void tallymarked_usage(tallymarked_cnf * cnf)
    printf("Options:\n");
    printf("  -4                        listen on IPv4 addresses only\n");
    printf("  -6                        listen on IPv6 addresses only\n");
+   printf("  -f                        run in foreground\n");
    printf("  -l address                listen on address (default: any\n");
    printf("  -p port                   listen on port\n");
    printf("  -h, --help                print this help and exit\n");

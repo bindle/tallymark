@@ -183,6 +183,8 @@ src_tallymarked_LDADD			= lib/libtallymark.la
 src_tallymarked_SOURCES			= $(noinst_HEADERS) \
 					  src/tallymarkd/conf.c \
 					  src/tallymarkd/conf.h \
+					  src/tallymarkd/daemon.c \
+					  src/tallymarkd/daemon.h \
 					  src/tallymarkd/network.c \
 					  src/tallymarkd/network.h \
 					  src/tallymarkd/tallymarked.c \

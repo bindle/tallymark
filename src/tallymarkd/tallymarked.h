@@ -115,6 +115,7 @@ struct tallymarked_config_struct
    const char              * urlstr;
    tallymark_url_desc      * tudp;
    int                     family;
+   int                     foreground;
    int                       s[2];
    tallymark_msg           * req;
    tallymark_msg           * res;
