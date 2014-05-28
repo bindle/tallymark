@@ -58,8 +58,10 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <arpa/inet.h>
+#include <syslog.h>
 
 #include "conf.h"
+#include "network.h"
 
 
 //////////////////
@@ -86,11 +88,10 @@ int main(int argc, char * argv[]);
 int main(int argc, char * argv[])
 {
    tallymarked_cnf    * cnf;
-   tallymark_url_desc * tudp;
    tallymark_sockaddr   addr;
    const tallymark_hdr  * req_hdr;
+   const tallymark_hdr  * res_hdr;
    int                  s;
-   int                  opt;
    int                  err;
    char                 straddr[INET6_ADDRSTRLEN];
    socklen_t            addrlen;
@@ -112,38 +113,16 @@ int main(int argc, char * argv[])
       break;
    };
 
-   // parse URL and resolve hostname
-   if ((err = tallymark_url_parse(cnf->urlstr, &cnf->tudp, 1)) != 0)
+   openlog(cnf->prog_name, LOG_CONS|LOG_PERROR|LOG_PID, LOG_DAEMON);
+
+   if ((err = tallymarked_listen(cnf)) == -1)
    {
-      fprintf(stderr, "%s: tallymark_url_parse(): %s\n", argv[0], tallymark_strerror(err));
       tallymarked_destroy(cnf);
       return(1);
    };
 
-   // create socket
-   tudp = cnf->tudp;
-   if ((s = socket(tudp->tud_family, tudp->tud_socktype, tudp->tud_protocol)) == -1)
-   {
-      perror("socket()");
-      return(1);
-   };
-
-   //fcntl(s, F_SETFL, O_NONBLOCK);
-   opt = 1;setsockopt(s, SOL_SOCKET,   SO_REUSEADDR, (void *)&opt, sizeof(int));
-   opt = 0;setsockopt(s, IPPROTO_IPV6,  IPV6_V6ONLY, (void *)&opt, sizeof(int));
-#ifdef SO_NOSIGPIPE
-   opt = 1;setsockopt(s, SOL_SOCKET, SO_NOSIGPIPE, (void *)&opt, sizeof(int));
-#endif
-
-   if (bind(s, &tudp->tud_addr.sa, tudp->tud_addrlen))
-   {
-      perror("bind()");
-      tallymarked_destroy(cnf);
-      close(s);
-      return(-1);
-   };
-
-   printf("%s: listening on %s ...\n", argv[0], tudp->tud_strurl);
+   syslog(LOG_INFO, "listening on %s", cnf->tudp->tud_strurl);
+   s = cnf->s[0];
 
    while(1)
    {
@@ -154,11 +133,11 @@ int main(int argc, char * argv[])
          getnameinfo(&addr.sa, addrlen, straddr, sizeof(straddr), NULL, 0, NI_NUMERICHOST);
       if (err != 0)
       {
-         printf("%s/%i: error: %s\n", straddr, ntohs(addr.sa_in.sin_port), tallymark_strerror(err));
+         syslog(LOG_ERR, "client=%s error=%s", straddr, tallymark_strerror(err));
          continue;
       };
       tallymark_msg_get_header(cnf->req, &req_hdr);
-      printf("%s/%i: %u: received request for %08x\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id, req_hdr->request_codes);
+      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=0x%08x", straddr, req_hdr->request_id, req_hdr->request_codes);
 
       tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, sizeof(req_hdr->hash_id));
 
@@ -179,9 +158,12 @@ int main(int argc, char * argv[])
          tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_VERSION,  &constr, strlen(constr));
       };
 
-      printf("%s/%i: %u: sending response\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id);
+      tallymark_msg_compile(cnf->res);
+      tallymark_msg_get_header(cnf->res, &res_hdr);
+
+      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%" PRIu32 ", res=0x%02x", straddr, res_hdr->request_id, res_hdr->sequence_id, res_hdr->response_codes);
       if ((err = (int)tallymark_msg_sendto(s, cnf->res, &addr.sa, addrlen)) == -1)
-         printf("%s/%i: %u: error: %s\n", straddr, ntohs(addr.sa_in.sin_port), req_hdr->request_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
+         syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%" PRIu32 ", error=%s", straddr, res_hdr->request_id, res_hdr->sequence_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
    };
 
    tallymarked_destroy(cnf);

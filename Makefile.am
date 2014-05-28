@@ -181,10 +181,12 @@ endif
 src_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
 src_tallymarked_LDADD			= lib/libtallymark.la
 src_tallymarked_SOURCES			= $(noinst_HEADERS) \
-					  src/tallymarkd/tallymarked.c \
-					  src/tallymarkd/tallymarked.h \
 					  src/tallymarkd/conf.c \
-					  src/tallymarkd/conf.h
+					  src/tallymarkd/conf.h \
+					  src/tallymarkd/network.c \
+					  src/tallymarkd/network.h \
+					  src/tallymarkd/tallymarked.c \
+					  src/tallymarkd/tallymarked.h
 if ENABLE_TALLYMARKED
 sbin_PROGRAMS				+= src/tallymarked
 endif
