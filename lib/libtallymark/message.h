@@ -96,6 +96,10 @@ struct libtallymark_body_struct
    // TALLYMARK_PARM_SYS_VERSION
    tallymark_blob    version;
    tallymark_blob    package_name;
+
+   // TALLYMARK_PARM_THRESHOLD
+   int               threshold_set;
+   tallymark_count   threshold;
 };
 
 

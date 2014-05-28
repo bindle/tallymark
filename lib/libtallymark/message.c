@@ -136,8 +136,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
    if (bdy->hash_count_set != 0)
    {
       off += tallymark_msg_compile_param_hdr(msg,  off, 16, TALLYMARK_PARM_HASH_COUNT);
-      off += tallymark_msg_compile_u64(msg,      off, bdy->hash_count.count);
-      off += tallymark_msg_compile_u64(msg,      off, bdy->hash_count.seconds);
+      off += tallymark_msg_compile_count(msg,      off, &bdy->hash_count);
    };
 
    if (bdy->package_name.bytes != 0)
@@ -146,6 +145,12 @@ int tallymark_msg_compile(tallymark_msg * msg)
       off += tallymark_msg_compile_param_hdr(msg,  off, len, TALLYMARK_PARM_SYS_PKG_NAME);
       off += tallymark_msg_compile_utf8(msg,       off, &bdy->package_name);
       pcount++;
+   };
+
+   if (bdy->threshold_set != 0)
+   {
+      off += tallymark_msg_compile_param_hdr(msg,  off, 16, TALLYMARK_PARM_THRESHOLD);
+      off += tallymark_msg_compile_count(msg,      off, &bdy->threshold);
    };
 
    if (bdy->version.bytes != 0)
@@ -382,6 +387,13 @@ int tallymark_msg_get_param(tallymark_msg * msg, int param, void * outvalue,
       case TALLYMARK_PARM_SYS_PKG_NAME:
       return(tallymark_msg_get_utf8(msg, &msg->body.package_name, outvalue, outvalue_size));
 
+      case TALLYMARK_PARM_THRESHOLD:
+      if (*outvalue_size != sizeof(tallymark_count))
+         return(msg->error = EINVAL);
+      ((tallymark_count *)outvalue)->count   = msg->body.threshold.count;
+      ((tallymark_count *)outvalue)->seconds = msg->body.threshold.seconds;
+      return(0);
+
       default:
       break;
    };
@@ -558,10 +570,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
       switch(param_id)
       {
          case TALLYMARK_PARM_SYS_CAPABILITIES:
-         msg->body.capabilities   = (((uint32_t)msg->buff.u8[off+0] & 0xff) << 24);
-         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[off+1] & 0xff) << 16);
-         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[off+2] & 0xff) <<  8);
-         msg->body.capabilities  |= (((uint32_t)msg->buff.u8[off+3] & 0xff) <<  0);
+         tallymark_msg_parse_u32(msg, off, &msg->body.capabilities);
          break;
 
          case TALLYMARK_PARM_HASH_COUNT:
@@ -577,6 +586,11 @@ int tallymark_msg_parse(tallymark_msg * msg)
          case TALLYMARK_PARM_SYS_VERSION:
          if ((err = tallymark_msg_parse_utf8(msg, off, param_len, &msg->body.version)) != 0)
             return(err);
+         break;
+
+         case TALLYMARK_PARM_THRESHOLD:
+         tallymark_msg_parse_count(msg, off, &msg->body.threshold);
+         msg->body.threshold_set = 1;
          break;
 
          default:
@@ -863,6 +877,14 @@ int tallymark_msg_set_param(tallymark_msg * msg, int param,
 
       case TALLYMARK_PARM_SYS_PKG_NAME:
       return(tallymark_msg_set_utf8(msg, &msg->body.package_name, invalue, invalue_size));
+
+      case TALLYMARK_PARM_THRESHOLD:
+      if (invalue_size != sizeof(tallymark_count))
+         return(msg->error = EINVAL);
+      msg->body.threshold.count   = ((const tallymark_count *)invalue)->count;
+      msg->body.threshold.seconds = ((const tallymark_count *)invalue)->seconds;
+      msg->body.threshold_set     = 1;
+      return(0);
 
       default:
       break;

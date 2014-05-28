@@ -162,6 +162,8 @@ src_tallymarker_SOURCES			= $(noinst_HEADERS) \
 					  src/tallymarkr/cmd-increment.h \
 					  src/tallymarkr/cmd-info.c \
 					  src/tallymarkr/cmd-info.h \
+					  src/tallymarkr/cmd-threshold.c \
+					  src/tallymarkr/cmd-threshold.h \
 					  src/tallymarkr/conf.c \
 					  src/tallymarkr/conf.h \
 					  src/tallymarkr/debug.c \
