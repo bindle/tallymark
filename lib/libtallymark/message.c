@@ -306,15 +306,13 @@ int tallymark_msg_errnum(tallymark_msg * msg)
 
 void tallymark_msg_free(tallymark_msg * msg)
 {
-   assert(msg  != NULL);
+   if (msg == NULL)
+      return;
 
-   if (msg->body.version.dat.ptr != NULL)
-      free(msg->body.version.dat.ptr);
-   if (msg->body.package_name.dat.ptr != NULL)
-      free(msg->body.package_name.dat.ptr);
+   free(msg->body.version.dat.ptr);
+   free(msg->body.package_name.dat.ptr);
 
-   memset(msg, 0, sizeof(tallymark_msg));
-
+   bzero(msg, sizeof(tallymark_msg));
    free(msg);
 
    return;
@@ -811,8 +809,7 @@ int tallymark_msg_set_utf8(tallymark_msg * msg, tallymark_blob * pout,
    // clears value if missing
    if (invalue == NULL)
    {
-      if (pout->dat.ptr != NULL)
-         free(pout->dat.ptr);
+      free(pout->dat.ptr);
       pout->dat.ptr  = NULL;
       pout->bytes    = 0;
       return(0);

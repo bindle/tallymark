@@ -81,14 +81,13 @@ void tallymark_destroy(tallymark * tmd)
       return;
 
    // free memory for tracking FD poller state
-   if (tmd->poller != NULL)
-      tallymark_fdpoll_free(tmd->poller);
-   tmd->poller = NULL;
+   tallymark_fdpoll_free(tmd->poller);
 
    // destroy shared mutex attribute
    pthread_mutexattr_destroy(&tmd->mutexattr);
 
    // free memory for global tally mark state
+   bzero(tmd, sizeof(tallymark));
    free(tmd);
 
    return;

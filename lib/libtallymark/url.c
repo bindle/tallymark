@@ -81,22 +81,17 @@ regex_t     tallymark_url_regex;
 
 void tallymark_url_free(tallymark_url_desc * tudp)
 {
-   assert(tudp != NULL);
+   if (tudp == NULL)
+      return;
 
    // frees sub, allocations
-   if (tudp->tud_scheme != NULL)
-      free(tudp->tud_scheme);
-   if (tudp->tud_host != NULL)
-      free(tudp->tud_host);
-   if (tudp->tud_path != NULL)
-      free(tudp->tud_path);
-   if (tudp->tud_straddr != NULL)
-      free(tudp->tud_straddr);
-   if (tudp->tud_strurl != NULL)
-      free(tudp->tud_strurl);
+   free(tudp->tud_scheme);
+   free(tudp->tud_host);
+   free(tudp->tud_path);
+   free(tudp->tud_straddr);
+   free(tudp->tud_strurl);
 
    bzero(tudp, sizeof(tallymark_url_desc));
-
    free(tudp);
 
    return;
@@ -281,8 +276,7 @@ int tallymark_url_resolve(tallymark_url_desc * tudp)
       tudp->tud_addr.sa_un.sun_path[sizeof(tudp->tud_addr.sa_un.sun_path)-1] = '\0';
 
       // generates numeric URL
-      if (tudp->tud_strurl != NULL)
-         free(tudp->tud_strurl);
+      free(tudp->tud_strurl);
       if (asprintf(&tudp->tud_strurl, "tallyi://%s", tudp->tud_path) == -1)
          return(ENOMEM);
       tudp->tud_strurl_len = (socklen_t)strlen(tudp->tud_strurl);
@@ -337,8 +331,7 @@ int tallymark_url_resolve(tallymark_url_desc * tudp)
    getnameinfo(&tudp->tud_addr.sa, tudp->tud_addrlen, tudp->tud_straddr, tudp->tud_straddr_len, NULL, 0, NI_NUMERICHOST);
 
    // generates numeric URL
-   if (tudp->tud_strurl != NULL)
-      free(tudp->tud_strurl);
+   free(tudp->tud_strurl);
    if (tudp->tud_family == AF_INET6)
       asprintf(&tudp->tud_strurl, "%s://[%s]:%i/", tudp->tud_scheme, tudp->tud_straddr, tudp->tud_port);
    else

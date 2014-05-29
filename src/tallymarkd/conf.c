@@ -210,7 +210,8 @@ int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[])
 
 void tallymarked_destroy(tallymarked_cnf * cnf)
 {
-   assert(cnf != NULL);
+   if (cnf == NULL)
+      return;
 
    if (cnf->tudp != NULL)
       tallymark_url_free(cnf->tudp);

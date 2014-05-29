@@ -289,19 +289,13 @@ void tallymark_fdpoll_free(tallymark_fdpoll * poller)
 
    // closes sockets
    for(nfds = 0; nfds < poller->nfds; nfds++)
-   {
-      if (poller->fds[nfds].fd != -1)
-         close(poller->fds[nfds].fd);
-      poller->fds[nfds].fd = -1;
-   };
+      close(poller->fds[nfds].fd);
 
    // frees memory from tallymark_poll->fds
-   if (poller->fds != NULL)
-      free(poller->fds);
-   poller->fds  = NULL;
-   poller->nfds = 0;
+   free(poller->fds);
 
    // frees polling struct
+   bzero(poller, sizeof(tallymark_fdpoll));
    free(poller);
 
    return;

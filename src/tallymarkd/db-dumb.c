@@ -96,14 +96,12 @@ struct tallymarked_database_struct
 
 int tallymarked_backend_destroy(tallymarked_db * db)
 {
-   assert(db != NULL);
+   if (db == NULL)
+      return(0);
 
-   if (db->records != NULL)
-      free(db->records);
-   db->records = NULL;
-   db->len     = 0;
-   db->size    = 0;
+   free(db->records);
 
+   bzero(db, sizeof(tallymarked_db));
    free(db);
 
    return(0);

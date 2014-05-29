@@ -258,23 +258,14 @@ size_t tallymarker_hextobin(const char * str, size_t slen, uint8_t * bytes,
 
 int tallymarker_destroy(tallymarker_cnf * cnf)
 {
-   assert(cnf != NULL);
+   if (cnf == NULL)
+      return(0);
 
-   if (cnf->tudp != NULL)
-      tallymark_url_free(cnf->tudp);
-   cnf->tudp = NULL;
+   tallymark_url_free(cnf->tudp);
+   tallymark_msg_free(cnf->req);
+   tallymark_msg_free(cnf->res);
 
-   if (cnf->req != NULL)
-      tallymark_msg_free(cnf->req);
-   cnf->req = NULL;
-
-   if (cnf->res != NULL)
-      tallymark_msg_free(cnf->res);
-   cnf->res = NULL;
-
-   if (cnf->s != -1)
-      close(cnf->s);
-   cnf->s = -1;
+   close(cnf->s);
 
    bzero(cnf, sizeof(tallymarker_cnf));
    free(cnf);
