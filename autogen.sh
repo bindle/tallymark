@@ -55,9 +55,9 @@ done
 
 # updates git repository
 if test -d .git || test -f .git;then
-   git submodule init           2>&1 | sed -e 's/^/git submodule init: /g'   || exit 1
-   git submodule sync           2>&1 | sed -e 's/^/git submodule sync: /g'   || exit 1
-   git submodule update --merge 2>&1 | sed -e 's/^/git submodule update: /g' || exit 1
+   git submodule init                              || exit 1
+   git submodule sync                              || exit 1
+   git submodule update --init --recursive --merge || exit 1
 fi
 
 
