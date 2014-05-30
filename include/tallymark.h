@@ -124,8 +124,6 @@ struct libtallymark_header_struct
 union  libtallymark_sockaddr_union
 {
    struct sockaddr            sa;
-   struct sockaddr_in         sa_in;
-   struct sockaddr_in6        sa_in6;
    struct sockaddr_storage    sa_storage;
    struct sockaddr_un         sa_un;
 };

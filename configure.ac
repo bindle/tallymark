@@ -155,6 +155,7 @@ AC_BINDLE_ENABLE_WARNINGS
 AC_BINDLE_FD_POLLER(poll)
 AC_TALLYMARK_COMPONENTS
 AC_TALLYMARK_THREAD_LOCKS
+AC_TALLYMARK_IPV6
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
@@ -171,6 +172,7 @@ AC_MSG_NOTICE([      libtallymark.la:          ${ENABLE_LIBTALLYMARK}])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Options:])
 AC_MSG_NOTICE([      Socket Poller:            ${BINDLE_FD_POLLER}])
+AC_MSG_NOTICE([      IPv6 Sockets:             ${ENABLE_IPV6}])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Please send suggestions to:   $PACKAGE_BUGREPORT])
 AC_MSG_NOTICE([ ])

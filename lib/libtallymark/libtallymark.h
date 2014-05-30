@@ -60,6 +60,7 @@
 #ifdef __APPLE__
 #  include "TargetConditionals.h"
 #  define USE_CUSTOM_PTHREAD_MUTEX_TIMEDLOCK 1
+#  define USE_IPV6 1
 #endif
 
 #ifdef TARGET_OS_MAC

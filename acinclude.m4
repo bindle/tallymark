@@ -83,6 +83,58 @@ AC_DEFUN([AC_TALLYMARK_COMPONENTS],[dnl
 ])dnl
 
 
+# AC_TALLYMARK_IPV6
+# ______________________________________________________________________________
+AC_DEFUN([AC_TALLYMARK_IPV6],[dnl
+
+   # prerequists
+   AC_REQUIRE([AC_PROG_CC])
+
+   enableval=""
+   AC_ARG_ENABLE(
+      ipv6,
+      [AS_HELP_STRING([--disable-ipv6], [disable IPv6 support])],
+      [ EIPV6=$enableval ],
+      [ EIPV6=$enableval ]
+   )
+
+   HAVE_IPV6=yes
+   AC_MSG_CHECKING(for working IPv6 support)
+   AC_TRY_COMPILE(
+      [  #include <sys/types.h>
+         #include <netinet/in.h>
+         #include <sys/socket.h>
+         #include <netdb.h>
+      ],
+      [  struct sockaddr_in6  a;
+         struct addrinfo      hints;
+         a.sin6_family  = AF_INET6;
+         a.sin6_family  = PF_INET6;
+         hints.ai_flags = AI_V4MAPPED|AI_ALL;
+      ],
+      [],
+      [HAVE_IPV6="no"]
+   )
+   AC_MSG_RESULT($HAVE_IPV6)
+
+   ENABLE_IPV6=yes
+   if test "x${EIPV6}" = "xno";then
+      ENABLE_IPV6=no
+   elif test "x${EIPV6}" = "x";then
+      ENABLE_IPV6=${HAVE_IPV6}
+   else
+      if test "x${HAVE_IPV6}" = "xno";then
+         AC_MSG_ERROR([unable to determine IPv6 support])
+      fi
+   fi
+
+   if test "x${ENABLE_IPV6}" = "xyes";then
+      AC_DEFINE_UNQUOTED(USE_IPV6, 1, [Use IPv6])
+   fi
+   AM_CONDITIONAL([ENABLE_IPV6],  [test "${ENABLE_IPV6}"  == "yes"])
+])dnl
+
+
 # AC_TALLYMARK_THREAD_LOCKS
 # ______________________________________________________________________________
 AC_DEFUN([AC_TALLYMARK_THREAD_LOCKS],[dnl
