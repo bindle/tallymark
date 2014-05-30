@@ -68,6 +68,7 @@ doc_DATA				= README COPYING ChangeLog AUTHORS
 include_HEADERS				=
 lib_LTLIBRARIES				=
 man_MANS				=
+noinst_DATA				= include/git-package-version.txt
 noinst_LTLIBRARIES			=
 noinst_HEADERS				= include/git-package-version.h
 noinst_PROGRAMS				= src/socket-client \
