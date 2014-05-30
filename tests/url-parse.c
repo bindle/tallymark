@@ -70,7 +70,7 @@ int main(void);
 #pragma mark - Variables
 #endif
 
-const char * tallymark_valid_urls[] =
+const char * tallymark_valid_resolv_urls[] =
 {
    "tally://",
    "tally:///",
@@ -100,6 +100,11 @@ const char * tallymark_valid_urls[] =
    "tally://[fe80::]/",
    "tally://[fe80::]:2211",
    "tally://[fe80::]:2211/",
+   NULL
+};
+
+const char * tallymark_valid_urls[] =
+{
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]/",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]:2211",
@@ -140,7 +145,7 @@ int main(void)
    printf("Testing Invalid URLs:\n");
    for(pos = 0; tallymark_invalid_urls[pos] != NULL; pos++)
    {
-      if (tallymark_url_parse(tallymark_invalid_urls[pos], &tudp, 1) != 0)
+      if (tallymark_url_parse(tallymark_invalid_urls[pos], &tudp, 0) != 0)
       {
          fprintf(stdout, "  Failed: %s\n", tallymark_invalid_urls[pos]);
          continue;
@@ -153,13 +158,26 @@ int main(void)
    printf("Testing Valid URLs:\n");
    for(pos = 0; tallymark_valid_urls[pos] != NULL; pos++)
    {
-      if (tallymark_url_parse(tallymark_valid_urls[pos], &tudp, 1) != 0)
+      if (tallymark_url_parse(tallymark_valid_urls[pos], &tudp, 0) != 0)
       {
          fprintf(stdout, "! Failed: %s\n", tallymark_valid_urls[pos]);
          rc = 1;
          continue;
       };
       fprintf(stdout, "  Passed: %s\n", tallymark_valid_urls[pos]);
+      tallymark_url_free(tudp);
+   };
+
+   printf("Testing Resolvable URLs:\n");
+   for(pos = 0; tallymark_valid_resolv_urls[pos] != NULL; pos++)
+   {
+      if (tallymark_url_parse(tallymark_valid_resolv_urls[pos], &tudp, 1) != 0)
+      {
+         fprintf(stdout, "! Failed: %s\n", tallymark_valid_resolv_urls[pos]);
+         rc = 1;
+         continue;
+      };
+      fprintf(stdout, "  Passed: %s\n", tallymark_valid_resolv_urls[pos]);
       tallymark_url_free(tudp);
    };
 
