@@ -71,8 +71,7 @@ man_MANS				=
 noinst_DATA				= include/git-package-version.txt
 noinst_LTLIBRARIES			=
 noinst_HEADERS				= include/git-package-version.h
-noinst_PROGRAMS				= src/socket-client \
-					  src/socket-server
+noinst_PROGRAMS				=
 sbin_PROGRAMS				=
 sbin_SCRIPTS				=
 
@@ -84,6 +83,8 @@ TESTS					= $(check_PROGRAMS)
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= lib/libtallymark/libtallymark.sym
+EXTRA_PROGRAMS				= src/socket-client \
+					  src/socket-server
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -210,9 +211,10 @@ tests_url_parse_LDADD			= lib/libtallymark.la
 # Makefile includes
 GIT_PACKAGE_VERSION_DIR=include
 SUBST_EXPRESSIONS =
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-autotools.am
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-subst.am
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-version.am
+include $(srcdir)/contrib/bindletools/build-aux/makefile-bindle.am
+include $(srcdir)/contrib/bindletools/build-aux/makefile-autotools.am
+include $(srcdir)/contrib/bindletools/build-aux/makefile-subst.am
+include $(srcdir)/contrib/bindletools/build-aux/makefile-version.am
 
 
 # custom targets
