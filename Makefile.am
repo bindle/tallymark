@@ -69,7 +69,7 @@ include_HEADERS				=
 lib_LTLIBRARIES				=
 man_MANS				=
 noinst_LTLIBRARIES			=
-noinst_HEADERS				=
+noinst_HEADERS				= include/git-package-version.h
 noinst_PROGRAMS				= src/socket-client \
 					  src/socket-server
 sbin_PROGRAMS				=
