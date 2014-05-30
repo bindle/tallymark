@@ -88,6 +88,7 @@ const char * tallymark_valid_resolv_urls[] =
    "tally://0.0.0.0/",
    "tally://0.0.0.0:2211",
    "tally://0.0.0.0:2211/",
+#ifdef USE_IPv6
    "tally://[::]",
    "tally://[::]/",
    "tally://[::]:2211",
@@ -100,15 +101,18 @@ const char * tallymark_valid_resolv_urls[] =
    "tally://[fe80::]/",
    "tally://[fe80::]:2211",
    "tally://[fe80::]:2211/",
+#endif
    NULL
 };
 
 const char * tallymark_valid_urls[] =
 {
+#ifdef USE_IPv6
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]/",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]:2211",
    "tally://[fe80::6a5b:35ff:fe94:d491%en4]:2211/",
+#endif
    NULL
 };
 

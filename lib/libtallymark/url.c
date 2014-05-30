@@ -293,8 +293,9 @@ int tallymark_url_resolve(tallymark_url_desc * tudp)
    };
 
    memset(&hints, 0, sizeof(struct addrinfo));
+   hints.ai_flags    = AI_ADDRCONFIG;
 #ifdef USE_IPV6
-   hints.ai_flags    = AI_V4MAPPED|AI_ALL;
+   hints.ai_flags    |= AI_V4MAPPED|AI_ALL;
 #endif
    hints.ai_family   = tudp->tud_family;
    hints.ai_socktype = tudp->tud_socktype; // 0 for any socket type or SOCK_[STREAM|DGRAM|RAW]
