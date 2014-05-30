@@ -130,7 +130,7 @@ struct tallymarked_record_struct
    uint8_t              srv;        //   1 bytes
    uint8_t              fld;        //   1 bytes
    uint8_t              hid[20];    //  20 bytes
-   char               * string;     //   8 bytes
+   char               * hash_text;  //   8 bytes
    tallymark_count      threshold;  //  16 bytes
    tallymark_count      count;      //  16 bytes
 };

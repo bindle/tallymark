@@ -142,7 +142,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
 
    if (bdy->hash_text.bytes != 0)
    {
-      len = tallymark_msg_compiled_len(bdy->package_name.bytes);
+      len = tallymark_msg_compiled_len(bdy->hash_text.bytes);
       off += tallymark_msg_compile_param_hdr(msg,  off, len, TALLYMARK_PARM_HASH_TEXT);
       off += tallymark_msg_compile_utf8(msg,       off, &bdy->hash_text);
       pcount++;

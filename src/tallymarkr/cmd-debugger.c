@@ -67,6 +67,7 @@
 #endif
 
 uint32_t tallymarker_cmd_debugger_header(tallymark_msg * msg);
+uint32_t tallymarker_cmd_debugger_parameter(tallymark_msg * msg);
 
 
 /////////////////
@@ -80,12 +81,20 @@ uint32_t tallymarker_cmd_debugger_header(tallymark_msg * msg);
 
 int tallymarker_cmd_debugger(tallymarker_cnf * cnf)
 {
+   uint32_t req_codes;
+   uint32_t res_codes;
+
+   if ((req_codes = cnf->request_codes) == 0)
+      req_codes= TALLYMARK_REQ_HASH_RECORD;
+
    tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash_id, sizeof(cnf->hash_id));
+   if (cnf->hash_txt != NULL)
+   {
+      tallymark_msg_set_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &cnf->hash_txt, strlen(cnf->hash_txt));
+      req_codes |= TALLYMARK_REQ_HASH_SET_TEXT;
+   };
 
-   if (cnf->request_codes == 0)
-      cnf->request_codes = TALLYMARK_REQ_HASH_COUNT;
-
-   if (tallymarker_send(cnf, cnf->req, cnf->request_codes) != 0)
+   if (tallymarker_send(cnf, cnf->req, req_codes) != 0)
    {
       tallymarker_cmd_debugger_header(cnf->req);
       return(1);
@@ -93,8 +102,12 @@ int tallymarker_cmd_debugger(tallymarker_cnf * cnf)
    tallymarker_cmd_debugger_header(cnf->req);
 
    while (tallymarker_recv(cnf, cnf->res) == 0)
-      if ((tallymarker_cmd_debugger_header(cnf->res) & TALLYMARK_RES_EOR) != 0)
+   {
+      res_codes = tallymarker_cmd_debugger_header(cnf->res);
+      tallymarker_cmd_debugger_parameter(cnf->res);
+      if ((res_codes & TALLYMARK_RES_EOR) != 0)
          return(0);
+   };
 
    return(1);
 }
@@ -107,7 +120,7 @@ uint32_t tallymarker_cmd_debugger_header(tallymark_msg * msg)
 
    tallymark_msg_get_header(msg, &hdr);
 
-   printf("Message:\n");
+   printf("Message Header:\n");
    printf("   magic:                %08x\n",       hdr->magic);
    printf("   version (current):    %02x\n",       hdr->version_current);
    printf("   version (age):        %02x\n",       hdr->version_age);
@@ -124,6 +137,33 @@ uint32_t tallymarker_cmd_debugger_header(tallymark_msg * msg)
    for(i = 0; i < 20; i++)
       printf("%02x", hdr->hash_id[i]);
    printf("\n");
+
+   return(hdr->response_codes);
+}
+
+
+uint32_t tallymarker_cmd_debugger_parameter(tallymark_msg * msg)
+{
+   size_t                len;
+   tallymark_count       count;
+   const tallymark_hdr * hdr;
+   char                * str;
+
+   tallymark_msg_get_header(msg, &hdr);
+   if (hdr->param_count == 0)
+      return(hdr->response_codes);
+
+   len = sizeof(count);
+   tallymark_msg_get_param(msg, TALLYMARK_PARM_HASH_COUNT, &count, &len);
+
+   printf("Message Parameters:\n");
+   printf("   count:                %" PRIu64 "\n", count.count);
+   printf("   count duration:       %" PRIu64 "\n", count.seconds);
+
+   len = sizeof(str);
+   tallymark_msg_get_param(msg, TALLYMARK_PARM_HASH_TEXT, &str, &len);
+   if (str != NULL)
+      printf("   hash text:            \"%s\"\n", str);
 
    return(hdr->response_codes);
 }

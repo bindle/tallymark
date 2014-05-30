@@ -78,6 +78,7 @@
 
 int tallymarker_cmd_threshold(tallymarker_cnf * cnf)
 {
+   uint32_t                req_codes;
    size_t                  len;
    time_t                  t;
    char                    buff[26];
@@ -85,10 +86,16 @@ int tallymarker_cmd_threshold(tallymarker_cnf * cnf)
    const tallymark_hdr   * hdr;
 
    bzero(&count, sizeof(count));
+   req_codes = TALLYMARK_REQ_HASH_THRESHOLD;
 
    tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash_id, sizeof(cnf->hash_id));
+   if (cnf->hash_txt != NULL)
+   {
+      tallymark_msg_set_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &cnf->hash_txt, strlen(cnf->hash_txt));
+      req_codes |= TALLYMARK_REQ_HASH_SET_TEXT;
+   };
 
-   if (tallymarker_send(cnf, cnf->req, TALLYMARK_REQ_THRESHOLD_QUERY) != 0)
+   if (tallymarker_send(cnf, cnf->req, req_codes) != 0)
       return(1);
 
    while (tallymarker_recv(cnf, cnf->res) == 0)
@@ -107,7 +114,7 @@ int tallymarker_cmd_threshold(tallymarker_cnf * cnf)
             t = (time_t)count.seconds;
             t = time(NULL);
             strftime(buff, sizeof(buff), "%Y-%m-%d %H:%M:%S %z", localtime(&t));
-            printf("timestamp: %s\n", buff);
+            printf("expires: %s\n", buff);
          };
          return(0);
       };

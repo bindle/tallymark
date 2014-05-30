@@ -150,23 +150,23 @@
 #ifdef __TALLYMARK_PMARK
 #pragma mark - Message Request Codes
 #endif
-#define TALLYMARK_REQ_HASH_QUERY          0x00000001U ///< Send list of hashes matching service ID and field ID
+#define TALLYMARK_REQ_HASH_LIST           0x00000001U ///< Send list of hashes matching service ID and field ID
 #define TALLYMARK_REQ_HASH_SET_TEXT       0x00000002U ///< Set text value of tallied data if not already set
-#undef  TALLYMARK_REQ_HASH_RECORD      // 0x00000004U ///< request full hash record (tally history, value text, etc)
-#undef  TALLYMARK_REQ_HASH_RESET       // 0x00000008U ///< resets tally history and thresholds
+#define TALLYMARK_REQ_HASH_RECORD         0x00000004U ///< request full hash record (tally history, value text, etc)
+#define TALLYMARK_REQ_HASH_RESET          0x00000008U ///< resets tally history and thresholds
 
 #define TALLYMARK_REQ_HASH_COUNT          0x00000010U ///< requests current tally count
 #define TALLYMARK_REQ_HASH_INCREMENT      0x00000020U ///< increment the counter
-#undef  TALLYMARK_REQ_SERVICE_QUERY    // 0x00000040U ///< send list of services
-#undef  TALLYMARK_REQ_SERVICE_NAME     // 0x00000080U ///< send service name
+#define TALLYMARK_REQ_HASH_THRESHOLD      0x00000040U ///< report current threshold level reached
+#define TALLYMARK_REQ_HASH_SET_THRESHOLD  0x00000080U ///< mark specified threshold as reached
 
-#undef  TALLYMARK_REQ_FIELD_QUERY      // 0x00000100U ///< send list of fields matching service ID
-#undef  TALLYMARK_REQ_FIELD_NAME       // 0x00000200U ///< send field name
-#undef  TALLYMARK_REQ_FIELD_WINDOW     // 0x00000400U ///< request window size and window slot count
-#undef  TALLYMARK_REQ_RESERVED         // 0x00000800U
+#define TALLYMARK_REQ_FIELD_LIST          0x00000100U ///< send list of fields matching service ID
+#define TALLYMARK_REQ_FIELD_NAME          0x00000200U ///< send field name
+#define TALLYMARK_REQ_FIELD_WINDOW        0x00000400U ///< request window size and window slot count
+#define TALLYMARK_REQ_FIELD_THRESHOLD     0x00000800U ///< request threshold definition of service and field
 
-#undef  TALLYMARK_REQ_RESERVED         // 0x00008000U
-#undef  TALLYMARK_REQ_RESERVED         // 0x00004000U
+#define TALLYMARK_REQ_SERVICE_LIST        0x00008000U ///< send list of services
+#define TALLYMARK_REQ_SERVICE_NAME        0x00004000U ///< send service name
 #undef  TALLYMARK_REQ_RESERVED         // 0x00002000U
 #undef  TALLYMARK_REQ_RESERVED         // 0x00001000U
 
@@ -175,20 +175,20 @@
 #undef  TALLYMARK_REQ_RESERVED         // 0x00020000U
 #undef  TALLYMARK_REQ_RESERVED         // 0x00010000U
 
-#define TALLYMARK_REQ_THRESHOLD_QUERY     0x00100000U ///< current threshold level reached
-#undef  TALLYMARK_REQ_THRESHOLD_SET    // 0x00200000U ///< mark specified threshold as reached
-#undef  TALLYMARK_REQ_THRESHOLD_DEF    // 0x00400000U ///< request threshold definition of service and field
+#undef  TALLYMARK_REQ_RESERVED         // 0x00100000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00200000U
+#undef  TALLYMARK_REQ_RESERVED         // 0x00400000U
 #undef  TALLYMARK_REQ_RESERVED         // 0x00800000U
 
-#undef  TALLYMARK_REQ_DATA_PRUNE       // 0x01000000U ///< instruct server to prune old data
-#undef  TALLYMARK_REQ_DATA_DUMP        // 0x02000000U ///< dump records matching service ID and field ID (ID of 0x00 is wild card)
+#define TALLYMARK_REQ_DATA_PRUNE          0x01000000U ///< instruct server to prune old data
+#define TALLYMARK_REQ_DATA_DUMP           0x02000000U ///< dump records matching service ID and field ID (ID of 0x00 is wild card)
 #undef  TALLYMARK_REQ_RESERVED         // 0x04000000U
 #undef  TALLYMARK_REQ_RESERVED         // 0x08000000U
 
 #undef  TALLYMARK_REQ_RESERVED         // 0x10000000U
 #define TALLYMARK_REQ_SYS_VERSION         0x20000000U ///< send server name & version
 #define TALLYMARK_REQ_SYS_CAPABILITIES    0x40000000U ///< send list of capabilities
-#undef  TALLYMARK_REQ_SYS_SYNC         // 0x80000000U ///< request is from another server
+#define TALLYMARK_REQ_SYS_SYNC            0x80000000U ///< request is from another server
 /// @}
 
 

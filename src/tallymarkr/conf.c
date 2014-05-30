@@ -59,6 +59,8 @@
 #include "cmd-help.h"
 #include "cmd-increment.h"
 #include "cmd-info.h"
+#include "cmd-record.h"
+#include "cmd-reset.h"
 #include "cmd-threshold.h"
 
 
@@ -162,7 +164,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    },
    {
       "record",                                       // command name
-      NULL,                                           // entry function
+      tallymarker_cmd_record,                         // entry function
       TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
       0,                                              // number of required arguments
       "",                                             // cli usage
@@ -170,7 +172,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
    },
    {
       "reset",                                        // command name
-      NULL,                                           // entry function
+      tallymarker_cmd_reset,                          // entry function
       TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
       0,                                              // number of required arguments
       "",                                             // cli usage
@@ -310,6 +312,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
          return(1);
 
          case 'K':
+         cnf->hash_txt = optarg;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
          SHA1((unsigned char *)optarg, strlen(optarg), cnf->hash_id);

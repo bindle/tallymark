@@ -34,7 +34,7 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-#include "cmd-increment.h"
+#include "cmd-record.h"
 
 
 ///////////////
@@ -76,22 +76,20 @@
 #pragma mark - Functions
 #endif
 
-int tallymarker_cmd_increment(tallymarker_cnf * cnf)
+int tallymarker_cmd_record(tallymarker_cnf * cnf)
 {
+   int                     i;
    uint32_t                req_codes;
    size_t                  len;
    tallymark_count         count;
    const tallymark_hdr   * hdr;
+   char                  * hash_text;
 
    bzero(&count, sizeof(count));
-   req_codes = TALLYMARK_REQ_HASH_INCREMENT|TALLYMARK_REQ_HASH_COUNT;
+   hash_text = NULL;
+   req_codes = TALLYMARK_REQ_HASH_RECORD;
 
    tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash_id, sizeof(cnf->hash_id));
-   if (cnf->hash_txt != NULL)
-   {
-      tallymark_msg_set_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &cnf->hash_txt, strlen(cnf->hash_txt));
-      req_codes |= TALLYMARK_REQ_HASH_SET_TEXT;
-   };
 
    if (tallymarker_send(cnf, cnf->req, req_codes) != 0)
       return(1);
@@ -104,17 +102,27 @@ int tallymarker_cmd_increment(tallymarker_cnf * cnf)
          len = sizeof(count);
          tallymark_msg_get_param(cnf->res, TALLYMARK_PARM_HASH_COUNT, &count, &len);
       };
+      if (hash_text == NULL)
+      {
+         len = sizeof(hash_text);
+         tallymark_msg_get_param(cnf->res, TALLYMARK_PARM_HASH_TEXT, &hash_text, &len);
+      };
       if ((hdr->response_codes & TALLYMARK_RES_EOR) != 0)
       {
-         printf("count:    %" PRIu64 "\n", count.count);
+         printf("hash:            ");
+         for(i = 0; i < 20; i++)
+            printf("%02x", hdr->hash_id[i]);
+         printf("\n");
+         if (hash_text != NULL)
+            printf("hash text:       \"%s\"\n", hash_text);
+         printf("count:           %" PRIu64 "\n", count.count);
          if (count.count > 0)
-            printf("duration: %" PRIu64 " seconds\n", count.seconds);
+            printf("count duration:  %" PRIu64 "\n", count.seconds);
          return(0);
       };
    };
 
    return(1);
 }
-
 
 /* end of source */

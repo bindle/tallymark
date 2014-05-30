@@ -132,14 +132,31 @@ int tallymarker_cmd_info(tallymarker_cnf * cnf)
          };
          if (caps == 0)
             return(0);
-         printf("Capabilities:\n");
-         tallymarker_server_caps("List Hashes",          caps, TALLYMARK_REQ_HASH_QUERY);
-         tallymarker_server_caps("Set Hash Text:",       caps, TALLYMARK_REQ_HASH_SET_TEXT);
-         tallymarker_server_caps("Report Count:",        caps, TALLYMARK_REQ_HASH_COUNT);
-         tallymarker_server_caps("Increment Count:",     caps, TALLYMARK_REQ_HASH_INCREMENT);
-         tallymarker_server_caps("Threshold Query:",     caps, TALLYMARK_REQ_THRESHOLD_QUERY);
-         tallymarker_server_caps("Report Version:",      caps, TALLYMARK_REQ_SYS_VERSION);
-         tallymarker_server_caps("Report Capabilities:", caps, TALLYMARK_REQ_SYS_CAPABILITIES);
+         printf("Capabilities:             0x%08x\n", caps);
+
+         tallymarker_server_caps("Hash List"  ,          caps, TALLYMARK_REQ_HASH_LIST);
+         tallymarker_server_caps("Hash Set Text:",       caps, TALLYMARK_REQ_HASH_SET_TEXT);
+         tallymarker_server_caps("Hash Record:",         caps, TALLYMARK_REQ_HASH_RECORD);
+         tallymarker_server_caps("Hash Reset:",          caps, TALLYMARK_REQ_HASH_RESET);
+         tallymarker_server_caps("Hash Count:",          caps, TALLYMARK_REQ_HASH_COUNT);
+         tallymarker_server_caps("Hash Increment:",      caps, TALLYMARK_REQ_HASH_INCREMENT);
+         tallymarker_server_caps("Hash Threshold:",      caps, TALLYMARK_REQ_HASH_THRESHOLD);
+         tallymarker_server_caps("Hash Set Threshold:",  caps, TALLYMARK_REQ_HASH_SET_THRESHOLD);
+
+         tallymarker_server_caps("Field List:",          caps, TALLYMARK_REQ_FIELD_LIST);
+         tallymarker_server_caps("Field Name:",          caps, TALLYMARK_REQ_FIELD_NAME);
+         tallymarker_server_caps("Field Window:",        caps, TALLYMARK_REQ_FIELD_WINDOW);
+         tallymarker_server_caps("Field Threshold:",     caps, TALLYMARK_REQ_FIELD_THRESHOLD);
+
+         tallymarker_server_caps("Service List:",        caps, TALLYMARK_REQ_SERVICE_LIST);
+         tallymarker_server_caps("Service Name:",        caps, TALLYMARK_REQ_SERVICE_NAME);
+
+         tallymarker_server_caps("Data Prune:",          caps, TALLYMARK_REQ_DATA_PRUNE);
+         tallymarker_server_caps("Data Dump:",           caps, TALLYMARK_REQ_DATA_DUMP);
+
+         tallymarker_server_caps("System Version:",      caps, TALLYMARK_REQ_SYS_VERSION);
+         tallymarker_server_caps("System Capabilities:", caps, TALLYMARK_REQ_SYS_CAPABILITIES);
+         tallymarker_server_caps("System Sync:",         caps, TALLYMARK_REQ_SYS_SYNC);
          return(0);
       };
    };

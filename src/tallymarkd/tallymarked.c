@@ -90,6 +90,7 @@ int main(int argc, char * argv[]);
 
 int main(int argc, char * argv[])
 {
+   size_t               len;
    tallymarked_cnf    * cnf;
    tallymark_sockaddr   addr;
    const tallymark_hdr  * req_hdr;
@@ -173,6 +174,22 @@ int main(int argc, char * argv[])
       tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u8, sizeof(u8));
       tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_REQUEST_CODES, &req_hdr->request_codes, sizeof(req_hdr->request_codes));
 
+      if ((TALLYMARK_REQ_HASH_SET_TEXT & req_hdr->request_codes) != 0)
+      {
+         if (rec->hash_text == NULL)
+         {
+            len = sizeof(rec->hash_text);
+            tallymark_msg_get_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &rec->hash_text, &len);
+         };
+      };
+
+      if ((TALLYMARK_REQ_HASH_RESET & req_hdr->request_codes) != 0)
+      {
+         rec->count.count = 0;
+         if (rec->count.seconds == 0)
+            rec->count.seconds = (uint64_t)time(NULL);
+      };
+
       if ((TALLYMARK_REQ_HASH_INCREMENT & req_hdr->request_codes) != 0)
       {
          rec->count.count++;
@@ -180,7 +197,8 @@ int main(int argc, char * argv[])
             rec->count.seconds = (uint64_t)time(NULL);
       };
 
-      if ((TALLYMARK_REQ_HASH_COUNT & req_hdr->request_codes) != 0)
+      if (  ((TALLYMARK_REQ_HASH_COUNT & req_hdr->request_codes) != 0) ||
+            ((TALLYMARK_REQ_HASH_RECORD & req_hdr->request_codes) != 0) )
       {
          count.count   = rec->count.count;
          count.seconds = (uint64_t)time(NULL) - rec->count.seconds;
@@ -188,9 +206,21 @@ int main(int argc, char * argv[])
          tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_HASH_COUNT, &count, sizeof(count));
       };
 
+      if ((TALLYMARK_REQ_HASH_RECORD & req_hdr->request_codes) != 0)
+         if ((constr = rec->hash_text) != NULL)
+            tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_HASH_TEXT, &constr, strlen(constr));
+
       if ((TALLYMARK_REQ_SYS_CAPABILITIES & req_hdr->request_codes) != 0)
       {
-         u32 = TALLYMARK_REQ_SYS_CAPABILITIES|TALLYMARK_REQ_SYS_VERSION;
+         u32 =
+               TALLYMARK_REQ_HASH_SET_TEXT |
+               TALLYMARK_REQ_HASH_RECORD |
+               TALLYMARK_REQ_HASH_RESET |
+               TALLYMARK_REQ_HASH_COUNT |
+               TALLYMARK_REQ_HASH_INCREMENT |
+               TALLYMARK_REQ_HASH_THRESHOLD |
+               TALLYMARK_REQ_SYS_CAPABILITIES |
+               TALLYMARK_REQ_SYS_VERSION;
          tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_CAPABILITIES, &u32, sizeof(u32));
       };
 

@@ -103,6 +103,7 @@ struct tallymarker_config_struct
 {
    const char            * prog_name;
    const char            * urlstr;
+   const char            * hash_txt;
    const tallymarker_cmd * cmd;
    tallymark_url_desc    * tudp;
    tallymark_msg         * req;
