@@ -98,6 +98,7 @@ AC_PROG_LN_S
 LT_INIT(dlopen disable-fast-install win32-dll)
 
 # check for common functions
+AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
@@ -120,6 +121,7 @@ AC_CHECK_FUNCS([gettimeofday],   [], [AC_MSG_ERROR([missing required functions])
 AC_CHECK_FUNCS([memset],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([regcomp],        [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([socket],         [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strchr],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strdup],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strerror],       [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strncasecmp],    [], [AC_MSG_ERROR([missing required functions])])
@@ -140,6 +142,7 @@ AC_CHECK_HEADERS([netinet/in.h], [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([openssl/sha.h],[], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([stddef.h],     [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([sys/socket.h], [], [AC_MSG_ERROR([missing required headers])])
+AC_CHECK_HEADERS([syslog.h],     [], [AC_MSG_ERROR([missing required headers])])
 
 # initiates bindle tools macros
 AC_BINDLE(contrib/bindletools)
