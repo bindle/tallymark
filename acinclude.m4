@@ -52,7 +52,7 @@ AC_DEFUN([AC_TALLYMARK_COMPONENTS],[dnl
    enableval=""
    AC_ARG_ENABLE(
       tallymarked,
-      [AS_HELP_STRING([--disable-tallymarked], [disable collector daemon])],
+      [AS_HELP_STRING([--enable-tallymarked], [enable collector daemon])],
       [ ETALLYMARKED=$enableval ],
       [ ETALLYMARKED=$enableval ]
    )
@@ -66,23 +66,18 @@ AC_DEFUN([AC_TALLYMARK_COMPONENTS],[dnl
 
    ENABLE_LIBTALLYMARK=yes
    if test "x${ELIBTALLYMARK}" = "xno";then
-      ENABLE_LIBTALLYMARK=no
+      ENABLE_LIBTALLYMARK=${ELIBTALLYMARK}
    fi
-   ENABLE_TALLYMARKED=yes
+   ENABLE_TALLYMARKED=no
    if test "x${ETALLYMARKED}" = "xno";then
-      ENABLE_TALLYMARKED=no
+      ENABLE_TALLYMARKED=${ETALLYMARKED}
    fi
    ENABLE_TALLYMARKER=yes
    if test "x${ETALLYMARKER}" = "xno";then
-      ENABLE_TALLYMARKER=no
-   fi
-   ENABLE_LIBTALLYMARK_UTIL=no
-   if test "x${ENABLE_TALLYMARKED}" = "xyes" || test "x${ENABLE_TALLYMARKER}" = "xyes";then
-      ENABLE_LIBTALLYMARK_UTIL=yes
+      ENABLE_TALLYMARKER=${ETALLYMARKER}
    fi
 
    AM_CONDITIONAL([ENABLE_LIBTALLYMARK], [test "${ENABLE_LIBTALLYMARK}" == "yes"])
-   AM_CONDITIONAL([ENABLE_LIBTALLYMARK_UTIL], [test "${ENABLE_LIBTALLYMARK_UTIL}" == "yes"])
    AM_CONDITIONAL([ENABLE_TALLYMARKED],  [test "${ENABLE_TALLYMARKED}"  == "yes"])
    AM_CONDITIONAL([ENABLE_TALLYMARKER],  [test "${ENABLE_TALLYMARKER}"  == "yes"])
 ])dnl
