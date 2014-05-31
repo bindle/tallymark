@@ -186,8 +186,7 @@ int main(int argc, char * argv[])
       if ((TALLYMARK_REQ_HASH_RESET & req_hdr->request_codes) != 0)
       {
          rec->count.count = 0;
-         if (rec->count.seconds == 0)
-            rec->count.seconds = (uint64_t)time(NULL);
+         rec->count.seconds = (uint64_t)time(NULL);
       };
 
       if ((TALLYMARK_REQ_HASH_INCREMENT & req_hdr->request_codes) != 0)
