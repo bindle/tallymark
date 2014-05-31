@@ -79,7 +79,6 @@
 int tallymarker_cmd_reset(tallymarker_cnf * cnf)
 {
    uint32_t                req_codes;
-   const tallymark_hdr   * hdr;
 
    req_codes = TALLYMARK_REQ_HASH_RESET;
 
