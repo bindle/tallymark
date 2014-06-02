@@ -96,6 +96,7 @@ int main(int argc, char * argv[])
 
    srand((unsigned)tallymark_seed());
 
+   // initialize daemon configuration
    switch(tallymarked_init(&cnf, argc, argv))
    {
       case -1:
@@ -111,12 +112,14 @@ int main(int argc, char * argv[])
    openlog(cnf->prog_name, LOG_CONS|LOG_PERROR|LOG_PID, LOG_DAEMON);
    syslog(LOG_INFO, "starting %s %s", PACKAGE_NAME, PACKAGE_VERSION);
 
+   // open network sockets
    if ((err = tallymarked_listen(cnf)) == -1)
    {
       tallymarked_destroy(cnf);
       return(1);
    };
 
+   // start daemon functions
    switch((tallymarked_daemon_start(cnf)))
    {
       case -1:
@@ -143,8 +146,8 @@ int main(int argc, char * argv[])
       };
    };
 
+   // clean up resources
    tallymarked_daemon_cleanup(cnf);
-
    tallymarked_destroy(cnf);
 
    return(exit_code);
