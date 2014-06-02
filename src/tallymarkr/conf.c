@@ -56,6 +56,7 @@
 
 #include "cmd-count.h"
 #include "cmd-debugger.h"
+#include "cmd-hash.h"
 #include "cmd-help.h"
 #include "cmd-increment.h"
 #include "cmd-info.h"
@@ -92,7 +93,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "checkpoint",                                   // command name
       NULL,                                           // entry function
       TALLYMARKER_GETOPT_SHORT,                       // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "force the server to create a checkpoint"       // command description
    },
@@ -100,7 +103,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "count",                                        // command name
       tallymarker_cmd_count,                          // entry function
       TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "return the current count of a hash value"      // command description
    },
@@ -110,7 +115,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "abcdef:ghijk:lmnopqr:s:t:uvwxyz"
       "ABCDEFGH:IJK:LMNOPQRSTUVWXYZ"
       "0123456789",                                   // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "debugging tool used by package maintainers"    // command description
    },
@@ -118,7 +125,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "dump",                                         // command name
       NULL,                                           // entry function
       TALLYMARKER_GETOPT_SHORT,                       // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "dump the server's database"                    // command description
    },
@@ -126,23 +135,29 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "field-list",                                   // command name
       NULL,                                           // entry function
       TALLYMARKER_GETOPT_SHORT,                       // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "display the list of fields for a service"      // command description
    },
    {
       "hash",                                         // command name
-      NULL,                                           // entry function
-      TALLYMARKER_GETOPT_SHORT,                       // getopt short options
-      0,                                              // number of required arguments
-      "",                                             // cli usage
+      tallymarker_cmd_hash,                           // entry function
+      TALLYMARKER_GETOPT_BASIC "K:k:",                // getopt short options
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      1,                                              // local only, no connection needed
+      " string",                                      // cli usage
       "display the hash value of a string"            // command description
    },
    {
       "help",                                         // command name
       tallymarker_cmd_help,                           // entry function
       TALLYMARKER_GETOPT_SHORT,                       // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      1,                                              // local only, no connection needed
       "",                                             // cli usage
       "display this message"                          // command description
    },
@@ -150,7 +165,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "increment",                                    // command name
       tallymarker_cmd_increment,                      // entry function
       TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "increment the count for a hash value"          // command description
    },
@@ -158,7 +175,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "information",                                  // command name
       tallymarker_cmd_info,                           // entry function
       TALLYMARKER_GETOPT_SHORT,                       // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "display information about server"              // command description
    },
@@ -166,7 +185,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "record",                                       // command name
       tallymarker_cmd_record,                         // entry function
       TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "display the full record for a hash value"      // command description
    },
@@ -174,7 +195,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "reset",                                        // command name
       tallymarker_cmd_reset,                          // entry function
       TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "reset the count and threshold for a hash"      // command description
    },
@@ -182,7 +205,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "service-list",                                 // command name
       NULL,                                           // entry function
       TALLYMARKER_GETOPT_SHORT,                       // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "display the list of services"                  // command description
    },
@@ -190,7 +215,9 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "threshold",                                    // command name
       tallymarker_cmd_threshold,                      // entry function
       TALLYMARKER_GETOPT_SHORT "K:k:s:f:",            // getopt short options
-      0,                                              // number of required arguments
+      0,                                              // minimum required arguments
+      0,                                              // maximum allowed arguments
+      0,                                              // local only, no connection needed
       "",                                             // cli usage
       "return the current threshold of a hash value"  // command description
    },
@@ -375,7 +402,7 @@ int tallymarker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
    size_t         cmd_len;
    int            i;
 
-   static char   short_opt[] = "+" TALLYMARKER_GETOPT_SHORT;
+   static char   short_opt[] = "+" TALLYMARKER_GETOPT_BASIC;
    static struct option long_opt[] = { TALLYMARKER_GETOPT_LONG };
 
    assert(pcnf != NULL);

@@ -129,7 +129,9 @@ struct tallymarker_command_struct
    const char * cmd_name;
    int  (*cmd_func)(tallymarker_cnf * cnf);
    const char * cmd_shortopts;
-   int          arguments;
+   int          arguments_min;
+   int          arguments_max;
+   int          local;
    const char * cmd_help;
    const char * cmd_desc;
 };

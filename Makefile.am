@@ -158,6 +158,8 @@ src_tallymarker_SOURCES			= $(noinst_HEADERS) \
 					  src/tallymarkr/cmd-count.h \
 					  src/tallymarkr/cmd-debugger.c \
 					  src/tallymarkr/cmd-debugger.h \
+					  src/tallymarkr/cmd-hash.c \
+					  src/tallymarkr/cmd-hash.h \
 					  src/tallymarkr/cmd-help.c \
 					  src/tallymarkr/cmd-help.h \
 					  src/tallymarkr/cmd-increment.c \

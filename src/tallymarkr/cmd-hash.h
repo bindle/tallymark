@@ -34,8 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-#ifndef __SRC_TALLYMARKER_CONF_H
-#define __SRC_TALLYMARKER_CONF_H 1
+#ifndef __SRC_TALLYMARKER_CMD_HASH_H
+#define __SRC_TALLYMARKER_CMD_HASH_H 1
 
 ///////////////
 //           //
@@ -48,8 +48,6 @@
 
 #include "tallymarker.h"
 
-#include <getopt.h>
-
 
 ///////////////////
 //               //
@@ -59,16 +57,6 @@
 #ifdef __TALLYMARK_PMARK
 #pragma mark - Definitions
 #endif
-
-#define TALLYMARKER_GETOPT_BASIC "hqVv"
-#define TALLYMARKER_GETOPT_SHORT "46H:t:x" TALLYMARKER_GETOPT_BASIC
-#define TALLYMARKER_GETOPT_LONG \
-   {"help",             no_argument,       NULL, 'h' }, \
-   {"quiet",            no_argument,       NULL, 'q' }, \
-   {"silent",           no_argument,       NULL, 'q' }, \
-   {"version",          no_argument,       NULL, 'V' }, \
-   {"verbose",          no_argument,       NULL, 'v' }, \
-   { NULL, 0, NULL, 0 }
 
 
 //////////////////
@@ -80,15 +68,7 @@
 #pragma mark -
 #endif
 
-int tallymarker_destroy(tallymarker_cnf * cnf);
+int tallymarker_cmd_hash(tallymarker_cnf * cnf);
 
-int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
-   char * const * argv, const char * short_opt,
-   const struct option * long_opt, int * opt_index);
-
-int tallymarker_init(tallymarker_cnf ** pcnf, int argc, char * argv[]);
-
-void tallymarker_usage(tallymarker_cnf * cnf);
-void tallymarker_version(void);
 
 #endif /* end of header */

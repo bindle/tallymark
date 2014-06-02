@@ -106,10 +106,13 @@ int main(int argc, char * argv[])
       break;
    };
 
-   if ((err = tallymarker_connect(cnf)) != 0)
+   if (cnf->cmd->local == 0)
    {
-      tallymarker_destroy(cnf);
-      return(1);
+      if ((err = tallymarker_connect(cnf)) != 0)
+      {
+         tallymarker_destroy(cnf);
+         return(1);
+      };
    };
 
    err = cnf->cmd->cmd_func(cnf);
