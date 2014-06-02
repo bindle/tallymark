@@ -53,6 +53,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <syslog.h>
+#include <signal.h>
 
 #include <tallymark.h>
 
