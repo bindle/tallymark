@@ -191,7 +191,7 @@ int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[])
    };
 
    // allocates memory for backend
-   if ((err = tallymarked_backend_init(*pcnf)) != 0)
+   if ((err = tallymarked_db_init(*pcnf, &(*pcnf)->db)) != 0)
    {
       tallymarked_destroy(*pcnf);
       return(-1);
@@ -218,7 +218,7 @@ void tallymarked_destroy(tallymarked_cnf * cnf)
    cnf->tudp = NULL;
 
    if (cnf->db != NULL)
-      tallymarked_backend_destroy(cnf->db);
+      tallymarked_db_destroy(cnf->db);
    cnf->db = NULL;
 
    if (cnf->req != NULL)
