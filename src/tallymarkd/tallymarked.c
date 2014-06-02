@@ -90,22 +90,9 @@ int main(int argc, char * argv[]);
 
 int main(int argc, char * argv[])
 {
-   size_t               len;
    tallymarked_cnf    * cnf;
-   tallymark_sockaddr   addr;
-   const tallymark_hdr  * req_hdr;
-   const tallymark_hdr  * res_hdr;
-   char                   hash[21];
-   int                  i;
-   int                  s;
    int                  err;
-   char                 straddr[INET6_ADDRSTRLEN];
-   socklen_t            addrlen;
-   uint32_t             u32;
-   uint8_t              u8;
-   const char         * constr;
-   tallymarked_record * rec;
-   tallymark_count      count;
+   int                  exit_code;
 
    srand((unsigned)tallymark_seed());
 
@@ -129,7 +116,6 @@ int main(int argc, char * argv[])
       tallymarked_destroy(cnf);
       return(1);
    };
-   s = cnf->s[0];
 
    switch((tallymarked_daemon_start(cnf)))
    {
@@ -145,106 +131,23 @@ int main(int argc, char * argv[])
       return(0);
    };
 
+   // main loop
+   exit_code = 0;
    while(tallymaked_sig_exit == 0)
    {
-      addrlen = sizeof(addr);
-      if ((err = tallymark_msg_recvfrom(s, cnf->req, &addr.sa, &addrlen)) != 0)
-         continue;
-      strcpy(straddr, "unknown");
-      if (addr.sa.sa_family != 0)
-         getnameinfo(&addr.sa, addrlen, straddr, sizeof(straddr), NULL, 0, NI_NUMERICHOST);
-      if (err != 0)
+      // processes network requests
+      if ((err = tallymarked_loop(cnf)) == -1)
       {
-         syslog(LOG_ERR, "client=%s error=%s", straddr, tallymark_strerror(err));
-         continue;
+         tallymaked_sig_exit = 1;
+         exit_code = 1;
       };
-      tallymark_msg_get_header(cnf->req, &req_hdr);
-      for(i = 0; i < 20; i++)
-         snprintf(&hash[i*2], 3, "%02x", req_hdr->hash_id[i]);
-      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=%" PRIx32 ", type=%u:%u, hash=%s", straddr, req_hdr->request_id, req_hdr->request_codes, req_hdr->service_id, req_hdr->field_id, hash);
-
-      if ((err = tallymarked_db_record(cnf, cnf->db, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, &rec)) != 0)
-      {
-         syslog(LOG_ERR, "client=%s error=%s", straddr, tallymark_strerror(err));
-         continue;
-      };
-      
-      tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, sizeof(req_hdr->hash_id));
-
-      u8 = TALLYMARK_RES_RESPONSE|TALLYMARK_RES_EOR;
-      tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u8, sizeof(u8));
-      tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_REQUEST_CODES, &req_hdr->request_codes, sizeof(req_hdr->request_codes));
-
-      if ((TALLYMARK_REQ_HASH_SET_TEXT & req_hdr->request_codes) != 0)
-      {
-         if (rec->hash_text == NULL)
-         {
-            len = sizeof(rec->hash_text);
-            tallymark_msg_get_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &rec->hash_text, &len);
-         };
-      };
-
-      if ((TALLYMARK_REQ_HASH_RESET & req_hdr->request_codes) != 0)
-      {
-         rec->count.count = 0;
-         rec->count.seconds = (uint64_t)time(NULL);
-      };
-
-      if ((TALLYMARK_REQ_HASH_INCREMENT & req_hdr->request_codes) != 0)
-      {
-         rec->count.count++;
-         if (rec->count.seconds == 0)
-            rec->count.seconds = (uint64_t)time(NULL);
-      };
-
-      if (  ((TALLYMARK_REQ_HASH_COUNT & req_hdr->request_codes) != 0) ||
-            ((TALLYMARK_REQ_HASH_RECORD & req_hdr->request_codes) != 0) )
-      {
-         count.count   = rec->count.count;
-         count.seconds = (uint64_t)time(NULL) - rec->count.seconds;
-         count.seconds++;
-         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_HASH_COUNT, &count, sizeof(count));
-      };
-
-      if ((TALLYMARK_REQ_HASH_RECORD & req_hdr->request_codes) != 0)
-         if ((constr = rec->hash_text) != NULL)
-            tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_HASH_TEXT, &constr, strlen(constr));
-
-      if ((TALLYMARK_REQ_SYS_CAPABILITIES & req_hdr->request_codes) != 0)
-      {
-         u32 =
-               TALLYMARK_REQ_HASH_SET_TEXT |
-               TALLYMARK_REQ_HASH_RECORD |
-               TALLYMARK_REQ_HASH_RESET |
-               TALLYMARK_REQ_HASH_COUNT |
-               TALLYMARK_REQ_HASH_INCREMENT |
-               TALLYMARK_REQ_HASH_THRESHOLD |
-               TALLYMARK_REQ_SYS_CAPABILITIES |
-               TALLYMARK_REQ_SYS_VERSION;
-         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_CAPABILITIES, &u32, sizeof(u32));
-      };
-
-      if ((TALLYMARK_REQ_SYS_VERSION & req_hdr->request_codes) != 0)
-      {
-         constr = PACKAGE_NAME;
-         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_PKG_NAME, &constr, strlen(constr));
-         constr = PACKAGE_VERSION;
-         tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_SYS_VERSION,  &constr, strlen(constr));
-      };
-
-      tallymark_msg_compile(cnf->res);
-      tallymark_msg_get_header(cnf->res, &res_hdr);
-
-      syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%08" PRIu32 ", res=%02x", straddr, res_hdr->request_id, res_hdr->sequence_id, res_hdr->response_codes);
-      if ((err = (int)tallymark_msg_sendto(s, cnf->res, &addr.sa, addrlen)) == -1)
-         syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%08" PRIu32 ", error=%s", straddr, res_hdr->request_id, res_hdr->sequence_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
    };
 
    tallymarked_daemon_cleanup(cnf);
 
    tallymarked_destroy(cnf);
 
-   return(0);
+   return(exit_code);
 }
 
 

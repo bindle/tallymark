@@ -194,8 +194,8 @@ int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[])
    // sets initial values
    bzero(*pcnf, sizeof(tallymarked_cnf));
    (*pcnf)->family   = PF_UNSPEC;
-   (*pcnf)->s[0]     = -1;
-   (*pcnf)->s[1]     = -1;
+   (*pcnf)->fds[0].fd     = -1;
+   (*pcnf)->fds[1].fd     = -1;
 
    // allocates memory for messages
    if ((err = tallymark_msg_alloc(&(*pcnf)->req)) != 0)
@@ -247,7 +247,7 @@ void tallymarked_destroy(tallymarked_cnf * cnf)
    tallymark_msg_free(cnf->res);
 
    // closes sockets
-   close(cnf->s[0]);
+   close(cnf->fds[0].fd);
 
    free(cnf);
 

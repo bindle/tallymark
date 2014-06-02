@@ -56,6 +56,7 @@
 #include <tallymark.h>
 
 #include <sys/socket.h>
+#include <poll.h>
 
 
 ///////////////////
@@ -119,7 +120,7 @@ struct tallymarked_config_struct
    tallymarked_db        * db;
    int                     family;
    int                     foreground;
-   int                     s[2];
+   struct pollfd           fds[2];
    tallymark_msg         * req;
    tallymark_msg         * res;
    uint64_t                window;

@@ -59,5 +59,6 @@
 #endif
 
 int tallymarked_listen(tallymarked_cnf * cnf);
+int tallymarked_loop(tallymarked_cnf * cnf);
 
 #endif /* end of header */
