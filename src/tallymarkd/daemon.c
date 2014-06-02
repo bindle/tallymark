@@ -116,7 +116,6 @@ int tallymarked_daemon_start(tallymarked_cnf * cnf)
    signal(SIGVTALRM, SIG_IGN);
    signal(SIGPIPE,   SIG_IGN);
    signal(SIGALRM,   SIG_IGN);
-   signal(SIGINFO,   SIG_IGN);
    signal(SIGUSR1,   SIG_IGN);
    signal(SIGUSR2,   SIG_IGN);
 
