@@ -68,6 +68,7 @@
 #pragma mark - Prototypes
 #endif
 
+int tallymarked_defaults(tallymarked_cnf * cnf);
 int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
    char * const * argv, int * opt_index);
 void tallymarked_usage(tallymarked_cnf * cnf);
@@ -83,12 +84,29 @@ void tallymarked_version(void);
 #pragma mark - Functions
 #endif
 
+int tallymarked_defaults(tallymarked_cnf * cnf)
+{
+   assert(cnf != NULL);
+
+   if (cnf->pidfile == NULL)
+      cnf->pidfile = "/var/run/tallymarked/tallymarked.pid";
+
+   if (cnf->urlstr == NULL)
+      cnf->urlstr = "tally://localhost/";
+
+   if (cnf->foreground == 0)
+      cnf->foreground = -1;
+
+   return(0);
+}
+
+
 int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
    char * const * argv, int * opt_index)
 {
    int   c;
 
-   static char   short_opt[] = "46fhl:p:V";
+   static char   short_opt[] = "46fhl:P:V";
    static struct option long_opt[] =
    {
       { "help",          no_argument, 0, 'h'},
@@ -123,6 +141,10 @@ int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
 
          case 'l':
          cnf->urlstr = optarg;
+         break;
+
+         case 'P':
+         cnf->pidfile = optarg;
          break;
 
          case 'V':
@@ -172,7 +194,6 @@ int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[])
    // sets initial values
    bzero(*pcnf, sizeof(tallymarked_cnf));
    (*pcnf)->family   = PF_UNSPEC;
-   (*pcnf)->urlstr   = "tally://localhost/";
    (*pcnf)->s[0]     = -1;
    (*pcnf)->s[1]     = -1;
 
@@ -204,6 +225,13 @@ int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[])
       return(err);
    };
 
+   // applies default options
+   if ((err = tallymarked_defaults(*pcnf)) != 0)
+   {
+      tallymarked_destroy(*pcnf);
+      return(err);
+   };
+
    return(0);
 }
 
@@ -213,29 +241,13 @@ void tallymarked_destroy(tallymarked_cnf * cnf)
    if (cnf == NULL)
       return;
 
-   if (cnf->tudp != NULL)
-      tallymark_url_free(cnf->tudp);
-   cnf->tudp = NULL;
-
-   if (cnf->db != NULL)
-      tallymarked_db_destroy(cnf->db);
-   cnf->db = NULL;
-
-   if (cnf->req != NULL)
-      tallymark_msg_free(cnf->req);
-   cnf->req = NULL;
-
-   if (cnf->res != NULL)
-      tallymark_msg_free(cnf->res);
-   cnf->res = NULL;
+   tallymarked_db_destroy(cnf->db);
+   tallymark_url_free(cnf->tudp);
+   tallymark_msg_free(cnf->req);
+   tallymark_msg_free(cnf->res);
 
    // closes sockets
-   if (cnf->s[0] != -1)
-      close(cnf->s[0]);
-   if (cnf->s[1] != -1)
-      close(cnf->s[1]);
-   cnf->s[0] = -1;
-   cnf->s[1] = -1;
+   close(cnf->s[0]);
 
    free(cnf);
 
@@ -251,7 +263,7 @@ void tallymarked_usage(tallymarked_cnf * cnf)
    printf("  -6                        listen on IPv6 addresses only\n");
    printf("  -f                        run in foreground\n");
    printf("  -l address                listen on address (default: any\n");
-   printf("  -p port                   listen on port\n");
+   printf("  -P file                   PID file\n");
    printf("  -h, --help                print this help and exit\n");
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");

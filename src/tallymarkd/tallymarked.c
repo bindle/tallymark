@@ -131,7 +131,7 @@ int main(int argc, char * argv[])
    };
    s = cnf->s[0];
 
-   switch((tallymarked_daemon(cnf)))
+   switch((tallymarked_daemon_start(cnf)))
    {
       case -1:
       tallymarked_destroy(cnf);
@@ -145,10 +145,11 @@ int main(int argc, char * argv[])
       return(0);
    };
 
-   while(1)
+   while(tallymaked_sig_exit == 0)
    {
       addrlen = sizeof(addr);
-      err = tallymark_msg_recvfrom(s, cnf->req, &addr.sa, &addrlen);
+      if ((err = tallymark_msg_recvfrom(s, cnf->req, &addr.sa, &addrlen)) != 0)
+         continue;
       strcpy(straddr, "unknown");
       if (addr.sa.sa_family != 0)
          getnameinfo(&addr.sa, addrlen, straddr, sizeof(straddr), NULL, 0, NI_NUMERICHOST);
@@ -238,6 +239,8 @@ int main(int argc, char * argv[])
       if ((err = (int)tallymark_msg_sendto(s, cnf->res, &addr.sa, addrlen)) == -1)
          syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", seq=%08" PRIu32 ", error=%s", straddr, res_hdr->request_id, res_hdr->sequence_id, tallymark_strerror(tallymark_msg_errnum(cnf->res)));
    };
+
+   tallymarked_daemon_cleanup(cnf);
 
    tallymarked_destroy(cnf);
 

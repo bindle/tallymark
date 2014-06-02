@@ -114,6 +114,7 @@ struct tallymarked_config_struct
 {
    const char            * prog_name;
    const char            * urlstr;
+   const char            * pidfile;
    tallymark_url_desc    * tudp;
    tallymarked_db        * db;
    int                     family;

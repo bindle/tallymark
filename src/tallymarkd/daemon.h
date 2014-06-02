@@ -58,6 +58,9 @@
 #pragma mark - Prototypes
 #endif
 
-int tallymarked_daemon(tallymarked_cnf * cnf);
+extern int tallymaked_sig_exit;
+
+int tallymarked_daemon_start(tallymarked_cnf * cnf);
+int tallymarked_daemon_cleanup(tallymarked_cnf * cnf);
 
 #endif /* end of header */
