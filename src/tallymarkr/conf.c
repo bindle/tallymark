@@ -359,7 +359,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
          break;
 
          case 's':
-         cnf->service_id = (uint8_t) strtoll(optarg, NULL, 0);
+         cnf->service = (uint8_t) strtoll(optarg, NULL, 0);
          break;
 
          case 't':

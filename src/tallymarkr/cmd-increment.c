@@ -86,7 +86,7 @@ int tallymarker_cmd_increment(tallymarker_cnf * cnf)
    bzero(&count, sizeof(count));
    req_codes = TALLYMARK_REQ_HASH_INCREMENT|TALLYMARK_REQ_HASH_COUNT;
 
-   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash, sizeof(cnf->hash));
+   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service, cnf->field_id, cnf->hash, sizeof(cnf->hash));
    if (cnf->hash_txt != NULL)
    {
       tallymark_msg_set_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &cnf->hash_txt, strlen(cnf->hash_txt));

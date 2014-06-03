@@ -89,7 +89,7 @@ int tallymarker_cmd_record(tallymarker_cnf * cnf)
    hash_text = NULL;
    req_codes = TALLYMARK_REQ_HASH_RECORD;
 
-   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash, sizeof(cnf->hash));
+   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service, cnf->field_id, cnf->hash, sizeof(cnf->hash));
 
    if (tallymarker_send(cnf, cnf->req, req_codes) != 0)
       return(1);

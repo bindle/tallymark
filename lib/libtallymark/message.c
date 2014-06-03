@@ -184,7 +184,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
    buf->request_codes      = htonl(hdr->request_codes);
    buf->response_codes     = hdr->response_codes;
    buf->param_count        = hdr->param_count;
-   buf->service_id         = hdr->service_id;
+   buf->service            = hdr->service;
    buf->field_id           = hdr->field_id;
    buf->request_id         = htonl(hdr->request_id);
    buf->sequence_id        = htonl(hdr->sequence_id);
@@ -263,7 +263,7 @@ size_t tallymark_msg_compiled_len(size_t len)
 
 
 int tallymark_msg_create_header(tallymark_msg * msg,
-   uint32_t req_id, uint8_t srv_id, uint8_t fld_id,
+   uint32_t req_id, uint8_t srv, uint8_t fld_id,
    const uint8_t * hash, size_t hash_len)
 {
    int               err;
@@ -285,7 +285,7 @@ int tallymark_msg_create_header(tallymark_msg * msg,
    hdr->header_len         = sizeof(tallymark_hdr)/4;
    hdr->msg_len            = 0;
    hdr->request_id         = req_id;
-   hdr->service_id         = srv_id;
+   hdr->service            = srv;
    hdr->field_id           = fld_id;
    hash_len = (hash_len > sizeof(hdr->hash)) ? sizeof(hdr->hash) : hash_len;
    memset(hdr->hash, 0, sizeof(hdr->hash));
@@ -444,7 +444,7 @@ int tallymark_msg_header_errors(int * poffset, int * plen)
    i += (offsetof(tallymark_hdr, request_codes)    != TM_HDR_OFF_REQUEST_CODES);
    i += (offsetof(tallymark_hdr, request_id)       != TM_HDR_OFF_REQUEST_ID);
    i += (offsetof(tallymark_hdr, sequence_id)      != TM_HDR_OFF_SEQUENCE_ID);
-   i += (offsetof(tallymark_hdr, service_id)       != TM_HDR_OFF_SERVICE_ID);
+   i += (offsetof(tallymark_hdr, service)          != TM_HDR_OFF_SERVICE);
    i += (offsetof(tallymark_hdr, field_id)         != TM_HDR_OFF_FIELD_ID);
    i += (offsetof(tallymark_hdr, hash)             != TM_HDR_OFF_HASH);
    if (poffset != NULL)
@@ -463,7 +463,7 @@ int tallymark_msg_header_errors(int * poffset, int * plen)
    i += (sizeof(hdr.request_codes)                 != TM_HDR_LEN_REQUEST_CODES);
    i += (sizeof(hdr.request_id)                    != TM_HDR_LEN_REQUEST_ID);
    i += (sizeof(hdr.sequence_id)                   != TM_HDR_LEN_SEQUENCE_ID);
-   i += (sizeof(hdr.service_id)                    != TM_HDR_LEN_SERVICE_ID);
+   i += (sizeof(hdr.service)                       != TM_HDR_LEN_SERVICE);
    i += (sizeof(hdr.field_id)                      != TM_HDR_LEN_FIELD_ID);
    i += (sizeof(hdr.hash)                          != TM_HDR_LEN_HASH);
    if (plen != NULL)
@@ -543,7 +543,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
    hdr->request_codes      = ntohl(buf->request_codes);
    hdr->response_codes     = buf->response_codes;
    hdr->param_count        = buf->param_count;
-   hdr->service_id         = buf->service_id;
+   hdr->service            = buf->service;
    hdr->field_id           = buf->field_id;
    hdr->request_id         = ntohl(buf->request_id);
    hdr->sequence_id        = ntohl(buf->sequence_id);

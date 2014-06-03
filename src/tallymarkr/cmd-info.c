@@ -91,7 +91,7 @@ int tallymarker_cmd_info(tallymarker_cnf * cnf)
    pkg_version    = NULL;
    caps   = 0;
 
-   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash, sizeof(cnf->hash));
+   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service, cnf->field_id, cnf->hash, sizeof(cnf->hash));
 
    if (tallymarker_send(cnf, cnf->req, TALLYMARK_REQ_SYS_CAPABILITIES |TALLYMARK_REQ_SYS_VERSION) != 0)
       return(1);

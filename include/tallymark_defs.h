@@ -70,7 +70,7 @@
 #define TM_HDR_LEN_REQUEST_CODES          4UL
 #define TM_HDR_LEN_RESPONSE_CODES         1UL
 #define TM_HDR_LEN_PARAM_COUNT            1UL
-#define TM_HDR_LEN_SERVICE_ID             1UL
+#define TM_HDR_LEN_SERVICE                1UL
 #define TM_HDR_LEN_FIELD_ID               1UL
 #define TM_HDR_LEN_REQUEST_ID             4UL
 #define TM_HDR_LEN_SEQUENCE_ID            4UL
@@ -90,7 +90,7 @@
 #define TM_HDR_OFF_REQUEST_CODES          8UL
 #define TM_HDR_OFF_RESPONSE_CODES        12UL
 #define TM_HDR_OFF_PARAM_COUNT           13UL
-#define TM_HDR_OFF_SERVICE_ID            14UL
+#define TM_HDR_OFF_SERVICE               14UL
 #define TM_HDR_OFF_FIELD_ID              15UL
 #define TM_HDR_OFF_REQUEST_ID            16UL
 #define TM_HDR_OFF_SEQUENCE_ID           20UL
@@ -110,7 +110,7 @@
 #define TALLYMARK_HDR_REQUEST_CODES    (TM_HDR_OFF_REQUEST_CODES   << 24UL)
 #define TALLYMARK_HDR_REQUEST_ID       (TM_HDR_OFF_REQUEST_ID      << 24UL)
 #define TALLYMARK_HDR_SEQUENCE_ID      (TM_HDR_OFF_SEQUENCE_ID     << 24UL)
-#define TALLYMARK_HDR_SERVICE_ID       (TM_HDR_OFF_SERVICE_ID      << 24UL)
+#define TALLYMARK_HDR_SERVICE          (TM_HDR_OFF_SERVICE         << 24UL)
 #define TALLYMARK_HDR_FIELD_ID         (TM_HDR_OFF_FIELD_ID        << 24UL)
 #define TALLYMARK_HDR_HASH             (TM_HDR_OFF_HASH            << 24UL)
 /// @}
