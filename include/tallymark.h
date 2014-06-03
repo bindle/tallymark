@@ -116,7 +116,7 @@ struct libtallymark_header_struct
    uint8_t     field_id;         // |    2 | 15 |     |     |
    uint32_t    request_id;       // |    4 | 16 |   4 |   2 |
    uint32_t    sequence_id;      // |    4 | 20 |   5 |     |
-   uint8_t     hash_id[20];      // |   24 | 24 |   6 |   3 |
+   uint8_t     hash[20];         // |   24 | 24 |   6 |   3 |
    //          parameters        // |      | 44 |  11 |     |
 };                               // +------+----+-----+-----+
 

@@ -80,7 +80,7 @@ int tallymarker_cmd_hash(tallymarker_cnf * cnf)
 {
    int pos;
    for(pos = 0; pos < 20; pos++)
-      printf("%02x", cnf->hash_id[pos]);
+      printf("%02x", cnf->hash[pos]);
    printf("\n");
    return(1);
 }

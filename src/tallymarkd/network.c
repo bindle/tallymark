@@ -189,17 +189,17 @@ int tallymarked_loop(tallymarked_cnf * cnf)
    // parse header
    tallymark_msg_get_header(cnf->req, &req_hdr);
    for(i = 0; i < 20; i++)
-      snprintf(&strhash[i*2], 3, "%02x", req_hdr->hash_id[i]);
+      snprintf(&strhash[i*2], 3, "%02x", req_hdr->hash[i]);
    syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=%" PRIx32 ", type=%u:%u, hash=%s", straddr, req_hdr->request_id, req_hdr->request_codes, req_hdr->service_id, req_hdr->field_id, strhash);
 
    // retrieve requested record
-   if ((err = tallymarked_db_record(cnf, cnf->db, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, &rec)) != 0)
+   if ((err = tallymarked_db_record(cnf, cnf->db, req_hdr->service_id, req_hdr->field_id, req_hdr->hash, &rec)) != 0)
    {
       syslog(LOG_ERR, "client=%s error=%s", straddr, tallymark_strerror(err));
       return(0);
    };
    
-   tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, sizeof(req_hdr->hash_id));
+   tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service_id, req_hdr->field_id, req_hdr->hash, sizeof(req_hdr->hash));
 
    u8 = TALLYMARK_RES_RESPONSE|TALLYMARK_RES_EOR;
    tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u8, sizeof(u8));

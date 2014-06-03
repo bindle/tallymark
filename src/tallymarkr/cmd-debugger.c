@@ -87,7 +87,7 @@ int tallymarker_cmd_debugger(tallymarker_cnf * cnf)
    if ((req_codes = cnf->request_codes) == 0)
       req_codes= TALLYMARK_REQ_HASH_RECORD;
 
-   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash_id, sizeof(cnf->hash_id));
+   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash, sizeof(cnf->hash));
    if (cnf->hash_txt != NULL)
    {
       tallymark_msg_set_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &cnf->hash_txt, strlen(cnf->hash_txt));
@@ -135,7 +135,7 @@ uint32_t tallymarker_cmd_debugger_header(tallymark_msg * msg)
    printf("   sequence number:      %u\n",         hdr->sequence_id);
    printf("   value hash:           ");
    for(i = 0; i < 20; i++)
-      printf("%02x", hdr->hash_id[i]);
+      printf("%02x", hdr->hash[i]);
    printf("\n");
 
    return(hdr->response_codes);

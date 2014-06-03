@@ -221,7 +221,7 @@ const tallymarker_cmd tallymarker_cmdmap[] =
       "",                                             // cli usage
       "return the current threshold of a hash value"  // command description
    },
-   { NULL, NULL, NULL, 0, NULL, NULL }
+   { NULL, NULL, NULL, 0, 0, 0, NULL, NULL }
 };
 
 
@@ -342,12 +342,12 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
          cnf->hash_txt = optarg;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-         SHA1((unsigned char *)optarg, strlen(optarg), cnf->hash_id);
+         SHA1((unsigned char *)optarg, strlen(optarg), cnf->hash);
 #pragma clang diagnostic pop
          break;
 
          case 'k':
-         tallymarker_hextobin(optarg, strlen(optarg), cnf->hash_id, sizeof(cnf->hash_id));
+         tallymarker_hextobin(optarg, strlen(optarg), cnf->hash, sizeof(cnf->hash));
          break;
 
          case 'q':

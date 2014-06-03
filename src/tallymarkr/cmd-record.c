@@ -89,7 +89,7 @@ int tallymarker_cmd_record(tallymarker_cnf * cnf)
    hash_text = NULL;
    req_codes = TALLYMARK_REQ_HASH_RECORD;
 
-   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash_id, sizeof(cnf->hash_id));
+   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service_id, cnf->field_id, cnf->hash, sizeof(cnf->hash));
 
    if (tallymarker_send(cnf, cnf->req, req_codes) != 0)
       return(1);
@@ -111,7 +111,7 @@ int tallymarker_cmd_record(tallymarker_cnf * cnf)
       {
          printf("hash:            ");
          for(i = 0; i < 20; i++)
-            printf("%02x", hdr->hash_id[i]);
+            printf("%02x", hdr->hash[i]);
          printf("\n");
          if (hash_text != NULL)
             printf("hash text:       \"%s\"\n", hash_text);

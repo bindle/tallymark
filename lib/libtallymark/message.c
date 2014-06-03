@@ -188,7 +188,7 @@ int tallymark_msg_compile(tallymark_msg * msg)
    buf->field_id           = hdr->field_id;
    buf->request_id         = htonl(hdr->request_id);
    buf->sequence_id        = htonl(hdr->sequence_id);
-   memcpy(buf->hash_id, hdr->hash_id, sizeof(hdr->hash_id));
+   memcpy(buf->hash, hdr->hash, sizeof(hdr->hash));
 
    msg->msg_len   += hdr->msg_len * 4;
    msg->status    |= TALLYMARK_MSG_COMPILED;
@@ -287,9 +287,9 @@ int tallymark_msg_create_header(tallymark_msg * msg,
    hdr->request_id         = req_id;
    hdr->service_id         = srv_id;
    hdr->field_id           = fld_id;
-   hash_len = (hash_len > sizeof(hdr->hash_id)) ? sizeof(hdr->hash_id) : hash_len;
-   memset(hdr->hash_id, 0, sizeof(hdr->hash_id));
-   memcpy(hdr->hash_id, hash, hash_len);
+   hash_len = (hash_len > sizeof(hdr->hash)) ? sizeof(hdr->hash) : hash_len;
+   memset(hdr->hash, 0, sizeof(hdr->hash));
+   memcpy(hdr->hash, hash, hash_len);
 
    msg->status = TALLYMARK_MSG_PARSED;
 
@@ -446,7 +446,7 @@ int tallymark_msg_header_errors(int * poffset, int * plen)
    i += (offsetof(tallymark_hdr, sequence_id)      != TM_HDR_OFF_SEQUENCE_ID);
    i += (offsetof(tallymark_hdr, service_id)       != TM_HDR_OFF_SERVICE_ID);
    i += (offsetof(tallymark_hdr, field_id)         != TM_HDR_OFF_FIELD_ID);
-   i += (offsetof(tallymark_hdr, hash_id)          != TM_HDR_OFF_HASH_ID);
+   i += (offsetof(tallymark_hdr, hash)             != TM_HDR_OFF_HASH);
    if (poffset != NULL)
       *poffset = i;
    total += i;
@@ -465,7 +465,7 @@ int tallymark_msg_header_errors(int * poffset, int * plen)
    i += (sizeof(hdr.sequence_id)                   != TM_HDR_LEN_SEQUENCE_ID);
    i += (sizeof(hdr.service_id)                    != TM_HDR_LEN_SERVICE_ID);
    i += (sizeof(hdr.field_id)                      != TM_HDR_LEN_FIELD_ID);
-   i += (sizeof(hdr.hash_id)                       != TM_HDR_LEN_HASH_ID);
+   i += (sizeof(hdr.hash)                          != TM_HDR_LEN_HASH);
    if (plen != NULL)
       *plen = i;
    total += i;
@@ -547,7 +547,7 @@ int tallymark_msg_parse(tallymark_msg * msg)
    hdr->field_id           = buf->field_id;
    hdr->request_id         = ntohl(buf->request_id);
    hdr->sequence_id        = ntohl(buf->sequence_id);
-   memcpy(hdr->hash_id, &msg->buff.u8[TM_HDR_OFF_HASH_ID], sizeof(hdr->hash_id));
+   memcpy(hdr->hash, &msg->buff.u8[TM_HDR_OFF_HASH], sizeof(hdr->hash));
 
    // parses body
    off = hdr->header_len * 4;
