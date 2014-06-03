@@ -301,7 +301,7 @@ _TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 
 _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
    uint32_t req_id, uint8_t srv, uint8_t fld,
-   const tallymark_hash hash, size_t hash_len);
+   const tallymark_hash hash);
 
 _TALLYMARK_F int tallymark_msg_errnum(tallymark_msg * msg);
 

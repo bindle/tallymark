@@ -82,7 +82,7 @@ int tallymarker_cmd_reset(tallymarker_cnf * cnf)
 
    req_codes = TALLYMARK_REQ_HASH_RESET;
 
-   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service, cnf->field, cnf->hash, sizeof(cnf->hash));
+   tallymark_msg_create_header(cnf->req, (uint32_t)rand(), cnf->service, cnf->field, cnf->hash);
    if (cnf->hash_txt != NULL)
    {
       tallymark_msg_set_param(cnf->req, TALLYMARK_PARM_HASH_TEXT, &cnf->hash_txt, strlen(cnf->hash_txt));

@@ -262,16 +262,14 @@ size_t tallymark_msg_compiled_len(size_t len)
 }
 
 
-int tallymark_msg_create_header(tallymark_msg * msg,
-   uint32_t req_id, uint8_t srv, uint8_t fld,
-   const tallymark_hash hash, size_t hash_len)
+int tallymark_msg_create_header(tallymark_msg * msg, uint32_t req_id,
+   uint8_t srv, uint8_t fld, const tallymark_hash hash)
 {
    int               err;
    tallymark_hdr   * hdr;
 
    assert(msg        != NULL);
    assert(hash       != NULL);
-   assert(hash_len   >  0);
 
    hdr  = &msg->header;
 
@@ -279,17 +277,10 @@ int tallymark_msg_create_header(tallymark_msg * msg,
       return(err);
 
    // apply header
-   hdr->magic              = TALLYMARK_MAGIC;
-   hdr->version_current    = TALLYMARK_PROTO_VERSION;
-   hdr->version_age        = TALLYMARK_PROTO_AGE;
-   hdr->header_len         = sizeof(tallymark_hdr)/4;
-   hdr->msg_len            = 0;
    hdr->request_id         = req_id;
    hdr->service            = srv;
    hdr->field              = fld;
-   hash_len = (hash_len > sizeof(hdr->hash)) ? sizeof(hdr->hash) : hash_len;
-   memset(hdr->hash, 0, sizeof(hdr->hash));
-   memcpy(hdr->hash, hash, hash_len);
+   memcpy(hdr->hash, hash, sizeof(tallymark_hash));
 
    msg->status = TALLYMARK_MSG_PARSED;
 
@@ -754,6 +745,7 @@ int tallymark_msg_reset(tallymark_msg * msg)
    msg->header.version_current     = TALLYMARK_PROTO_VERSION;
    msg->header.version_age         = TALLYMARK_PROTO_AGE;
    msg->header.header_len          = (sizeof(tallymark_hdr) / 4);
+   msg->header.msg_len             = (sizeof(tallymark_hdr) / 4);
 
    return(0);
 }

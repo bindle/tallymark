@@ -197,7 +197,7 @@ int tallymarked_loop(tallymarked_cnf * cnf)
       return(0);
    };
    
-   tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service, req_hdr->field, req_hdr->hash, sizeof(req_hdr->hash));
+   tallymark_msg_create_header(cnf->res, req_hdr->request_id, req_hdr->service, req_hdr->field, req_hdr->hash);
 
    u8 = TALLYMARK_RES_RESPONSE|TALLYMARK_RES_EOR;
    tallymark_msg_set_header(cnf->res, TALLYMARK_HDR_RESPONSE_CODES, &u8, sizeof(u8));
