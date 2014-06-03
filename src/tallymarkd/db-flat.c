@@ -84,11 +84,11 @@ struct tallymarked_database_struct
 #endif
 
 int tallymarked_db_record_add(tallymarked_cnf * cnf, tallymarked_db * db,
-   uint8_t srv, uint8_t fld, const uint8_t * hash, tallymarked_record ** prec,
+   uint8_t srv, uint8_t fld, const tallymark_hash hash, tallymarked_record ** prec,
    size_t idx);
 
 int tallymarked_db_record_find(tallymarked_cnf * cnf, tallymarked_db * db,
-   uint8_t srv, uint8_t fld, const uint8_t * hash, tallymarked_record ** prec,
+   uint8_t srv, uint8_t fld, const tallymark_hash hash, tallymarked_record ** prec,
    size_t * pidx);
 
    
@@ -139,7 +139,7 @@ int tallymarked_db_init(tallymarked_cnf * cnf, tallymarked_db ** pdb)
 
 
 int tallymarked_db_record(tallymarked_cnf * cnf, tallymarked_db * db,
-   uint8_t srv, uint8_t fld, const uint8_t * hash, tallymarked_record ** prec)
+   uint8_t srv, uint8_t fld, const tallymark_hash hash, tallymarked_record ** prec)
 {
    int      err;
    size_t   idx;
@@ -165,7 +165,7 @@ int tallymarked_db_record(tallymarked_cnf * cnf, tallymarked_db * db,
 
 
 int tallymarked_db_record_add(tallymarked_cnf * cnf, tallymarked_db * db,
-   uint8_t srv, uint8_t fld, const uint8_t * hash, tallymarked_record ** prec,
+   uint8_t srv, uint8_t fld, const tallymark_hash hash, tallymarked_record ** prec,
    size_t idx)
 {
    size_t               size;
@@ -205,7 +205,7 @@ int tallymarked_db_record_add(tallymarked_cnf * cnf, tallymarked_db * db,
 
 
 int tallymarked_db_record_find(tallymarked_cnf * cnf, tallymarked_db * db,
-   uint8_t srv, uint8_t fld, const uint8_t * hash, tallymarked_record ** prec,
+   uint8_t srv, uint8_t fld, const tallymark_hash hash, tallymarked_record ** prec,
    size_t * pidx)
 {
    int                  res;

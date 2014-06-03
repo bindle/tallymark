@@ -120,7 +120,7 @@ struct tallymarker_config_struct
    uint8_t                 request_id;
    uint8_t                 service;
    uint8_t                 field;
-   uint8_t                 hash[TM_HDR_LEN_HASH];
+   tallymark_hash          hash;
 };
 
 

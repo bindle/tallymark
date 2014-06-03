@@ -78,6 +78,7 @@ typedef struct libtallymark_header_struct    tallymark_hdr;
 typedef struct libtallymark_count_struct     tallymark_count;
 typedef struct libtallymark_url_desc_struct  tallymark_url_desc;
 typedef union  libtallymark_sockaddr_union   tallymark_sockaddr;
+typedef uint8_t                              tallymark_hash[20];
 
 struct libtallymark_count_struct
 {
@@ -99,26 +100,26 @@ struct libtallymark_parameter_struct
 
 
 struct libtallymark_header_struct
-{                                //        +----------------+
-                                 //        | buffer offsets |
-                                 // +------+----+-----+-----+
-                                 // | size | u8 | u32 | u64 |
-                                 // +------+----+-----+-----+
-   uint32_t    magic;            // |    4 |  0 |   0 |   0 |
-   int8_t      version_current;  // |    1 |  4 |   1 |     |
-   int8_t      version_age;      // |    1 |  5 |     |     |
-   uint8_t     header_len;       // |    1 |  6 |     |     |
-   uint8_t     msg_len;          // |    1 |  7 |     |     |
-   uint32_t    request_codes;    // |    4 |  8 |   2 |   1 |
-   uint8_t     response_codes;   // |    1 | 12 |   3 |     |
-   uint8_t     param_count;      // |    1 | 13 |     |     |
-   uint8_t     service;          // |    2 | 14 |     |     |
-   uint8_t     field;            // |    2 | 15 |     |     |
-   uint32_t    request_id;       // |    4 | 16 |   4 |   2 |
-   uint32_t    sequence_id;      // |    4 | 20 |   5 |     |
-   uint8_t     hash[20];         // |   24 | 24 |   6 |   3 |
-   //          parameters        // |      | 44 |  11 |     |
-};                               // +------+----+-----+-----+
+{                                   //        +----------------+
+                                    //        | buffer offsets |
+                                    // +------+----+-----+-----+
+                                    // | size | u8 | u32 | u64 |
+                                    // +------+----+-----+-----+
+   uint32_t       magic;            // |    4 |  0 |   0 |   0 |
+   int8_t         version_current;  // |    1 |  4 |   1 |     |
+   int8_t         version_age;      // |    1 |  5 |     |     |
+   uint8_t        header_len;       // |    1 |  6 |     |     |
+   uint8_t        msg_len;          // |    1 |  7 |     |     |
+   uint32_t       request_codes;    // |    4 |  8 |   2 |   1 |
+   uint8_t        response_codes;   // |    1 | 12 |   3 |     |
+   uint8_t        param_count;      // |    1 | 13 |     |     |
+   uint8_t        service;          // |    2 | 14 |     |     |
+   uint8_t        field;            // |    2 | 15 |     |     |
+   uint32_t       request_id;       // |    4 | 16 |   4 |   2 |
+   uint32_t       sequence_id;      // |    4 | 20 |   5 |     |
+   tallymark_hash hash;             // |   24 | 24 |   6 |   3 |
+   //             parameters        // |      | 44 |  11 |     |
+};                                  // +------+----+-----+-----+
 
 
 union  libtallymark_sockaddr_union
@@ -286,7 +287,7 @@ _TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 
 _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
    uint32_t req_id, uint8_t srv, uint8_t fld,
-   const uint8_t * hash, size_t hash_len);
+   const tallymark_hash hash, size_t hash_len);
 
 _TALLYMARK_F int tallymark_msg_errnum(tallymark_msg * msg);
 

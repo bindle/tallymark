@@ -264,7 +264,7 @@ size_t tallymark_msg_compiled_len(size_t len)
 
 int tallymark_msg_create_header(tallymark_msg * msg,
    uint32_t req_id, uint8_t srv, uint8_t fld,
-   const uint8_t * hash, size_t hash_len)
+   const tallymark_hash hash, size_t hash_len)
 {
    int               err;
    tallymark_hdr   * hdr;
