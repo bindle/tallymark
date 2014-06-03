@@ -141,7 +141,7 @@ int tallymarked_loop(tallymarked_cnf * cnf)
    int                     s;
    int                     err;
    char                    straddr[INET6_ADDRSTRLEN];
-   char                    hash[21];
+   char                    strhash[41];
    socklen_t               addrlen;
    uint32_t                u32;
    uint8_t                 u8;
@@ -189,8 +189,8 @@ int tallymarked_loop(tallymarked_cnf * cnf)
    // parse header
    tallymark_msg_get_header(cnf->req, &req_hdr);
    for(i = 0; i < 20; i++)
-      snprintf(&hash[i*2], 3, "%02x", req_hdr->hash_id[i]);
-   syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=%" PRIx32 ", type=%u:%u, hash=%s", straddr, req_hdr->request_id, req_hdr->request_codes, req_hdr->service_id, req_hdr->field_id, hash);
+      snprintf(&strhash[i*2], 3, "%02x", req_hdr->hash_id[i]);
+   syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=%" PRIx32 ", type=%u:%u, hash=%s", straddr, req_hdr->request_id, req_hdr->request_codes, req_hdr->service_id, req_hdr->field_id, strhash);
 
    // retrieve requested record
    if ((err = tallymarked_db_record(cnf, cnf->db, req_hdr->service_id, req_hdr->field_id, req_hdr->hash_id, &rec)) != 0)
