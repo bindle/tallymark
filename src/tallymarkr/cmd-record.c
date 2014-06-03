@@ -114,15 +114,12 @@ int tallymarker_cmd_record(tallymarker_cnf * cnf)
          if (hash_text != NULL)
             printf("hash text:       \"%s\"\n", hash_text);
          printf("count:           %" PRIu64 "\n", count.count);
-         if (count.count > 0)
-         {
-            printf("count duration:  %" PRIu64 " seconds\n", count.seconds);
-            count.seconds++;
-            printf("count average:   %" PRIu64 " per second\n", count.count/count.seconds);
-            printf("count average:   %" PRIu64 " per minute\n", (count.count*60)/count.seconds);
-            printf("count average:   %" PRIu64 " per hour\n",   (count.count*360)/count.seconds);
-            printf("count average:   %" PRIu64 " per day\n",    (count.count*8640)/count.seconds);
-         };
+         printf("count duration:  %" PRIu64 " seconds\n", count.seconds);
+         count.seconds++;
+         printf("count average:   %" PRIu64 " per second\n", count.count/count.seconds);
+         printf("count average:   %" PRIu64 " per minute\n", (count.count*60)/count.seconds);
+         printf("count average:   %" PRIu64 " per hour\n",   (count.count*360)/count.seconds);
+         printf("count average:   %" PRIu64 " per day\n",    (count.count*8640)/count.seconds);
          return(0);
       };
    };

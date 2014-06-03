@@ -229,8 +229,7 @@ int tallymarked_loop(tallymarked_cnf * cnf)
          ((TALLYMARK_REQ_HASH_RECORD & req_hdr->request_codes) != 0) )
    {
       count.count   = rec->count.count;
-      count.seconds = (uint64_t)time(NULL) - rec->count.seconds;
-      count.seconds++;
+      count.seconds = (rec->count.seconds > 0) ? (uint64_t)time(NULL) - rec->count.seconds : 0;
       tallymark_msg_set_param(cnf->res, TALLYMARK_PARM_HASH_COUNT, &count, sizeof(count));
    };
 
