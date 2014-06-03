@@ -221,7 +221,7 @@ _TALLYMARK_F void tallymark_perror(const char * s);
 /// @param[in]  errnum  Error number.
 /// @return Returns error string.
 /// @see tallymark_perror, tallymark_strerror_r
-_TALLYMARK_F char * tallymark_strerror(int errnum);
+_TALLYMARK_F const char * tallymark_strerror(int errnum);
 
 /// @ingroup error
 /// Returns a pointer to the corresponding message string.

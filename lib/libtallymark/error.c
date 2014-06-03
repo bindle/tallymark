@@ -82,7 +82,7 @@ void tallymark_perror(const char * s)
 }
 
 
-char * tallymark_strerror(int errnum)
+const char * tallymark_strerror(int errnum)
 {
    if (errnum > 0)
       return(strerror(errnum));
