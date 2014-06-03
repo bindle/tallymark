@@ -250,7 +250,7 @@ int tallymarked_db_record_find(tallymarked_cnf * cnf, tallymarked_db * db,
          res = 1;
 
       // compares fields
-      if (res != 0)
+      if (res == 0)
       {
          if (fld < rec->fld)
             res = -1;
