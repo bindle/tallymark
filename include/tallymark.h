@@ -113,7 +113,7 @@ struct libtallymark_header_struct
    uint8_t     response_codes;   // |    1 | 12 |   3 |     |
    uint8_t     param_count;      // |    1 | 13 |     |     |
    uint8_t     service;          // |    2 | 14 |     |     |
-   uint8_t     field_id;         // |    2 | 15 |     |     |
+   uint8_t     field;            // |    2 | 15 |     |     |
    uint32_t    request_id;       // |    4 | 16 |   4 |   2 |
    uint32_t    sequence_id;      // |    4 | 20 |   5 |     |
    uint8_t     hash[20];         // |   24 | 24 |   6 |   3 |
@@ -285,7 +285,7 @@ _TALLYMARK_F int tallymark_msg_alloc(tallymark_msg ** pmsg);
 _TALLYMARK_F int tallymark_msg_compile(tallymark_msg * msg);
 
 _TALLYMARK_F int tallymark_msg_create_header(tallymark_msg * msg,
-   uint32_t req_id, uint8_t srv, uint8_t fld_id,
+   uint32_t req_id, uint8_t srv, uint8_t fld,
    const uint8_t * hash, size_t hash_len);
 
 _TALLYMARK_F int tallymark_msg_errnum(tallymark_msg * msg);

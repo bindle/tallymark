@@ -327,7 +327,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
          break;
 
          case 'f':
-         cnf->field_id = (uint8_t) strtoll(optarg, NULL, 0);
+         cnf->field = (uint8_t) strtoll(optarg, NULL, 0);
          break;
 
          case 'H':
