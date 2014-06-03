@@ -308,13 +308,8 @@ void tallymark_msg_free(tallymark_msg * msg)
 {
    if (msg == NULL)
       return;
-
-   free(msg->body.version.dat.ptr);
-   free(msg->body.package_name.dat.ptr);
-
-   bzero(msg, sizeof(tallymark_msg));
+   tallymark_msg_reset(msg);
    free(msg);
-
    return;
 }
 
@@ -744,29 +739,21 @@ int tallymark_msg_reset(tallymark_msg * msg)
    if (msg->status == TALLYMARK_MSG_RESET)
       return(0);
 
+   // frees memory
+   free(msg->body.hash_text.dat.ptr);
+   free(msg->body.version.dat.ptr);
+   free(msg->body.package_name.dat.ptr);
+
    // resets message
-   memset(&msg->header, 0, sizeof(tallymark_hdr));
+   bzero(msg, sizeof(tallymark_msg));
    msg->status   = TALLYMARK_MSG_RESET;
    msg->s        = -1;
-   msg->msg_len  = 0;
 
-   // resets static header information
+   // sets static header information
    msg->header.magic               = TALLYMARK_MAGIC;
    msg->header.version_current     = TALLYMARK_PROTO_VERSION;
    msg->header.version_age         = TALLYMARK_PROTO_AGE;
    msg->header.header_len          = (sizeof(tallymark_hdr) / 4);
-
-   // resets body
-   msg->body.hash_count.count             = 0;
-   msg->body.hash_count.seconds           = 0;
-   msg->body.hash_count_set               = 0;
-   msg->body.capabilities                 = 0;
-   msg->body.version.bytes                = 0;
-   msg->body.package_name.bytes           = 0;
-   if (msg->body.package_name.dat.str != NULL)
-      msg->body.package_name.dat.str[0]   = '\0';
-   if (msg->body.version.dat.str != NULL)
-      msg->body.version.dat.str[0]        = '\0';
 
    return(0);
 }
