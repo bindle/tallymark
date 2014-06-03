@@ -491,6 +491,7 @@ int tallymarker_init(tallymarker_cnf ** pcnf, int argc, char * argv[])
    };
 
    // parses command specific CLI options
+   optind++;
    if ((err = tallymarker_getopt(*pcnf, argc, argv, (*pcnf)->cmd->cmd_shortopts, long_opt, &opt_index)) != 0)
    {
       tallymarker_destroy(*pcnf);
