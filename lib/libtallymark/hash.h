@@ -34,8 +34,8 @@
  *
  *  @BINDLE_BINARIES_BSD_LICENSE_END@
  */
-#include "cmd-hash.h"
-
+#ifndef __LIBTALLYMARK_HASH_H
+#define __LIBTALLYMARK_HASH_H 1
 
 ///////////////
 //           //
@@ -46,15 +46,17 @@
 #pragma mark - Headers
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <time.h>
-#include <stdlib.h>
+#include "libtallymark.h"
 
-#include <tallymark.h>
 
-#include "network.h"
+//////////////////
+//              //
+//  Data Types  //
+//              //
+//////////////////
+#ifdef __TALLYMARK_PMARK
+#pragma mark - Data Types
+#endif
 
 
 //////////////////
@@ -67,21 +69,4 @@
 #endif
 
 
-/////////////////
-//             //
-//  Functions  //
-//             //
-/////////////////
-#ifdef __TALLYMARK_PMARK
-#pragma mark - Functions
-#endif
-
-int tallymarker_cmd_hash(tallymarker_cnf * cnf)
-{
-   char strhash[41];
-   tallymark_hash2hex(strhash, cnf->hash, sizeof(strhash));
-   printf("%s\n", strhash);
-   return(0);
-}
-
-/* end of source */
+#endif /* end of header */

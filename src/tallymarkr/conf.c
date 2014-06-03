@@ -347,7 +347,7 @@ int tallymarker_getopt(tallymarker_cnf * cnf, int argc,
          break;
 
          case 'k':
-         tallymarker_hextobin(optarg, strlen(optarg), cnf->hash, sizeof(cnf->hash));
+         tallymark_hex2hash(cnf->hash, optarg, strlen(optarg));
          break;
 
          case 'q':

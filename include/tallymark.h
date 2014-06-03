@@ -234,6 +234,20 @@ _TALLYMARK_F int tallymark_strerror_r(int errnum, char * strerrbuf,
 
 
 /**
+ *  @defgroup hash Hash Functions
+ *  @brief Functions for assisting with hash management.
+ */
+#ifdef __TALLYMARK_PMARK
+#pragma mark Hash Prototypes
+#endif
+
+int tallymark_hash2hex(char * strhash, const tallymark_hash hash,
+   size_t strlen);
+int tallymark_hex2hash(tallymark_hash hash, const char * strhash,
+   size_t strlen);
+
+
+/**
  *  @defgroup network Network Functions
  *  @brief Functions for assisting with network management.
  */

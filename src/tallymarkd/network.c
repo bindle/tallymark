@@ -137,7 +137,6 @@ int tallymarked_listen(tallymarked_cnf * cnf)
 int tallymarked_loop(tallymarked_cnf * cnf)
 {
    size_t                  len;
-   int                     i;
    int                     s;
    int                     err;
    char                    straddr[INET6_ADDRSTRLEN];
@@ -188,8 +187,7 @@ int tallymarked_loop(tallymarked_cnf * cnf)
 
    // parse header
    tallymark_msg_get_header(cnf->req, &req_hdr);
-   for(i = 0; i < 20; i++)
-      snprintf(&strhash[i*2], 3, "%02x", req_hdr->hash[i]);
+   tallymark_hash2hex(strhash, req_hdr->hash, sizeof(strhash));
    syslog(LOG_NOTICE, "client=%s, reqid=%08" PRIx32 ", req=%" PRIx32 ", type=%u:%u, hash=%s", straddr, req_hdr->request_id, req_hdr->request_codes, req_hdr->service, req_hdr->field, strhash);
 
    // retrieve requested record

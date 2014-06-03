@@ -115,10 +115,11 @@ int tallymarker_cmd_debugger(tallymarker_cnf * cnf)
 
 uint32_t tallymarker_cmd_debugger_header(tallymark_msg * msg)
 {
-   int                   i;
    const tallymark_hdr * hdr;
+   char                  strhash[41];
 
    tallymark_msg_get_header(msg, &hdr);
+   tallymark_hash2hex(strhash, hdr->hash, sizeof(strhash));
 
    printf("Message Header:\n");
    printf("   magic:                %08x\n",       hdr->magic);
@@ -133,10 +134,7 @@ uint32_t tallymarker_cmd_debugger_header(tallymark_msg * msg)
    printf("   field ID:             %02x\n",       hdr->field);
    printf("   request ID:           %08x\n",       hdr->request_id);
    printf("   sequence number:      %u\n",         hdr->sequence_id);
-   printf("   value hash:           ");
-   for(i = 0; i < 20; i++)
-      printf("%02x", hdr->hash[i]);
-   printf("\n");
+   printf("   value hash:           %s\n",         strhash);
 
    return(hdr->response_codes);
 }

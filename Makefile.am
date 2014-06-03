@@ -112,6 +112,8 @@ lib_libtallymark_la_SOURCES		= \
 					  lib/libtallymark/debug.h \
 					  lib/libtallymark/error.c \
 					  lib/libtallymark/error.h \
+					  lib/libtallymark/hash.c \
+					  lib/libtallymark/hash.h \
 					  lib/libtallymark/memory.c \
 					  lib/libtallymark/memory.h \
 					  lib/libtallymark/message.c \

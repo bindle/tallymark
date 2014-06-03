@@ -78,9 +78,9 @@
 
 int tallymarker_cmd_record(tallymarker_cnf * cnf)
 {
-   int                     i;
    uint32_t                req_codes;
    size_t                  len;
+   char                    strhash[41];
    tallymark_count         count;
    const tallymark_hdr   * hdr;
    char                  * hash_text;
@@ -109,10 +109,8 @@ int tallymarker_cmd_record(tallymarker_cnf * cnf)
       };
       if ((hdr->response_codes & TALLYMARK_RES_EOR) != 0)
       {
-         printf("hash:            ");
-         for(i = 0; i < 20; i++)
-            printf("%02x", hdr->hash[i]);
-         printf("\n");
+         tallymark_hash2hex(strhash, hdr->hash, sizeof(strhash));
+         printf("hash:            %s\n", strhash);
          if (hash_text != NULL)
             printf("hash text:       \"%s\"\n", hash_text);
          printf("count:           %" PRIu64 "\n", count.count);

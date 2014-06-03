@@ -44,6 +44,10 @@ tallymark_perror
 tallymark_strerror
 tallymark_strerror_r
 #
+# lib/libtallymark/hash.c
+tallymark_hash2hex
+tallymark_hex2hash
+#
 # lib/libtallymark/message.c
 tallymark_msg_alloc
 tallymark_msg_compile
