@@ -110,16 +110,20 @@ int tallymarker_cmd_record(tallymarker_cnf * cnf)
       if ((hdr->response_codes & TALLYMARK_RES_EOR) != 0)
       {
          tallymark_hash2hex(strhash, hdr->hash, sizeof(strhash));
-         printf("hash:            %s\n", strhash);
+         printf("hash:         %s\n", strhash);
          if (hash_text != NULL)
-            printf("hash text:       \"%s\"\n", hash_text);
-         printf("count:           %" PRIu64 "\n", count.count);
-         printf("count duration:  %" PRIu64 " seconds\n", count.seconds);
+            printf("description: \"%s\"\n", hash_text);
+         printf("count:        %" PRIu64 "\n", count.count);
+         printf("duration:     %02" PRIu64 ":%02" PRIu64 ":%02" PRIu64 " (%" PRIu64 " seconds)\n",
+            (count.seconds/3600),      // hours
+            ((count.seconds%3600)/60), // minutes
+            (count.seconds%60),        // seconds
+            count.seconds);            // total seconds
          count.seconds++;
-         printf("count average:   %" PRIu64 " per second\n", count.count/count.seconds);
-         printf("count average:   %" PRIu64 " per minute\n", (count.count*60)/count.seconds);
-         printf("count average:   %" PRIu64 " per hour\n",   (count.count*360)/count.seconds);
-         printf("count average:   %" PRIu64 " per day\n",    (count.count*8640)/count.seconds);
+         printf("per second:   %" PRIu64 ".%03" PRIu64 "\n", ((count.count*1)/count.seconds),   ((count.count*1000)/count.seconds)%1000);
+         printf("per minute:   %" PRIu64 ".%02" PRIu64 "\n", ((count.count*60)/count.seconds),  ((count.count*6000)/count.seconds)%100);
+         printf("per hour:     %" PRIu64 ".%01" PRIu64 "\n", ((count.count*360)/count.seconds), ((count.count*3600)/count.seconds)%10);
+         printf("per day:      %" PRIu64 "\n",               ((count.count*8640)/count.seconds));
          return(0);
       };
    };

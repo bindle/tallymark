@@ -106,9 +106,16 @@ int tallymarker_cmd_increment(tallymarker_cnf * cnf)
       };
       if ((hdr->response_codes & TALLYMARK_RES_EOR) != 0)
       {
-         printf("count:    %" PRIu64 "\n", count.count);
-         if (count.count > 0)
-            printf("duration: %" PRIu64 " seconds\n", count.seconds);
+         if (cnf->quiet == 0)
+         {
+            printf("count:    %" PRIu64 "\n", count.count);
+            if (count.count > 0)
+               printf("duration: %02" PRIu64 ":%02" PRIu64 ":%02" PRIu64 " (%" PRIu64 " seconds)\n",
+                  (count.seconds/3600),      // hours
+                  ((count.seconds%3600)/60), // minutes
+                  (count.seconds%60),        // seconds
+                  count.seconds);            // total seconds
+         };
          return(0);
       };
    };
