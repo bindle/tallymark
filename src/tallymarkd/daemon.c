@@ -119,6 +119,26 @@ int tallymarked_daemon_start(tallymarked_cnf * cnf)
    signal(SIGUSR1,   SIG_IGN);
    signal(SIGUSR2,   SIG_IGN);
 
+   // changes user and group
+   if (cnf->gid != getgid())
+   {
+      syslog(LOG_DEBUG, "changing to gid \"%i\"", cnf->gid);
+      if (setgid(cnf->gid) == -1)
+      {
+         syslog(LOG_ERR, "setgid(%i): %m", cnf->gid);
+         return(-1);
+      };
+   };
+   if (cnf->uid != getuid())
+   {
+      syslog(LOG_DEBUG, "changing to uid \"%i\"", cnf->uid);
+      if (setuid(cnf->uid) == -1)
+      {
+         syslog(LOG_ERR, "setuid(%i): %m", cnf->uid);
+         return(-1);
+      };
+   };
+
    // create PID file
    snprintf(pidtmp, 1024, "%s.XXXXXXXX", cnf->pidfile);
    if ((fd = mkstemp(pidtmp)) == -1)

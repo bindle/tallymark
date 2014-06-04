@@ -53,6 +53,10 @@
 #include <stdio.h>
 #include <errno.h>
 #include <getopt.h>
+#include <sys/types.h>
+#include <pwd.h>
+#include <grp.h>
+#include <uuid/uuid.h>
 
 #include <tallymark.h>
 
@@ -104,9 +108,11 @@ int tallymarked_defaults(tallymarked_cnf * cnf)
 int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
    char * const * argv, int * opt_index)
 {
-   int   c;
+   int               c;
+   struct passwd   * pw;
+   struct group    * gr;
 
-   static char   short_opt[] = "46fhl:P:V";
+   static char   short_opt[] = "46fG:hl:P:U:V";
    static struct option long_opt[] =
    {
       { "help",          no_argument, 0, 'h'},
@@ -135,6 +141,15 @@ int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
          cnf->foreground = 1;
          break;
 
+         case 'G':
+         if ((gr = getgrnam(optarg)) == NULL)
+         {
+            fprintf(stderr, "%s: invalid group \"%s\"", cnf->prog_name, optarg);
+            return(-1);
+         };
+         cnf->gid = gr->gr_gid;;
+         break;
+
          case 'h':
          tallymarked_usage(cnf);
          return(1);
@@ -145,6 +160,17 @@ int tallymarked_getopt(tallymarked_cnf * cnf, int argc,
 
          case 'P':
          cnf->pidfile = optarg;
+         break;
+
+         case 'U':
+         if ((pw = getpwnam(optarg)) == NULL)
+         {
+            fprintf(stderr, "%s: invalid user \"%s\"", cnf->prog_name, optarg);
+            return(-1);
+         };
+         cnf->uid = pw->pw_uid;
+         if (cnf->gid == getgid())
+            cnf->gid = pw->pw_gid;
          break;
 
          case 'V':
@@ -196,6 +222,8 @@ int tallymarked_init(tallymarked_cnf ** pcnf, int argc, char * argv[])
    (*pcnf)->family   = PF_UNSPEC;
    (*pcnf)->fds[0].fd     = -1;
    (*pcnf)->fds[1].fd     = -1;
+   (*pcnf)->uid         = getuid();
+   (*pcnf)->gid         = getgid();
 
    // allocates memory for messages
    if ((err = tallymark_msg_alloc(&(*pcnf)->req)) != 0)
@@ -262,9 +290,11 @@ void tallymarked_usage(tallymarked_cnf * cnf)
    printf("  -4                        listen on IPv4 addresses only\n");
    printf("  -6                        listen on IPv6 addresses only\n");
    printf("  -f                        run in foreground\n");
+   printf("  -G group                  group to run process\n");
    printf("  -l address                listen on address (default: any\n");
    printf("  -P file                   PID file\n");
    printf("  -h, --help                print this help and exit\n");
+   printf("  -U user                   user to run process\n");
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");
    printf("\n");

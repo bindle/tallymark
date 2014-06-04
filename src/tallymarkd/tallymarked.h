@@ -57,6 +57,7 @@
 
 #include <sys/socket.h>
 #include <poll.h>
+#include <unistd.h>
 
 
 ///////////////////
@@ -113,6 +114,8 @@ typedef struct tallymarked_record_struct     tallymarked_record;
 
 struct tallymarked_config_struct
 {
+   uid_t                   uid;
+   gid_t                   gid;
    const char            * prog_name;
    const char            * urlstr;
    const char            * pidfile;
