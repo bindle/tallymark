@@ -53,10 +53,14 @@ AM_OBJCFLAGS				= -O2 @AM_OBJCFLAGS@
 AM_CPPFLAGS				= -O2 -UPMARK -DHAVE_CONFIG_H=1 \
 					  -I$(top_builddir)/include \
 					  -I$(top_srcdir)/include \
+					  -I$(top_srcdir)/contrib/bindletools/include \
 					  -DSYSCONFDIR="\"$(sysconfdir)\""
 ACLOCAL_AMFLAGS				= -I m4 -W all -W error
 AM_MAKEINFOFLAGS                        = --no-split
 DEFS					=
+LDADD					= $(lib_LTLIBRARIES) \
+					  $(noinst_LTLIBRARIES) \
+					  contrib/bindletools/lib/libbindle.la
 
 
 # automake targets
@@ -143,19 +147,19 @@ endif
 
 
 # macros for src/client
-src_socket_client_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_socket_client_DEPENDENCIES		= Makefile $(LDADD)
 src_socket_client_SOURCES		= $(noinst_HEADERS) src/sockets/socket-client.c
 
 
 # macros for src/socket-server
-src_socket_server_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
+src_socket_server_DEPENDENCIES		= Makefile $(LDADD)
 src_socket_server_SOURCES		= $(noinst_HEADERS) src/sockets/socket-server.c
 
 
 # macros for src/tallymarker
-src_tallymarker_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-src_tallymarker_LDADD			= lib/libtallymark.la
-src_tallymarker_SOURCES			= $(noinst_HEADERS) \
+src_tallymarker_DEPENDENCIES		= Makefile $(LDADD)
+src_tallymarker_SOURCES			= $(include_HEADERS) \
+					  $(noinst_HEADERS) \
 					  src/tallymarkr/cmd-count.c \
 					  src/tallymarkr/cmd-count.h \
 					  src/tallymarkr/cmd-debugger.c \
@@ -188,9 +192,9 @@ endif
 
 
 # macros for src/tallymarked
-src_tallymarked_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-src_tallymarked_LDADD			= lib/libtallymark.la
-src_tallymarked_SOURCES			= $(noinst_HEADERS) \
+src_tallymarked_DEPENDENCIES		= Makefile $(LDADD)
+src_tallymarked_SOURCES			= $(include_HEADERS) \
+					  $(noinst_HEADERS) \
 					  src/tallymarkd/conf.c \
 					  src/tallymarkd/conf.h \
 					  src/tallymarkd/daemon.c \
@@ -207,13 +211,11 @@ endif
 
 
 # macros for tests/msg-header-errors
-tests_msg_header_errors_DEPENDENCIES	= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-tests_msg_header_errors_LDADD		= lib/libtallymark.la
+tests_msg_header_errors_DEPENDENCIES	= Makefile $(LDADD)
 
 
 # macros for tests/url-parse
-tests_url_parse_DEPENDENCIES		= $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES) Makefile
-tests_url_parse_LDADD			= lib/libtallymark.la
+tests_url_parse_DEPENDENCIES		= Makefile $(LDADD)
 
 
 # Makefile includes
@@ -227,6 +229,9 @@ include $(srcdir)/contrib/bindletools/build-aux/makefile-version.am
 
 # custom targets
 .PHONY:
+
+contrib/bindletools/lib/libbindle.la: contrib/bindletools/Makefile
+	$(MAKE) -C contrib/bindletools -f Makefile lib/libbindle.la
 
 
 # local targets
