@@ -41,7 +41,6 @@
 echo "running ${0} ..."
 AUTOGENNAME="`basename ${0}`" || exit 1
 SRCDIR="`dirname ${0}`"
-cd $SRCDIR || exit 1
 
 
 # check for required programs
@@ -55,15 +54,17 @@ done
 
 
 # updates git repository
-if test -d .git || test -f .git;then
+if test -d ${SRCDIR}/.git || test -f ${SRCDIR}/.git;then
+   cd ${SRCDIR}
    git submodule init                              || exit 1
    git submodule sync                              || exit 1
    git submodule update --init --recursive --merge || exit 1
+   cd -
 fi
 
 
 # Performs some useful checks
-autoscan . || exit 1
+autoscan ${SRCDIR} || exit 1
 
 
 # generates/installs autotools files
@@ -71,16 +72,16 @@ autoreconf -v -i -f -Wall \
    -I m4 \
    -I contrib/bindletools/m4 \
    -m \
-   . \
+   ${SRCDIR} \
    || exit 1
 
 
 # makes build directory
-mkdir -p build
+mkdir -p ${SRCDIR}/build
 
 
 # generates files for bindletools
 echo " "
-./contrib/bindletools/autogen.sh || exit 1
+${SRCDIR}/contrib/bindletools/autogen.sh || exit 1
 
 # end of script
