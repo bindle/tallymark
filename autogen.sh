@@ -38,9 +38,13 @@
 #   autogen.sh - runs GNU Autotools to create build environment
 #
 
-echo "running ${0} ..."
 AUTOGENNAME="`basename ${0}`" || exit 1
 SRCDIR="`dirname ${0}`"
+
+
+# generates files for bindletools
+${SRCDIR}/contrib/bindletools/autogen.sh || exit 1
+echo "running ${0} ..."
 
 
 # check for required programs
@@ -67,10 +71,16 @@ fi
 autoscan ${SRCDIR} || exit 1
 
 
+# symlinks M4 macros
+cd ${SRCDIR}/m4
+rm -f ./bindle*.m4 || exit 1
+ln -s ../contrib/bindletools/m4/bindle*.m4 ./
+cd -
+
+
 # generates/installs autotools files
 autoreconf -v -i -f -Wall \
    -I m4 \
-   -I contrib/bindletools/m4 \
    -m \
    ${SRCDIR} \
    || exit 1
@@ -80,8 +90,8 @@ autoreconf -v -i -f -Wall \
 mkdir -p ${SRCDIR}/build
 
 
-# generates files for bindletools
+# add newline to create visual separation
 echo " "
-${SRCDIR}/contrib/bindletools/autogen.sh || exit 1
+
 
 # end of script

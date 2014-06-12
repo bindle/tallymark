@@ -40,8 +40,8 @@
 #
 
 # Sub directories
-SUBDIRS					=
-DIST_SUBDIRS				=
+SUBDIRS					= $(subdirs)
+DIST_SUBDIRS				= contrib/bindletools
 
 
 # Global flags
