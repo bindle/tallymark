@@ -100,17 +100,21 @@ AC_DEFUN([AC_TALLYMARK_IPV6],[dnl
 
    HAVE_IPV6=yes
    AC_MSG_CHECKING(for working IPv6 support)
-   AC_TRY_COMPILE(
-      [  #include <sys/types.h>
-         #include <netinet/in.h>
-         #include <sys/socket.h>
-         #include <netdb.h>
-      ],
-      [  struct sockaddr_in6  a;
-         struct addrinfo      hints;
-         a.sin6_family  = AF_INET6;
-         a.sin6_family  = PF_INET6;
-         hints.ai_flags = AI_V4MAPPED|AI_ALL;
+   AC_COMPILE_IFELSE(
+      [
+         AC_LANG_PROGRAM(
+            [[ #include <sys/types.h>
+               #include <netinet/in.h>
+               #include <sys/socket.h>
+               #include <netdb.h>
+            ]],
+            [[ struct sockaddr_in6  a;
+               struct addrinfo      hints;
+               a.sin6_family  = AF_INET6;
+               a.sin6_family  = PF_INET6;
+               hints.ai_flags = AI_V4MAPPED|AI_ALL;
+            ]]
+         )
       ],
       [],
       [HAVE_IPV6="no"]
