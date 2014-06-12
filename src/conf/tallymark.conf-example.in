@@ -1,0 +1,102 @@
+#
+#   Tally Mark Daemon - An aggregated time-based counter for disparate systems
+#   Copyright (c) 2014, Bindle Binaries
+#   All rights reserved.
+#
+#   @BINDLE_BINARIES_BSD_LICENSE_START@
+#
+#   Redistribution and use in source and binary forms, with or without
+#   modification, are permitted provided that the following conditions are
+#   met:
+#
+#      1. Redistributions of source code must retain the above copyright
+#         notice, this list of conditions and the following disclaimer.
+#
+#      2. Redistributions in binary form must reproduce the above copyright
+#         notice, this list of conditions and the following disclaimer in the
+#         documentation and/or other materials provided with the distribution.
+#
+#      3. Neither the name of the copyright holder nor the names of its
+#         contributors may be used to endorse or promote products derived from
+#         this software without specific prior written permission.
+#
+#   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+#   IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+#   THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+#   PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+#   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+#   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+#   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+#   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+#   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+#   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#   @BINDLE_BINARIES_BSD_LICENSE_END@
+#
+
+# enabling strict causes errors to be generated
+# if an option is unknown.
+Strict      No
+
+# client options
+Uri         tally://127.0.0.1/
+
+# daemon options
+Listen      tally://[::]/
+Listen      tally://[0.0.0.0]/
+PidFile     /var/run/tallymarked/tallymarked.pid
+Foreground  no
+Syslog      DAEMON NOTICE
+setuid      nobody
+setguid     nobody
+
+# global security options
+acl 127.0.0.0/8         ALL
+acl 10.0.0.0/8          INCREMENT,COUNT,THRESHOLD,RECORD
+acl 172.16.0.0/12       INCREMENT,COUNT,THRESHOLD,RECORD
+acl 192.168.0.0/16      INCREMENT,COUNT,THRESHOLD,RECORD
+acl 0.0.0.0/0           NONE
+acl ::1/128             ALL
+acl ::/0                NONE
+
+# smtp service definition
+Service smtp
+ServiceNumber 25
+
+# smtp service definition
+Service auth
+ServiceNumber 22
+
+# smtp/ip field definition
+Field smtp ip
+FieldNumber    1
+WindowSize     1h
+Threshold      50 count    3h
+Threshold      10 minute   3h
+Prune          24h
+Checkpoint     yes
+Strings        yes
+
+# smtp/sender field definition
+Field smtp sender
+FieldNumber    2
+WindowSize     1h
+Threshold      50 count    3h
+Threshold      10 minute   3h
+Prune          24h
+Memory         128m
+Checkpoint     yes
+Strings        yes
+
+# smtp/subject field definition
+Field smtp subject
+FieldNumber    3
+WindowSize     1h
+Threshold      50 count    3h
+Threshold      10 hour     3h
+Prune          6h
+Checkpoint     yes
+Strings        yes
+
+# end of config

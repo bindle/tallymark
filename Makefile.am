@@ -195,16 +195,16 @@ endif
 src_tallymarked_tallymarked_DEPENDENCIES = Makefile $(LDADD)
 src_tallymarked_tallymarked_SOURCES	= $(include_HEADERS) \
 					  $(noinst_HEADERS) \
-					  src/tallymarkd/conf.c \
-					  src/tallymarkd/conf.h \
-					  src/tallymarkd/daemon.c \
-					  src/tallymarkd/daemon.h \
-					  src/tallymarkd/db-flat.c \
-					  src/tallymarkd/db.h \
-					  src/tallymarkd/network.c \
-					  src/tallymarkd/network.h \
-					  src/tallymarkd/tallymarked.c \
-					  src/tallymarkd/tallymarked.h
+					  src/tallymarked/conf.c \
+					  src/tallymarked/conf.h \
+					  src/tallymarked/daemon.c \
+					  src/tallymarked/daemon.h \
+					  src/tallymarked/db-flat.c \
+					  src/tallymarked/db.h \
+					  src/tallymarked/network.c \
+					  src/tallymarked/network.h \
+					  src/tallymarked/tallymarked.c \
+					  src/tallymarked/tallymarked.h
 if ENABLE_TALLYMARKED
 sbin_PROGRAMS				+= src/tallymarked/tallymarked
 endif
