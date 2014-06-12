@@ -42,11 +42,6 @@ AUTOGENNAME="`basename ${0}`" || exit 1
 SRCDIR="`dirname ${0}`"
 
 
-# generates files for bindletools
-${SRCDIR}/contrib/bindletools/autogen.sh || exit 1
-echo "running ${0} ..."
-
-
 # check for required programs
 for TEST_PROG in which autoreconf autoscan find git;do
    which ${TEST_PROG} 2> /dev/null > /dev/null;
@@ -65,6 +60,11 @@ if test -d ${SRCDIR}/.git || test -f ${SRCDIR}/.git;then
    git submodule update --init --recursive --merge || exit 1
    cd -
 fi
+
+
+# generates files for bindletools
+${SRCDIR}/contrib/bindletools/autogen.sh || exit 1
+echo "running ${0} ..."
 
 
 # Performs some useful checks
