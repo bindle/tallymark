@@ -78,6 +78,7 @@ noinst_HEADERS				= include/git-package-version.h
 noinst_PROGRAMS				=
 sbin_PROGRAMS				=
 sbin_SCRIPTS				=
+sysconf_DATA				=
 
 
 # lists
@@ -86,7 +87,8 @@ BUILT_SOURCES				=
 TESTS					= $(check_PROGRAMS)
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				= lib/libtallymark/libtallymark.sym
+EXTRA_DIST				= lib/libtallymark/libtallymark.sym \
+					  src/conf/tallymark.conf-example.in
 EXTRA_PROGRAMS				= src/socket-client \
 					  src/socket-server
 CLEANFILES				= \
@@ -97,6 +99,7 @@ CLEANFILES				= \
 					  $(pkgdata_DATA) \
 					  $(bin_SCRIPTS) \
 					  $(sbin_SCRIPTS) \
+					  src/conf/tallymark.conf-example \
 					  @PACKAGE_TARNAME@-*.tar.* \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
@@ -188,6 +191,7 @@ src_tallymarker_tallymarker_SOURCES	= $(include_HEADERS) \
 					  src/tallymarker/tallymarker.h
 if ENABLE_TALLYMARKER
 bin_PROGRAMS				+= src/tallymarker/tallymarker
+sysconf_DATA				+= src/conf/tallymark.conf-example
 endif
 
 
@@ -207,6 +211,7 @@ src_tallymarked_tallymarked_SOURCES	= $(include_HEADERS) \
 					  src/tallymarked/tallymarked.h
 if ENABLE_TALLYMARKED
 sbin_PROGRAMS				+= src/tallymarked/tallymarked
+sysconf_DATA				+= src/conf/tallymark.conf-example
 endif
 
 
@@ -232,6 +237,9 @@ include $(srcdir)/contrib/bindletools/build-aux/makefile-version.am
 
 contrib/bindletools/lib/libbindle.la: contrib/bindletools/Makefile
 	$(MAKE) -C contrib/bindletools -f Makefile lib/libbindle.la
+
+src/conf/tallymark.conf-example: Makefile $(srcdir)/src/conf/tallymark.conf-example.in
+	$(do_subst_dt)
 
 
 # local targets

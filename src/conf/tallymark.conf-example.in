@@ -34,17 +34,19 @@
 #
 #   @BINDLE_BINARIES_BSD_LICENSE_END@
 #
+#   Template from Tally Mark Daemon (@GIT_PACKAGE_VERSION_BUILD@)
+#
 
 # enabling strict causes errors to be generated
 # if an option is unknown.
-Strict      No
+Strict      Yes
 
 # client options
 Uri         tally://127.0.0.1/
 
 # daemon options
 Listen      tally://[::]/
-Listen      tally://[0.0.0.0]/
+#Listen      tally://[0.0.0.0]/
 PidFile     /var/run/tallymarked/tallymarked.pid
 Foreground  no
 Syslog      DAEMON NOTICE
@@ -53,9 +55,9 @@ setguid     nobody
 
 # global security options
 acl 127.0.0.0/8         ALL
-acl 10.0.0.0/8          INCREMENT,COUNT,THRESHOLD,RECORD
-acl 172.16.0.0/12       INCREMENT,COUNT,THRESHOLD,RECORD
-acl 192.168.0.0/16      INCREMENT,COUNT,THRESHOLD,RECORD
+acl 10.0.0.0/8          INCREMENT COUNT THRESHOLD RECORD
+acl 172.16.0.0/12       INCREMENT COUNT THRESHOLD RECORD
+acl 192.168.0.0/16      INCREMENT COUNT THRESHOLD RECORD
 acl 0.0.0.0/0           NONE
 acl ::1/128             ALL
 acl ::/0                NONE
