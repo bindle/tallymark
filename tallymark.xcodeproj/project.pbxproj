@@ -88,6 +88,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A00F6EC1194A299A003CC8C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A0CF1B331921DEB200E5C668 /* bindletools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A00F6E9E194278C5003CC8C2;
+			remoteInfo = cnftest;
+		};
 		A0AC5FE5192166A20081CD19 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A070F765192165040091D372 /* Project object */;
@@ -257,6 +264,7 @@
 		A0A20830193D26F2001F0B9D /* cmd-hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cmd-hash.h"; sourceTree = "<group>"; };
 		A0A2083C193DB783001F0B9D /* hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hash.c; sourceTree = "<group>"; };
 		A0A2083D193DB783001F0B9D /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hash.h; sourceTree = "<group>"; };
+		A0A20847193E4833001F0B9D /* tallymarked.conf.in */ = {isa = PBXFileReference; explicitFileType = text.script; path = tallymarked.conf.in; sourceTree = "<group>"; };
 		A0AC5F8C1921657C0081CD19 /* libtallymark.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtallymark.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5F95192165900081CD19 /* tallymarker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarker; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0AC5FA21921659D0081CD19 /* tallymarked */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tallymarked; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -475,15 +483,16 @@
 			isa = PBXGroup;
 			children = (
 				A0D4A8231926734D00E05DA8 /* sockets */,
-				A0AC5FE1192166330081CD19 /* tallymarkr */,
-				A0AC5FDF192166330081CD19 /* tallymarkd */,
+				A0AC5FE1192166330081CD19 /* tallymarker */,
+				A0AC5FDF192166330081CD19 /* tallymarked */,
 			);
 			path = src;
 			sourceTree = "<group>";
 		};
-		A0AC5FDF192166330081CD19 /* tallymarkd */ = {
+		A0AC5FDF192166330081CD19 /* tallymarked */ = {
 			isa = PBXGroup;
 			children = (
+				A0A20847193E4833001F0B9D /* tallymarked.conf.in */,
 				A0CF1B55192206CD00E5C668 /* conf.c */,
 				A0CF1B56192206CD00E5C668 /* conf.h */,
 				A09D04E71935DB4600C96985 /* daemon.c */,
@@ -495,10 +504,10 @@
 				A0AC5FE0192166330081CD19 /* tallymarked.c */,
 				A0CF1B4E1921EF1F00E5C668 /* tallymarked.h */,
 			);
-			path = tallymarkd;
+			path = tallymarked;
 			sourceTree = "<group>";
 		};
-		A0AC5FE1192166330081CD19 /* tallymarkr */ = {
+		A0AC5FE1192166330081CD19 /* tallymarker */ = {
 			isa = PBXGroup;
 			children = (
 				A09D04D01934654300C96985 /* cmd-count.c */,
@@ -528,7 +537,7 @@
 				A0AC5FE2192166330081CD19 /* tallymarker.c */,
 				A0CF1B4F1921EFB200E5C668 /* tallymarker.h */,
 			);
-			path = tallymarkr;
+			path = tallymarker;
 			sourceTree = "<group>";
 		};
 		A0CF1B321921DE9F00E5C668 /* contrib */ = {
@@ -545,6 +554,7 @@
 				A0CF1B3D1921DEB200E5C668 /* libbindle-ios.a */,
 				A0CF1B3F1921DEB200E5C668 /* libbindle-osx.a */,
 				A0CF1B411921DEB200E5C668 /* fdtest */,
+				A00F6EC2194A299A003CC8C2 /* cnftest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -714,6 +724,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		A00F6EC2194A299A003CC8C2 /* cnftest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = cnftest;
+			remoteRef = A00F6EC1194A299A003CC8C2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A0CF1B3D1921DEB200E5C668 /* libbindle-ios.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;

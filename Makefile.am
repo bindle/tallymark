@@ -156,44 +156,44 @@ src_socket_server_DEPENDENCIES		= Makefile $(LDADD)
 src_socket_server_SOURCES		= $(noinst_HEADERS) src/sockets/socket-server.c
 
 
-# macros for src/tallymarker
-src_tallymarker_DEPENDENCIES		= Makefile $(LDADD)
-src_tallymarker_SOURCES			= $(include_HEADERS) \
+# macros for src/tallymarker/tallymarker
+src_tallymarker_tallymarker_DEPENDENCIES = Makefile $(LDADD)
+src_tallymarker_tallymarker_SOURCES	= $(include_HEADERS) \
 					  $(noinst_HEADERS) \
-					  src/tallymarkr/cmd-count.c \
-					  src/tallymarkr/cmd-count.h \
-					  src/tallymarkr/cmd-debugger.c \
-					  src/tallymarkr/cmd-debugger.h \
-					  src/tallymarkr/cmd-hash.c \
-					  src/tallymarkr/cmd-hash.h \
-					  src/tallymarkr/cmd-help.c \
-					  src/tallymarkr/cmd-help.h \
-					  src/tallymarkr/cmd-increment.c \
-					  src/tallymarkr/cmd-increment.h \
-					  src/tallymarkr/cmd-info.c \
-					  src/tallymarkr/cmd-info.h \
-					  src/tallymarkr/cmd-record.c \
-					  src/tallymarkr/cmd-record.h \
-					  src/tallymarkr/cmd-reset.c \
-					  src/tallymarkr/cmd-reset.h \
-					  src/tallymarkr/cmd-threshold.c \
-					  src/tallymarkr/cmd-threshold.h \
-					  src/tallymarkr/conf.c \
-					  src/tallymarkr/conf.h \
-					  src/tallymarkr/debug.c \
-					  src/tallymarkr/debug.h \
-					  src/tallymarkr/network.c \
-					  src/tallymarkr/network.h \
-					  src/tallymarkr/tallymarker.c \
-					  src/tallymarkr/tallymarker.h
+					  src/tallymarker/cmd-count.c \
+					  src/tallymarker/cmd-count.h \
+					  src/tallymarker/cmd-debugger.c \
+					  src/tallymarker/cmd-debugger.h \
+					  src/tallymarker/cmd-hash.c \
+					  src/tallymarker/cmd-hash.h \
+					  src/tallymarker/cmd-help.c \
+					  src/tallymarker/cmd-help.h \
+					  src/tallymarker/cmd-increment.c \
+					  src/tallymarker/cmd-increment.h \
+					  src/tallymarker/cmd-info.c \
+					  src/tallymarker/cmd-info.h \
+					  src/tallymarker/cmd-record.c \
+					  src/tallymarker/cmd-record.h \
+					  src/tallymarker/cmd-reset.c \
+					  src/tallymarker/cmd-reset.h \
+					  src/tallymarker/cmd-threshold.c \
+					  src/tallymarker/cmd-threshold.h \
+					  src/tallymarker/conf.c \
+					  src/tallymarker/conf.h \
+					  src/tallymarker/debug.c \
+					  src/tallymarker/debug.h \
+					  src/tallymarker/network.c \
+					  src/tallymarker/network.h \
+					  src/tallymarker/tallymarker.c \
+					  src/tallymarker/tallymarker.h
 if ENABLE_TALLYMARKER
-bin_PROGRAMS				+= src/tallymarker
+bin_PROGRAMS				+= src/tallymarker/tallymarker
 endif
 
 
-# macros for src/tallymarked
-src_tallymarked_DEPENDENCIES		= Makefile $(LDADD)
-src_tallymarked_SOURCES			= $(include_HEADERS) \
+# macros for src/tallymarked/tallymarked
+src_tallymarked_tallymarked_DEPENDENCIES = Makefile $(LDADD)
+src_tallymarked_tallymarked_SOURCES	= $(include_HEADERS) \
 					  $(noinst_HEADERS) \
 					  src/tallymarkd/conf.c \
 					  src/tallymarkd/conf.h \
@@ -206,7 +206,7 @@ src_tallymarked_SOURCES			= $(include_HEADERS) \
 					  src/tallymarkd/tallymarked.c \
 					  src/tallymarkd/tallymarked.h
 if ENABLE_TALLYMARKED
-sbin_PROGRAMS				+= src/tallymarked
+sbin_PROGRAMS				+= src/tallymarked/tallymarked
 endif
 
 
