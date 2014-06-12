@@ -38,6 +38,7 @@
 #   autogen.sh - runs GNU Autotools to create build environment
 #
 
+echo "running ${0} ..."
 AUTOGENNAME="`basename ${0}`" || exit 1
 SRCDIR="`dirname ${0}`"
 cd $SRCDIR || exit 1
@@ -77,5 +78,9 @@ autoreconf -v -i -f -Wall \
 # makes build directory
 mkdir -p build
 
+
+# generates files for bindletools
+echo " "
+./contrib/bindletools/autogen.sh || exit 1
 
 # end of script
